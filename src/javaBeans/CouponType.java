@@ -1,0 +1,10 @@
+package javaBeans;
+
+/**
+ * 	RESTURANS, ELECTRICITY, FOOD, HEALTH, SPORTS, CAMPING, TRAVELLING,
+ * @author yaniv
+ *
+ */
+public enum CouponType {
+	RESTURANS, ELECTRICITY, FOOD, HEALTH, SPORTS, CAMPING, TRAVELLING,
+}
