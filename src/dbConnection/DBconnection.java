@@ -1,16 +1,7 @@
 package dbConnection;
 
-<<<<<<< HEAD
+
 import java.sql.*;
-=======
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLTimeoutException;
-import java.sql.Statement;
->>>>>>> d74a3f7d44b853dd98115df86c389761c401fde1
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -42,17 +33,10 @@ public class DBconnection {
 				return;
 				
 			}else {
-<<<<<<< HEAD
 				try {
 				//setup the connection driver
 				String driverName = "com.mysql.jdbc.Driver";
-=======
-				
-				//setup the connection driver
-				String driverName = "org.apache.derby.jdbc.ClientDriver";
-				
-				try {
->>>>>>> d74a3f7d44b853dd98115df86c389761c401fde1
+
 				Class.forName(driverName);
 				
 				//initialize new connections into connectionPool
@@ -84,18 +68,11 @@ public class DBconnection {
 		/*
 		 * Create a new pool of connections.
 		 */
-<<<<<<< HEAD
 		try {			
 			String connetionName = "jdbc:mysql://"+ConnectionVars.ip+":"+ConnectionVars.port+"/"+ConnectionVars.dbName;
 			for(int i = 0; i < NUMBER_OF_CONNECTIONS; i++) {
 				Connection con = DriverManager.getConnection(connetionName,ConnectionVars.user,ConnectionVars.password);
-=======
-		String connetionName = "jdbc:derby://localhost:1527/CouponsSystem-DB;create=true";
-		try {
-			
-			for(int i = 0; i < NUMBER_OF_CONNECTIONS; i++) {
-				Connection con = DriverManager.getConnection(connetionName);
->>>>>>> d74a3f7d44b853dd98115df86c389761c401fde1
+
 				connectionPool.add(con);
 				connectionPoolBackup.add(con);
 				}
