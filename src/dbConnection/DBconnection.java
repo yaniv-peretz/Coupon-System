@@ -1,12 +1,6 @@
 package dbConnection;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLTimeoutException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -38,11 +32,9 @@ public class DBconnection {
 				return;
 				
 			}else {
-				
-				//setup the connection driver
-				String driverName = "org.apache.derby.jdbc.ClientDriver";
-				
 				try {
+				//setup the connection driver
+				String driverName = "com.mysql.jdbc.Driver";
 				Class.forName(driverName);
 				
 				//initialize new connections into connectionPool
@@ -74,11 +66,10 @@ public class DBconnection {
 		/*
 		 * Create a new pool of connections.
 		 */
-		String connetionName = "jdbc:derby://localhost:1527/CouponsSystem-DB;create=true";
-		try {
-			
+		try {			
+			String connetionName = "jdbc:mysql://"+ConnectionVars.ip+":"+ConnectionVars.port+"/"+ConnectionVars.dbName;
 			for(int i = 0; i < NUMBER_OF_CONNECTIONS; i++) {
-				Connection con = DriverManager.getConnection(connetionName);
+				Connection con = DriverManager.getConnection(connetionName,ConnectionVars.user,ConnectionVars.password);
 				connectionPool.add(con);
 				connectionPoolBackup.add(con);
 				}
