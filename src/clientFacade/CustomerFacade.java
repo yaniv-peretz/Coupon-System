@@ -25,7 +25,7 @@ public class CustomerFacade implements CouponClientFacade {
 		CustomerFacade custFacade = null;
 		
 		CustomerDBDAO loginDAO = new CustomerDBDAO();
-		if(clientType == ClientType.CUSTOMER && loginDAO.login(custName, password)) {
+		if(loginDAO.login(custName, password)) {
 			
 			custDAO = new CustomerDBDAO();
 			coupDAO = new CouponDBDAO();
