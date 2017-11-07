@@ -1,17 +1,15 @@
-This is a Project based assignment for a Client-Server Coupon System. 
-in order to load the program follow the following steps:
+# Coupon System
+A Client-Server Coupon System web app.
+**Tech Stack:** Java Server, AngularJS client.
+  
+## Dependencies
+Mysql Server running: (port 3306, user: root, password: root)
 
-Steps 1:
-Mysql Server running on localhost port 3306
-Step 2:
+## How To Run
 Run the Jar file  ( java -jar Coupon-System.jar )
 
 
 Current Status:
-Only server side is created
-* Java Beans
-* DB connection and operations
-* 3 different users permissions
-
-TODO:
-Client Side (web interface)
+* Jave Beans - ready
+* Java Server - in process
+* Client Side Angular - Not Started
