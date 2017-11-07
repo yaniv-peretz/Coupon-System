@@ -1,12 +1,12 @@
 # Coupon System
-A Client-Server Coupon System web app.
+A Client-Server Coupon System web app.  
 **Tech Stack:** Java Server, AngularJS client.
   
 ## Dependencies
 Mysql Server running: (port 3306, user: root, password: root)
 
 ## How To Run
-Run the Jar file  ( java -jar Coupon-System.jar )
+Run the jar file  ( java -jar Coupon-System.jar )
 
 
 Current Status:
