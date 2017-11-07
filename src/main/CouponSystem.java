@@ -10,19 +10,22 @@ import sysOperations.DailyCouponExpirationTask;
 
 public class CouponSystem implements CouponClientFacade{
 	
-	private static final CouponSystem instance = new CouponSystem();
-	private static final DailyCouponExpirationTask task = DailyCouponExpirationTask.getInstance();
+	private static CouponSystem instance;
+	private static final DailyCouponExpirationTask removeExpiredCoupons = DailyCouponExpirationTask.getInstance();
 	private Thread exCoupons;
 	
-	public CouponSystem() {
+	private CouponSystem() {
 		super();
 		
-		exCoupons = new Thread (task);
+		exCoupons = new Thread (removeExpiredCoupons);
 		exCoupons.setDaemon(true);
 		exCoupons.start();
 	}
 	
-	public CouponSystem getInstance() {
+	public static CouponSystem getInstance() {
+		if(instance == null) {
+			instance = new CouponSystem();
+		}
 		return instance;
 	}
 	
@@ -51,7 +54,7 @@ public class CouponSystem implements CouponClientFacade{
 	 */
 	public void shutDown() {
 		//set daemon tread task to inactive
-		task.stopTask();
+		removeExpiredCoupons.stopTask();
 		
 		//close all connections
 		DBconnection.getInstance().closeAllConnections();

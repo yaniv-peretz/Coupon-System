@@ -21,7 +21,7 @@ public class CustomerDBDAO implements CustomerDAO{
 		
 		//Prevent storing in DB company with existing id OR name.
 		if(CustomerIdOrNameExists(cust)) {
-			throw new RecordExistsViolation(cust);
+			throw new RecordExistsException(cust);
 		}
 		
 		//Capture Customer.

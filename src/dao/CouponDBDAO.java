@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import javaBeans.Coupon;
@@ -20,7 +19,7 @@ public class CouponDBDAO implements CouponDAO {
 	public void createCoupon(Coupon coupon) {
 		
 		if(couponIdOrNameExists(coupon) ){
-			throw new RecordExistsViolation(coupon);
+			throw new RecordExistsException(coupon);
 			
 		}
 
@@ -286,57 +285,37 @@ public class CouponDBDAO implements CouponDAO {
 
 	public void deleteExpiredCoupons() {
 		
-		HashSet<Coupon> coupons = new HashSet<>();
-		java.util.Date date = Calendar.getInstance().getTime();
-		java.sql.Date today = new java.sql.Date(date.getTime());
+		String[] sql = new String[3];
+		sql[0] 	= 	"DELETE FROM CUSTOMER_COUPON " 			+
+					"WHERE COUPON_ID IN (" 					+
+						"SELECT id FROM COUPON " 			+
+						"WHERE END_DATE < current_date()" 	+ 	
+					")"										;
 		
-		String sql 	= "SELECT * FROM COUPON "
-					+ "WHERE END_DATE < '" + today + "'" ;
+		sql[1] 	= 	"DELETE FROM COMPANY_COUPON " 			+
+					"WHERE COUPON_ID IN (" 					+
+						"SELECT id FROM COUPON "			+
+						"WHERE END_DATE < current_date()" 	+
+					")"										;
+		
+		sql[2] 	= 	"DELETE FROM COUPON " 					+
+					"WHERE END_DATE < current_date()" 		;
 
 		Connection con = db.getconnection();
-		try ( Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql);){
+		try ( Statement stmt = con.createStatement(); ){
 			
-				while(rs.next()) {
-					long id = rs.getLong(1);
-					String title = rs.getString(2);
-					Date startDate = rs.getDate(3);
-					Date endDate = rs.getDate(4);
-					int amount = rs.getInt(5);
-					CouponType type = CouponType.valueOf(rs.getString(6));
-					String message	= rs.getString(7);
-					double price = rs.getDouble(8);
-					String image = rs.getString(9);
-					
-					coupons.add(new Coupon(id, title, startDate, endDate, amount, type, message, price, image));
-				}
+			for (int i = 0; i < sql.length; i++) {
+				stmt.executeUpdate(sql[i]);
+			}
 				
-				
-				
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			System.err.println(sql);
 			System.err.println(e.getMessage());
 			
-		}
-		
-		
-		String ids = IdList.convertHashSetToIdList(coupons);
-		if(!coupons.isEmpty()) {
+		}finally {
+			db.returnConnection(con);	
 			
-			sql 	= "DELETE FROM COUPON "
-					+ "WHERE ID IN " + ids ;
-			
-			try ( Statement stmt = con.createStatement();){
-				stmt.executeUpdate(sql);
-				
-			} catch (SQLException e) {
-				System.err.println(sql);
-				System.err.println(e.getMessage());
-				
-			}
-		}
-
-		db.returnConnection(con);	
+		}		
 	}
 	
 	

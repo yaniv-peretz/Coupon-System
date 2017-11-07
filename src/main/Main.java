@@ -16,7 +16,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		CouponSystem cs = new CouponSystem();
+		CouponSystem cs = CouponSystem.getInstance();
 		
 				
 		System.out.println("###################");

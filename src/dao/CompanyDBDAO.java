@@ -20,9 +20,9 @@ public class CompanyDBDAO implements CompanyDAO{
 	public boolean login(String compName, String password) {
 		
 		boolean login = false;
-		String sql = "SELECT * FROM COMPANY WHERE "
-				+ "(COMP_NAME = '" + compName + "' "
-				+ "AND PASSWORD = '" + password + "' )";
+		String sql = 	"SELECT * FROM COMPANY WHERE " 			+
+				 		"(COMP_NAME = '" + compName + "' "		+
+				 		"AND PASSWORD = '" + password + "' )"	;
 		
 		Connection con = db.getconnection();
 		try (Statement stmt = con.createStatement();
@@ -77,7 +77,7 @@ public class CompanyDBDAO implements CompanyDAO{
 		//Prevent storing in DB company with existing id or name.
 		if(idOrCompNameAlreadyExists(comp)) {
 			// The requirement is not to set Company Name as key in Company Table, therefore a checked exception will be thrown if a duplicated Company name is sent in the create query.
-			throw new RecordExistsViolation(comp);
+			throw new RecordExistsException(comp);
 
 		}
 				

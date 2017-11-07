@@ -10,14 +10,14 @@ import javaBeans.Customer;
  * @author yaniv
  *
  */
-public class RecordExistsViolation extends RuntimeException {
+public class RecordExistsException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	RecordExistsViolation(Object o){
+	RecordExistsException(Object o){
 		
 		long id = -1;
 		String name = "";

@@ -25,7 +25,7 @@ public class CompanyFacade implements CouponClientFacade {
 		CompanyFacade companyFacade = null;
 		
 		CompanyDBDAO TempCompDAO = new CompanyDBDAO();
-		if(clientType == ClientType.COMPANY && TempCompDAO.login(compName, password)) {
+		if(TempCompDAO.login(compName, password)) {
 			
 			compDAO = TempCompDAO;
 			coupDAO = new CouponDBDAO();

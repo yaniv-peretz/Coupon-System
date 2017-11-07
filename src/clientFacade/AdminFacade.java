@@ -22,9 +22,8 @@ public class AdminFacade implements CouponClientFacade {
 		
 		AdminFacade adminFacade = null;
 		
-		if (name == "admin" &&
-				password == "1234" &&
-				clientType == ClientType.ADMIN ) {
+		if (name.equals("admin") 			&&
+			password.equals("1234") ) {
 			
 			compDAO = new CompanyDBDAO();
 			custDAO = new CustomerDBDAO();
