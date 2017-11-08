@@ -11,5 +11,5 @@ Run the jar file  ( java -jar Coupon-System.jar )
 
 Current Status:
 * Jave Beans - ready
-* Java Server - in process
+* Java Server - ready
 * Client Side Angular - Not Started
