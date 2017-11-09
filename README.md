@@ -6,7 +6,7 @@ A Client-Server Coupon System web app.
 Mysql Server running: (port 3306, user: root, password: root)
 
 ## How To Run
-Run the jar file  ( java -jar Coupon-System.jar )
+upload project into a new maven project, (Tomcat server 7.0)
 
 
 Current Status:
