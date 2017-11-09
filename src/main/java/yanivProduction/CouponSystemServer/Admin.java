@@ -10,7 +10,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import clientFacade.AdminFacade;
 import clientFacade.ClientType;
@@ -19,77 +18,72 @@ import javaBeans.Customer;
 import webJavaBeans.WebCompany;
 import webJavaBeans.WebCustomer;;
 
-
 @Path("/admin")
 public class Admin {
-	
+
 	private AdminFacade getFacade() {
-		AdminFacade admin = new AdminFacade().login("admin", "1234", ClientType.ADMIN);		
+		AdminFacade admin = new AdminFacade().login("admin", "1234", ClientType.ADMIN);
 		return admin;
-		
+
 	}
-		
+
 	//#################
 	//Admin-Customer API 
 	//#################	
-	
+
 	@GET
 	@Path("/customer/{id}")
 	@Produces("application/json")
 	public WebCustomer getCustomer(@PathParam("id") int id) {
-		
-		//		AdminFacade admin = getFacade();		
-		//		
-		//		Customer cust = admin.getCustomer(id);
-		//		WebCustomer webCust = new WebCustomer(cust);
-		WebCustomer webCust = new WebCustomer(1, "test", "test");
-		return webCust;
+
+		AdminFacade admin = getFacade();
+
+		Customer Customer = admin.getCustomer(id);
+		WebCustomer webCustomer = WebCustomer.returnWebCustomer(Customer);
+
+		return webCustomer;
 	}
-	
-	
+
 	@POST
 	@Path("/customer")
 	@Consumes("application/json")
-	public void postCustomer(WebCustomer webcust){
-		
+	public void postCustomer(WebCustomer webCustomer) {
+
 		AdminFacade admin = getFacade();
-		Customer cust = webcust.getCustomer(); 
-		
+		Customer cust = WebCustomer.returnCustomer(webCustomer);
+
 		admin.createCustomer(cust);
 	}
-	
 
 	@PUT
 	@Path("/customer")
 	@Consumes("application/json")
-	public void updateCustomer(WebCustomer webcust){
-		
+	public void updateCustomer(WebCustomer webCustomer) {
+
 		AdminFacade admin = getFacade();
-		Customer cust = webcust.getCustomer(); 
-		
+		Customer cust = WebCustomer.returnCustomer(webCustomer);
+
 		admin.updateCustomer(cust);
 	}
-	
-	
+
 	@DELETE
 	@Path("/customer")
 	@Consumes("application/json")
-	public void deleteCustomer(WebCustomer webcust){
-		
+	public void deleteCustomer(WebCustomer webCustomer) {
+
 		AdminFacade admin = getFacade();
-		Customer cust = webcust.getCustomer(); 
-		
+		Customer cust = WebCustomer.returnCustomer(webCustomer);
+
 		admin.removeCustomer(cust);
 	}
-	
-	
+
 	@GET
 	@Path("/customer/all")
 	@Produces("application/json")
 	public HashSet<WebCustomer> doGetCustomers() {
-		
-		AdminFacade admin = getFacade();		
-		
+
+		AdminFacade admin = getFacade();
+
 		HashSet<Customer> companies = admin.getAllCustomers();
 		HashSet<WebCustomer> webCompanies = new HashSet<>();
 		for (Customer customer : companies) {
@@ -97,64 +91,59 @@ public class Admin {
 		}
 		return webCompanies;
 	}
-		
-	
+
 	//#################
 	//Admin-Company API 
 	//#################	
-	
+
 	@GET
 	@Path("/company/{id}")
 	@Produces("application/json")
 	public WebCompany getCompany(@PathParam("id") int id) {
-		
-		AdminFacade admin = getFacade();		
-		
+
+		AdminFacade admin = getFacade();
+
 		Company comp = admin.getCompany(id);
 		WebCompany webComp = new WebCompany(comp);
 		return webComp;
 	}
-	
-	
+
 	@POST
 	@Path("/company")
 	@Consumes("application/json")
-	public void postCompany(WebCompany webComp){
-		
+	public void postCompany(WebCompany webCompany) {
+
 		AdminFacade admin = getFacade();
-		Company comp = webComp.getCompany(); 
-		
+		Company comp = WebCompany.retutnCompany(webCompany);
+
 		admin.CreateCompany(comp);
 	}
-	
 
 	@PUT
 	@Path("/company")
 	@Consumes("application/json")
-	public void updateCompany(WebCompany webComp){
-		
+	public void updateCompany(WebCompany webCompany) {
+
 		AdminFacade admin = getFacade();
-		Company comp = webComp.getCompany(); 
-		
+		Company comp = WebCompany.retutnCompany(webCompany);
+
 		admin.updateCompany(comp);
 	}
-	
-	
+
 	@DELETE
 	@Path("/company")
 	@Consumes("application/json")
-	public void deleteCompany(WebCompany webComp){
-		
+	public void deleteCompany(WebCompany webCompany) {
+
 		AdminFacade admin = getFacade();
-		Company comp = webComp.getCompany(); 
-		
+		Company comp = WebCompany.retutnCompany(webCompany);
+
 		admin.removeCompany(comp);
 	}
-	
-	
+
 	@GET
 	@Path("/company/all")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces("application/json")
 	public HashSet<WebCompany> doGetCompanies() {
 
 		AdminFacade admin = getFacade();
@@ -162,11 +151,9 @@ public class Admin {
 		HashSet<Company> companies = admin.getAllCompanies();
 		HashSet<WebCompany> webCompanies = new HashSet<>();
 		for (Company comp : companies) {
-			webCompanies.add(new WebCompany(comp));
+			webCompanies.add(WebCompany.retutnWebCompany(comp));
 		}
 		return webCompanies;
 	}
-
-	
 
 }

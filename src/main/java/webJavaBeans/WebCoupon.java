@@ -13,10 +13,10 @@ public class WebCoupon implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
+	private int amount;
 	private String title;
 	private Date startDate;
 	private Date endDate;
-	private int amount;
 	private CouponType type;
 	private String message;
 	private double price;
@@ -61,6 +61,14 @@ public class WebCoupon implements Serializable {
 		this.id = id;
 	}
 
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -83,14 +91,6 @@ public class WebCoupon implements Serializable {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	public int getAmount() {
-		return amount;
-	}
-
-	public void setAmount(int amount) {
-		this.amount = amount;
 	}
 
 	public CouponType getType() {
@@ -125,8 +125,17 @@ public class WebCoupon implements Serializable {
 		this.image = image;
 	}
 
-	public Coupon getCoupon() {
-		return new Coupon(id, title, startDate, endDate, amount, type, message, price, image);
-	}
+	public static Coupon returnCoupon(WebCoupon webcoupon) {
 
+		Coupon coupon = new Coupon(webcoupon.getId(),
+				webcoupon.getTitle(),
+				webcoupon.getStartDate(),
+				webcoupon.getEndDate(),
+				webcoupon.getAmount(),
+				webcoupon.getType(),
+				webcoupon.getMessage(),
+				webcoupon.getPrice(),
+				webcoupon.getImage());
+		return coupon;
+	}
 }

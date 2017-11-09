@@ -68,7 +68,15 @@ public class WebCompany implements Serializable{
 		this.email = email;
 	}
 
-	public Company getCompany() {
-		return new Company(id, compName, password, email);
+	public static Company retutnCompany(WebCompany webCompany) {
+		return new Company(webCompany.getId(), webCompany.getCompName(), webCompany.getPassword(),
+				webCompany.getEmail());
+
+	}
+
+	public static WebCompany retutnWebCompany(Company Company) {
+		return new WebCompany(Company.getId(), Company.getCompName(), Company.getPassword(),
+				Company.getEmail());
+
 	}
 }

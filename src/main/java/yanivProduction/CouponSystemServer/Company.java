@@ -47,7 +47,7 @@ public class Company {
 	}
 
 	@GET
-	@Path("/coupon/date/{day}/{month}/{year}")
+	@Path("/coupon/date/{year}/{month}/{day}")
 	@Produces("application/json")
 	public HashSet<WebCoupon> getAllCouponsbyDate(
 			@PathParam("year") int yyyy,
@@ -107,7 +107,7 @@ public class Company {
 
 		CompanyFacade company = getFacade();
 
-		Coupon coupon = webcoupon.getCoupon();
+		Coupon coupon = WebCoupon.returnCoupon(webcoupon);
 		company.createCoupon(coupon);
 	}
 
@@ -118,7 +118,7 @@ public class Company {
 
 		CompanyFacade company = getFacade();
 
-		Coupon coupon = webcoupon.getCoupon();
+		Coupon coupon = WebCoupon.returnCoupon(webcoupon);
 		company.updateCoupon(coupon);
 	}
 
@@ -129,7 +129,7 @@ public class Company {
 
 		CompanyFacade company = getFacade();
 
-		Coupon coupon = webcoupon.getCoupon();
+		Coupon coupon = WebCoupon.returnCoupon(webcoupon);
 		company.removeCoupon(coupon);
 	}
 

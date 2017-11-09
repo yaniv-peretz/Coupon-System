@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import clientFacade.ClientType;
 import clientFacade.CustomerFacade;
@@ -24,20 +25,8 @@ public class Customer {
 
 	}
 
-	@POST
-	@Path("/coupon")
-	@Consumes("application/json")
-	public void purchaseCoupons(WebCoupon webcoupon) {
-
-		CustomerFacade customer = getFacade();
-
-		Coupon coupon = webcoupon.getCoupon();
-		customer.purchaseCoupon(coupon);
-
-	}
-
 	@GET
-	@Path("/coupon/")
+	@Path("/coupon/all")
 	@Produces("application/json")
 	public HashSet<WebCoupon> getCouponsByType() {
 
@@ -53,9 +42,20 @@ public class Customer {
 
 	}
 
+	@POST
+	@Path("/coupon")
+	@Consumes("application/json")
+	public void purchaseCoupons(WebCoupon webcoupon) {
+
+		CustomerFacade customer = getFacade();
+
+		Coupon coupon = WebCoupon.returnCoupon(webcoupon);
+		customer.purchaseCoupon(coupon);
+	}
+
 	@GET
 	@Path("/coupon/type/{type}")
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public HashSet<WebCoupon> getCouponsByType(@PathParam("type") CouponType type) {
 
 		CustomerFacade customer = getFacade();

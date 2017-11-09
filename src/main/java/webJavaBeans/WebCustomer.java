@@ -56,7 +56,11 @@ public class WebCustomer implements Serializable{
 		this.password = password;
 	}
 	
-	public Customer getCustomer() {
-		return new Customer(id, custName, password);
+	public static WebCustomer returnWebCustomer(Customer Customer) {
+		return new WebCustomer(Customer.getId(), Customer.getCustName(), Customer.getPassword());
+	}
+
+	public static Customer returnCustomer(WebCustomer webCustomer) {
+		return new Customer(webCustomer.getId(), webCustomer.getCustName(), webCustomer.getPassword());
 	}
 }
