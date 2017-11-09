@@ -1,7 +1,9 @@
 package webJavaBeans;
 
 import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
+
 import javaBeans.Company;
 
 @XmlRootElement
@@ -26,6 +28,14 @@ public class WebCompany implements Serializable{
 	}
 	
 	
+	public WebCompany(Company comp) {
+		super();
+		this.id = comp.getId();
+		this.compName = comp.getCompName();
+		this.password = comp.getPassword();
+		this.email = comp.getEmail();
+	}
+
 	public long getId() {
 		return id;
 	}

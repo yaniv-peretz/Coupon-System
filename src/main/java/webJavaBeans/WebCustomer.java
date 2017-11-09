@@ -1,8 +1,12 @@
 package webJavaBeans;
 
 import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
 import javaBeans.Customer;
 
+@XmlRootElement
 public class WebCustomer implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -19,6 +23,13 @@ public class WebCustomer implements Serializable{
 		this.id = id;
 		this.custName = custName;
 		this.password = password;
+	}
+
+	public WebCustomer(Customer cust) {
+		super();
+		this.id = cust.getId();
+		this.custName = cust.getCustName();
+		this.password = cust.getPassword();
 	}
 
 	public long getId() {

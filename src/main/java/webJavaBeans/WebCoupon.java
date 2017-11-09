@@ -3,9 +3,12 @@ package webJavaBeans;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import javaBeans.Coupon;
 import javaBeans.CouponType;
 
+@XmlRootElement
 public class WebCoupon implements Serializable {
 	private static final long serialVersionUID = 1L;
 
