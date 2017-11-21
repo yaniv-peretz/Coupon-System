@@ -22,7 +22,7 @@ import webJavaBeans.WebCoupon;
 public class Company {
 
 	private CompanyFacade getFacade() {
-		CompanyFacade company = new CompanyFacade().login("company-api-test", "company-api-test", ClientType.COMPANY);
+		CompanyFacade company = new CompanyFacade().login("test", "test", ClientType.COMPANY);
 		return company;
 
 	}
