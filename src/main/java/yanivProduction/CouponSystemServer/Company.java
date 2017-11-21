@@ -35,14 +35,26 @@ public class Company {
 		CompanyFacade company = getFacade();
 
 		HashSet<Coupon> coupons = company.getAllCoupons();
-		System.out.println("here");
 		HashSet<WebCoupon> webCoupons = new HashSet<>();
 		for (Coupon c : coupons) {
-			System.out.println(c);
 			webCoupons.add(new WebCoupon(c));
 		}
 
 		return webCoupons;
+
+	}
+
+	@GET
+	@Path("/coupon/{id}")
+	@Produces("application/json")
+	public WebCoupon getCouponById(
+			@PathParam("id") int id) {
+
+		CompanyFacade company = getFacade();
+		Coupon coupon = company.getCoupon(new Long(id));
+
+		WebCoupon webCoupon = new WebCoupon(coupon);
+		return webCoupon;
 
 	}
 
@@ -59,7 +71,6 @@ public class Company {
 		Calendar cal = Calendar.getInstance();
 		cal.set(yyyy, mm, dd);
 		java.util.Date endDate = cal.getTime();
-
 
 		HashSet<Coupon> coupons = company.getCouponsByDate(endDate);
 		HashSet<WebCoupon> webCoupons = new HashSet<>();
@@ -98,7 +109,6 @@ public class Company {
 		}
 		return webCoupons;
 	}
-
 
 	@POST
 	@Path("/coupon")

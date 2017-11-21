@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="js/angular/angular.min.js"></script>
+    <link rel="stylesheet" href="style/client.css">
+</head>
+
+<body ng-app="adminModule" ng-controller="adminCtrl">
+
+    <div class="main-header">
+        <header class="header">logged in as {{client}}</header>
+        <h1>Admin Control Screen</h1>
+    </div>
+
+    <div class="mode-selector">
+        <label for="Companies">Companies
+            <input id="Companies" ng-model="mode" type="radio" value="comps" ng-click="clearItems()" />
+        </label>
+        <label for="Customers">Customers
+            <input id="Customers" ng-model="mode" type="radio" value="custs" ng-click="clearItems()" />
+        </label>
+    </div>
+
+    <div class="workingItem">
+        <h4 ng-show="mode.includes('comps')">Company Details</h4>
+        <h4 ng-hide="mode.includes('comps')">Customer Details</h4>
+
+        <input type="number" min="1" size="5" ng-model="selectedId">
+        <button ng-disabled="itemCreateMode" ng-click="getItemById()">Get Item</button>
+
+        <table>
+            <tr>
+                <td>ID:</td>
+                <td>
+                    <input ng-disabled="!itemCreateMode" type="number" ng-model=workingItem.id>
+                </td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input ng-show="mode.includes('comps')" ng-model="workingItem.compName">
+                    <input ng-hide="mode.includes('comps')" ng-model="workingItem.custName">
+                </td>
+            </tr>
+            <tr ng-show="mode.includes('comps')">
+                <td>email:</td>
+                <td>
+                    <input ng-model="workingItem.email">
+                </td>
+            </tr>
+            <tr>
+                <td>password:</td>
+                <td>
+                    <input ng-model="workingItem.password">
+                </td>
+            </tr>
+        </table>
+
+        <div class="WorkingItem-buttons">
+            <button ng-hide="itemCreateMode" ng-click="updateItem()">update</button>
+            <button ng-hide="itemCreateMode" ng-click="deleteItem()">delete</button>
+            <button ng-hide="itemCreateMode" ng-click="changeCreateMode()">Create New</button>
+            <button ng-show="itemCreateMode" ng-click="postItem()">Submit</button>
+            <button ng-show="itemCreateMode" ng-click="changeCreateMode()">Cancel</button>
+        </div>
+    </div>
+    <!-- end of working item -->
+
+    <div class="items-table">
+        <div>
+            <button ng-click="getItems()">Fetch!</button>
+        </div>
+
+        <table class="items">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th ng-show="mode.includes('comps')">email</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="x in items | orderBy : 'id'">
+                    <td>{{x.id}}</td>
+                    <td ng-show="mode.includes('comps')">{{x.compName}}</td>
+                    <td ng-hide="mode.includes('comps')">{{x.custName}}</td>
+                    <td>{{x.password}}</td>
+                    <td ng-show="mode.includes('comps')">{{x.email}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="js/adminApp.js"></script>
+</body>
+<!-- end of Angular app -->
+
+</html>

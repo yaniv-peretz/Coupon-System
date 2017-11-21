@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="js/angular/angular.min.js"></script>
+    <script src="js/angular/angular-route.min.js"></script>
+    <link rel="stylesheet" href="style/client.css">
+
+</head>
+
+<body>
+
+    <div ng-app="CompanyApp">
+
+        <div ng-controller="main">
+
+            <div class="main-header">
+                <header>logged in as {{client.type}} #{{client.id}}</header>
+                <h1>Company Screen</h1>
+            </div>
+
+
+        </div>
+        <!-- end of Angular main Controller -->
+
+        <div class="workingItem" ng-controller="workingItem">
+
+            <h4>Coupon Details</h4>
+
+            <input type="number" min="1" ng-model="selectedId" size=6>
+            <button ng-disabled="itemCreateMode" ng-click="getWorkingItem()">Get Coupon</button>
+
+            <table>
+                <tr>
+                    <td>ID:</td>
+                    <td>
+                        <input ng-disabled="!itemCreateMode" type="number" ng-model=workingItem.id>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>type:</td>
+                    <td>
+                        <select ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>title:</td>
+                    <td>
+                        <input ng-model=workingItem.title>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>startDate:</td>
+                    <td>
+                        <input placeholder="yyyy-mm-dd" ng-model=workingItem.startDate>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>endDate:</td>
+                    <td>
+                        <input placeholder="yyyy-mm-dd" ng-model=workingItem.endDate>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>amount:</td>
+                    <td>
+                        <input ng-model=workingItem.amount>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>price:</td>
+                    <td>
+                        <input ng-model=workingItem.price>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>image:</td>
+                    <td>
+                        <input ng-model=workingItem.image>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="workingItem-buttons">
+                <button ng-hide="itemCreateMode" ng-click="putWorkingItem()">update</button>
+                <button ng-hide="itemCreateMode" ng-click="deleteWorkingItem()">delete</button>
+                <button ng-hide="itemCreateMode" ng-click="changeWorkingItemEditMode()">Create New</button>
+                <button ng-show="itemCreateMode" ng-click="postWorkingItem()">Submit</button>
+                <button ng-show="itemCreateMode" ng-click="changeWorkingItemEditMode()">Cancel</button>
+            </div>
+
+        </div>
+        <!-- end of Angular workingItem Controller -->
+
+        <div class="items-table" ng-controller="itemsTable">
+
+            <div>
+                <select ng-model="selectedOption" ng-options="item for item in options"></select>
+
+                <input ng-show="selectedOption.includes('By Date')" ng-model="filter" />
+                <input ng-show="selectedOption.includes('By Price')" size=1 ng-model="filter" />
+                <select ng-show="selectedOption.includes('By Type')" ng-model="filter" ng-options="type for type in typeOptions"></select>
+
+                <button ng-click="getTableData()">Fetch!</button>
+            </div>
+
+
+            <table class="items">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>Start End</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Message</th>
+                        <th>image</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="x in items | orderBy:'id'">
+                        <td>{{x.id}}</td>
+                        <td>{{x.type}}</td>
+                        <td>{{x.title}}</td>
+                        <td>{{x.startDate}}</td>
+                        <td>{{x.endDate}}</td>
+                        <td>{{x.amount}}</td>
+                        <td>{{x.price}}</td>
+                        <td>{{x.message}}</td>
+                        <td>{{x.image}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <!-- end of Angular itemsTable Controller -->
+
+    </div>
+    <!-- end of Angular app -->
+
+    <script src="js/companyApp.js"></script>
+</body>
+
+</html>

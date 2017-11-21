@@ -3,16 +3,42 @@
   <head>
     <meta charset="utf-8">
     <title>Coupon System - Login</title>
+    <link rel="stylesheet" href="style/master.css">
   </head>
   <body>
 
-    <form class="" action="webapi/Login" method="post">
+    <div id="welcome">
+      <h1>Welcome to Coupon System</h1>
+      <h3>please login in</h3>
+    </div>
 
-      <input type="text" name="user"      value="">
-      <input type="text" name="password"  value="">
-      <input type="text" name="selector"  value="">
-      <input type="submit" name="" value="Login">
-    </form>
+    <div class="login">
+        <form  action="http://localhost:8080/CouponSystemServer/Login" method="post">
+  
+        <table>
+          <tr>
+            <td><label for="user">User Name:</label></td>
+            <td><input type="text" name="user"      value=""></td>
+          </tr>
+  
+          <tr>
+            <td><label for="password:">Password:</label></td>
+            <td><input type="text" name="password"  value=""></td>
+          </tr>
+        </table>
+  
+        <div class="select">
+          <select name="selector" id="">
+            <option value="admin">admin</option>
+            <option value="company">company</option>
+            <option value="customer">customer</option>
+          </select>
+  
+          <input type="submit" name="" value="Login">        
+        </div>
+  
+      </form>
+    </div>
 
 
   </body>

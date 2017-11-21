@@ -1,0 +1,19 @@
+#welcome{
+    text-align: center;
+}
+
+.login{
+    margin: auto;
+    width: 360px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.login form table tr td label{
+    text-transform: capitalize;
+}
+
+.select{
+    margin: auto;
+    width: 200px;
+}

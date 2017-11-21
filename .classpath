@@ -28,8 +28,8 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/yaniv/workspace/eclipse-workspace/CouponSystemServer/lib/CouponSystem.jar"/>
 	<classpathentry kind="lib" path="/home/yaniv/workspace/eclipse-workspace/CouponSystemServer/lib/mysql-connector.jar"/>
 	<classpathentry kind="lib" path="/home/yaniv/workspace/eclipse-workspace/CouponSystemServer/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/home/yaniv/workspace/eclipse-workspace/CouponSystemServer/lib/CouponSys.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

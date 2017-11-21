@@ -20,7 +20,7 @@ import webJavaBeans.WebCoupon;
 public class Customer {
 
 	private CustomerFacade getFacade() {
-		CustomerFacade customer = new CustomerFacade().login("cut-api-test", "cut-api-test", ClientType.CUSTOMER);
+		CustomerFacade customer = new CustomerFacade().login("test", "test", ClientType.CUSTOMER);
 		return customer;
 
 	}
@@ -39,6 +39,20 @@ public class Customer {
 		}
 
 		return webCoupons;
+
+	}
+
+	@GET
+	@Path("/coupon/{id}")
+	@Produces("application/json")
+	public WebCoupon getCouponById(
+			@PathParam("id") int id) {
+
+		CustomerFacade company = getFacade();
+		Coupon coupon = company.getCoupon(new Long(id));
+
+		WebCoupon webCoupon = new WebCoupon(coupon);
+		return webCoupon;
 
 	}
 
