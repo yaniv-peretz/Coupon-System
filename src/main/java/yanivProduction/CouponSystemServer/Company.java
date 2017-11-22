@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import clientFacade.ClientType;
 import clientFacade.CompanyFacade;
@@ -123,7 +124,7 @@ public class Company {
 
 	@PUT
 	@Path("/coupon")
-	@Consumes("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public void putCoupon(WebCoupon webcoupon) {
 
 		CompanyFacade company = getFacade();

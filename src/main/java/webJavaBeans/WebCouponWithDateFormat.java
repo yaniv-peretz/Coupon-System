@@ -11,7 +11,7 @@ import javaBeans.Coupon;
 import javaBeans.CouponType;
 
 @XmlRootElement
-public class WebCoupon implements Serializable {
+public class WebCouponWithDateFormat implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
@@ -24,12 +24,14 @@ public class WebCoupon implements Serializable {
 	private double price;
 	private String image;
 
-	public WebCoupon() {
+	public WebCouponWithDateFormat() {
 		super();
+		System.out.println("creating webCoupon");
 	}
 
-	public WebCoupon(long id, String title, String startDate, String endDate, int amount, CouponType type, String message, double price, String image) {
+	public WebCouponWithDateFormat(long id, String title, String startDate, String endDate, int amount, CouponType type, String message, double price, String image) {
 		super();
+
 		this.id = id;
 		this.title = title;
 		this.startDate = startDate;
@@ -41,9 +43,9 @@ public class WebCoupon implements Serializable {
 		this.image = image;
 	}
 
-	public WebCoupon(Coupon c) {
+	public WebCouponWithDateFormat(Coupon c) {
 		super();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
 
 		this.id = c.getId();
 		this.title = c.getTitle();
@@ -84,16 +86,18 @@ public class WebCoupon implements Serializable {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setStartDate(Date startDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+		this.startDate = sdf.format(startDate);
 	}
 
 	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setEndDate(Date endDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+		this.endDate = sdf.format(endDate);
 	}
 
 	public CouponType getType() {
@@ -128,19 +132,20 @@ public class WebCoupon implements Serializable {
 		this.image = image;
 	}
 
-	public static Coupon returnCoupon(WebCoupon webcoupon) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+	public static Coupon returnCoupon(WebCouponWithDateFormat webcoupon) {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+		Date startDate = new Date();
 		Date endDate = new Date();
 		try {
+			startDate = sdf.parse(webcoupon.getStartDate());
 			endDate = sdf.parse(webcoupon.getEndDate());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		Coupon coupon = new Coupon(webcoupon.getId(),
 				webcoupon.getTitle(),
-				new Date(),
+				startDate,
 				endDate,
 				webcoupon.getAmount(),
 				webcoupon.getType(),
