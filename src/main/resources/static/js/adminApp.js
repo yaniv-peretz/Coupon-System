@@ -1,19 +1,23 @@
-// var serverurl = "/CouponSystemServer/webapi/";
-var serverUrl = "";
-
 var app = angular.module("adminModule", []);
 app.controller('adminCtrl', function ($scope, $http) {
     $scope.client = 'admin';
     $scope.mode = 'comps';
     $scope.workingItem = {};
-    $scope.selectedId = 1;
+    $scope.selectedId = 1; { }
     $scope.itemCreateMode = false;
-    $scope.items = [];
+    $scope.items = getItems();
+    workingItemElement = document.querySelector("#workingItem");
 
+    $scope.changeScope = function () {
+        if($(workingItemElement).hasClass('open')){
+            $scope.closeWorkingItem();
+        }
+        getItems();
+    }
 
     $scope.getItemById = function () {
 
-        url = serverUrl + "admin/";
+        url = "admin/";
         if ($scope.mode.includes('comps')) {
             url += "company/" + $scope.selectedId;
 
@@ -32,75 +36,48 @@ app.controller('adminCtrl', function ($scope, $http) {
         });
     }
 
-    $scope.clearItems = function () {
-        $scope.items = {};
-    }
-
-    $scope.changeCreateMode = function () {
+    $scope.openCreateNewItem = function () {
         $scope.workingItem = {};
-        $scope.itemCreateMode = !$scope.itemCreateMode;
         $scope.workingItem.id = 1;
+        $scope.itemCreateMode = true;
+        openWorkingItem();
     }
 
-    $scope.postItem = function () {
-        console.log($scope.workingItem);
-        
-
-        url = serverUrl + "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/";
-
-        } else {
-            url += "customer/";
-
-        }
-
-        $http.post(url, $scope.workingItem);
-        $scope.changeCreateMode;
+    $scope.closeWorkingItem = function () {
+        $(workingItemElement).removeClass('open')
+        $(workingItemElement).addClass('close')
     }
 
-
-    $scope.deleteItem = function () {
-
-        url = serverUrl + "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/";
-
-        } else {
-            url += "customer/";
-
-        }
-
-        $http({
-            'url': url,
-            dataType: "json",
-            method: "DELETE",
-            data: $scope.workingItem,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        $scope.workingItem = {};
+    $scope.openUpdateItem = function (item) {
+        $scope.workingItem = item;
+        $scope.itemCreateMode = false;
+        openWorkingItem();
     }
 
-
-    $scope.updateItem = function () {
-
-        url = serverUrl + "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/";
-
-        } else {
-            url += "customer/";
-
+    $scope.openDeleteConfirmation = function (item) {
+        r = confirm("Delete item id:" + item.id + "?");
+        if (r == true) {
+            deleteItem(item);
+            $scope.getItems();
         }
-        
-        $http.put(url, $scope.workingItem);
-        $scope.workingItem = {};
+    }
+
+    $scope.sendNewItem = function () {
+        postItem();
+        $scope.closeWorkingItem();
+    }
+
+    $scope.sendUpdateItem = function () {
+        putItem();
+        $scope.closeWorkingItem();
     }
 
     $scope.getItems = function () {
-        url = serverUrl + "admin/";
+        getItems();
+    }
+
+    function getItems() {
+        url = "admin/";
         if ($scope.mode.includes('comps')) {
             url += "company/all";
 
@@ -125,5 +102,64 @@ app.controller('adminCtrl', function ($scope, $http) {
             $scope.items = response.statusText;
         });
     }
+
+    function openWorkingItem() {
+        $(workingItemElement).removeClass('close')
+        $(workingItemElement).addClass('open')
+    }
+
+    function postItem() {
+
+        url = "admin/";
+        if ($scope.mode.includes('comps')) {
+            url += "company/";
+
+        } else {
+            url += "customer/";
+
+        }
+
+        $http.post(url, $scope.workingItem);
+    }
+
+    function deleteItem(item) {
+
+        url = "admin/";
+        if ($scope.mode.includes('comps')) {
+            url += "company/";
+
+        } else {
+            url += "customer/";
+
+        }
+
+        $http({
+            'url': url,
+            dataType: "json",
+            method: "DELETE",
+            data: item,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
+
+
+    function putItem() {
+
+        url = "admin/";
+        if ($scope.mode.includes('comps')) {
+            url += "company/";
+
+        } else {
+            url += "customer/";
+
+        }
+
+        $http.put(url, $scope.workingItem);
+        $scope.closeCreateNewMode();
+    }
+
+
 
 });// end of angular module

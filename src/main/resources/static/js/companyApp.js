@@ -1,16 +1,9 @@
-// var serverurl = "/CouponSystemServer/webapi/";
-var serverUrl = "";
-
 var app = angular.module("CompanyApp", []);
-app.controller('main', function ($scope, $http) {
+app.controller('compController', function ($scope, $http) {
     $scope.client = {
-        'type': 'Company'
+        'id': 'set id in compApp.js'
     }
-});// end of angular main controller
-
-app.controller('workingItem', function ($scope, $http) {
-
-    $scope.selectedId = 1;
+    workingItemElement = document.querySelector("#workingItem");    
     $scope.typeOptions = [
         'RESTURANS',
         'ELECTRICITY',
@@ -21,7 +14,7 @@ app.controller('workingItem', function ($scope, $http) {
         'TRAVELLING',
     ];
     $scope.itemCreateMode = false;
-
+    
     $scope.workingItem = {
         "id": 1,
         "type": "RESTURANS",
@@ -32,64 +25,70 @@ app.controller('workingItem', function ($scope, $http) {
         "amount": "",
         "price": ""
     }
+    
+    $scope.items;
 
-    $scope.changeWorkingItemEditMode = function () {
+    $scope.openCreateNewItem = function () {
         $scope.workingItem = {};
-        $scope.itemCreateMode = !$scope.itemCreateMode;
-        $scope.workingItem.id = 1;
+        $scope.itemCreateMode = true;
+        openWorkingItem();
         
     }
 
-    $scope.getWorkingItem = function () {
+    function openWorkingItem() {
+        $(workingItemElement).removeClass('close')
+        $(workingItemElement).addClass('open')
+    }
 
-        url = serverUrl + "company/coupon/";
-        url += $scope.selectedId;
-
-        $http({
-            'method': "GET",
-            'url': url,
-        }).then(function mySuccess(response) {
-            $scope.workingItem = response.data;
-
-        }, function myError(response) {
-            $scope.workingItem = response.statusText;
-        });
+    $scope.closeWorkingItem = function () {
+        $(workingItemElement).removeClass('open')
+        $(workingItemElement).addClass('close')
     }
 
     $scope.postWorkingItem = function () {
 
-        url = serverUrl + "company/coupon/";
+        url = "company/coupon/";
         $http.post(url, $scope.workingItem);
-        $scope.workingItem = {};
+        $scope.closeWorkingItem();
+        getTableData();
     }
 
+    $scope.openEditItem = function (item){
+        $scope.workingItem = item;
+        $scope.itemCreateMode = false;        
+        openWorkingItem();
+    }
 
     $scope.putWorkingItem = function () {
 
-        url = serverUrl + "company/coupon/";
+        url = "company/coupon/";
         $http.put(url, $scope.workingItem);
-        $scope.workingItem = {};
+        $scope.closeWorkingItem();
+        getTableData();
     }
 
-    $scope.deleteWorkingItem = function () {
+    $scope.openDeleteConfirmation = function (item) {
+        r = confirm("Delete Coupon id:" + item.id + "?");
+        if (r == true) {
+            deleteItem(item);
+            getTableData();
+        }
+    }
 
-        url = serverUrl + "company/coupon/";
+    deleteItem = function (item) {
+
+        url = "company/coupon/";
         $http({
             'url': url,
             'dataType': "json",
             'method': "DELETE",
-            'data': $scope.workingItem,
+            'data': item,
             'headers': {
                 "Content-Type": "application/json"
             }
         });
         $scope.workingItem = {};
     }
-
-});// end of angular workingItem controller
-
-
-app.controller('itemsTable', function ($scope, $http) {
 
     $scope.options = ["All", "By Date", "By Price", "By Type"];
     $scope.selectedOption = "All";
@@ -102,12 +101,15 @@ app.controller('itemsTable', function ($scope, $http) {
         'CAMPING',
         'TRAVELLING',
     ];
-    $scope.filter = 1;
-    $scope.items = [];
+    $scope.filter = '';
 
     $scope.getTableData = function () {
+        getTableData();
+    }
 
-        url = serverUrl + "company/coupon/"
+    function getTableData() {
+        
+        url = "company/coupon/"
         switch ($scope.selectedOption) {
 
             case 'All':
@@ -131,9 +133,11 @@ app.controller('itemsTable', function ($scope, $http) {
                 break;
 
             default:
+                url += "all";
                 return;
         }
 
+        console.log(url);
         $http({
             method: "GET",
             url: url,
@@ -151,5 +155,9 @@ app.controller('itemsTable', function ($scope, $http) {
             console.error(response.statusText);
         });
     }
+
+    //initiate data
+    getTableData();
+
 
 });// end of itemsTable controller

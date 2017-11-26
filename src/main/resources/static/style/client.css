@@ -6,33 +6,34 @@ body{
     background-color: lightgreen;
     text-align: right;
 }
+.main-header {
+    text-align: center;
+}
 
 h1, .mode-selector {
     text-align: center;
 }
 
 /* working item */
-.workingItem{
-    position: relative;
+#workingItem{
+    background-color: lightblue;
+
+    align-items: center;
     text-transform: capitalize;
+    text-align: center;
+
+    overflow: hidden;
+    max-height: 0px;
     width: 400px;
     margin: auto;
+}
+
+#WorkingItem-buttons{
     padding: 5px;
-    background-color: lightblue;
-    align-items: center;
-    text-align: center;
-    min-height: 250px;
+    margin: 10px;
 }
 
-.workingItem h4{
-    margin-top: 0px;
-}
-
-.WorkingItem-buttons{
-    padding: 5px;
-}
-
-.workingItem table{
+#workingItem table{
     margin: auto;
     text-align: right;
 }
@@ -42,29 +43,43 @@ h1, .mode-selector {
 
 /* Items table */
 .items-table{
-    text-align: center;
     margin: auto;
+    text-align: center;
     margin-top:30px;
-    background-color: lightgray;
-    width: 100%;
-    display: block;
     
 }
 .items{
     border-collapse:collapse;
-    width: 100%;
+    background-color: lightgray;
+    margin: auto
 }
 
 .items thead, thead tr, thead tr th{
         background-color: darkgray;
+        padding: 10px;
 
 }
 
 
 
+/* generics */
+.open{
+    animation: open 0.75s both;
+}
 
+@keyframes open {
+    from {max-height : 0px}
+    to   {max-height : 500px }
+}
 
+.close{
+    animation: close 0.5s both;
+}
 
+@keyframes close {
+    from {max-height : 500px}
+    to   {max-height : 0px }
+}
 
 
 

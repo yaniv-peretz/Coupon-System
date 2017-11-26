@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="js/angular/angular.min.js"></script>
-    <script src="js/angular/angular-route.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="style/client.css">
 
 </head>
@@ -23,13 +23,17 @@
         </div>
         <!-- end of Angular main Controller -->
 
-        <div ng-controller="workingItem" class="workingItem">
+        <div ng-controller="workingItem">
 
-            <h4>Coupon Details</h4>
+            <div class="mode-selector">
+                <h4>Coupon Details</h4>
+                <input type="number" min="1" ng-model="selectedId" size=6>
+                <button ng-click="openCouponDetails()">Get Coupon Details</button>
+            </div>
 
-            <input type="number" min="1" ng-model="selectedId" size=6>
-            <button ng-click="getWorkingItem()">Get Coupon</button>
 
+            <div id="workingItem">
+                
                 <table>
                     <tr>
                         <td>ID:</td>
@@ -42,64 +46,66 @@
                     <tr>
                         <td>type:</td>
                         <td>
-                            <select ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
+                            <select ng-disabled="true" ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
                         </td>
                     </tr>
 
                     <tr>
                         <td>title:</td>
                         <td>
-                            <input ng-model=workingItem.title>
+                            <input ng-disabled="true" ng-model=workingItem.title>
                         </td>
                     </tr>
 
                     <tr>
                         <td>startDate:</td>
                         <td>
-                            <input placeholder="yyyy-mm-dd" ng-model=workingItem.startDate>
+                            <input ng-disabled="true" placeholder="yyyy-mm-dd" ng-model=workingItem.startDate>
                         </td>
                     </tr>
 
                     <tr>
                         <td>endDate:</td>
                         <td>
-                            <input placeholder="yyyy-mm-dd" ng-model=workingItem.endDate>
+                            <input ng-disabled="true" placeholder="yyyy-mm-dd" ng-model=workingItem.endDate>
                         </td>
                     </tr>
 
                     <tr>
                         <td>amount:</td>
                         <td>
-                            <input ng-model=workingItem.amount>
+                            <input ng-disabled="true" ng-model=workingItem.amount>
                         </td>
                     </tr>
 
                     <tr>
                         <td>price:</td>
                         <td>
-                            <input ng-model=workingItem.price>
+                            <input ng-disabled="true" ng-model=workingItem.price>
                         </td>
                     </tr>
 
                     <tr>
                         <td>image:</td>
                         <td>
-                            <input ng-model=workingItem.image>
+                            <input ng-disabled="true" ng-model=workingItem.image>
                         </td>
                     </tr>
                 </table>
 
 
-                <div class="workingItem-buttons">
+                <div id="WorkingItem-buttons">
                     <button ng-click="postWorkingItem()">Buy</button>
+                    <button ng-click="closeWorkingItem()">Cancel</button>
                 </div>
+            </div>
 
         </div>
         <!-- end of Angular workingItem Controller -->
 
-        <div ng-controller="itemsTable" class="items-table">
+        <div ng-controller="itemsTable">
 
-            <div>
+            <div class="items-table">
                 <select ng-model="selectedOption" ng-options="item for item in options"></select>
 
                 <input ng-show="selectedOption.includes('By Date')" ng-model="filter" />

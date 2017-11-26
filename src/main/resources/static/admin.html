@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="js/angular/angular.min.js"></script>
     <link rel="stylesheet" href="style/client.css">
+    <script src="js/angular/angular.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
 </head>
 
 <body ng-app="adminModule" ng-controller="adminCtrl">
@@ -15,20 +16,23 @@
     </div>
 
     <div class="mode-selector">
-        <label for="Companies">Companies
-            <input id="Companies" ng-model="mode" type="radio" value="comps" ng-click="clearItems()" />
-        </label>
-        <label for="Customers">Customers
-            <input id="Customers" ng-model="mode" type="radio" value="custs" ng-click="clearItems()" />
-        </label>
+        <div ng-click="changeScope()">
+            <span><b>Select View:</b></span>
+            <label for="Companies">Companies
+                <input id="Companies" ng-model="mode" type="radio" value="comps" ng-click="clearItems()" />
+            </label>
+            <label for="Customers">Customers
+                <input id="Customers" ng-model="mode" type="radio" value="custs" ng-click="clearItems()" />
+            </label>
+        </div>
+        <div>
+            <button ng-click="openCreateNewItem()">Create New</button>
+        </div>
     </div>
 
-    <div class="workingItem">
+    <div id="workingItem">
         <h4 ng-show="mode.includes('comps')">Company Details</h4>
         <h4 ng-hide="mode.includes('comps')">Customer Details</h4>
-
-        <input type="number" min="1" size="5" ng-model="selectedId">
-        <button ng-disabled="itemCreateMode" ng-click="getItemById()">Get Item</button>
 
         <table>
             <tr>
@@ -40,8 +44,8 @@
             <tr>
                 <td>Name:</td>
                 <td>
-                    <input ng-show="mode.includes('comps')" ng-model="workingItem.compName">
-                    <input ng-hide="mode.includes('comps')" ng-model="workingItem.custName">
+                    <input ng-disabled="!itemCreateMode" ng-show="mode.includes('comps')" ng-model="workingItem.compName">
+                    <input ng-disabled="!itemCreateMode" ng-hide="mode.includes('comps')" ng-model="workingItem.custName">
                 </td>
             </tr>
             <tr ng-show="mode.includes('comps')">
@@ -58,21 +62,15 @@
             </tr>
         </table>
 
-        <div class="WorkingItem-buttons">
-            <button ng-hide="itemCreateMode" ng-click="updateItem()">update</button>
-            <button ng-hide="itemCreateMode" ng-click="deleteItem()">delete</button>
-            <button ng-hide="itemCreateMode" ng-click="changeCreateMode()">Create New</button>
-            <button ng-show="itemCreateMode" ng-click="postItem()">Submit</button>
-            <button ng-show="itemCreateMode" ng-click="changeCreateMode()">Cancel</button>
+        <div id="WorkingItem-buttons">
+            <button ng-show=itemCreateMode ng-click="sendNewItem()">Send</button>
+            <button ng-hide=itemCreateMode ng-click="sendUpdateItem()">Update</button>
+            <button ng-click="closeWorkingItem()">Cancel</button>
         </div>
     </div>
     <!-- end of working item -->
 
     <div class="items-table">
-        <div>
-            <button ng-click="getItems()">Fetch!</button>
-        </div>
-
         <table class="items">
             <thead>
                 <tr>
@@ -80,6 +78,7 @@
                     <th>Name</th>
                     <th>Password</th>
                     <th ng-show="mode.includes('comps')">email</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -90,6 +89,10 @@
                     <td ng-hide="mode.includes('comps')">{{x.custName}}</td>
                     <td>{{x.password}}</td>
                     <td ng-show="mode.includes('comps')">{{x.email}}</td>
+                    <td>
+                        <button ng-click="openUpdateItem(x)">update</button>
+                        <button ng-click="openDeleteConfirmation(x)">delete</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

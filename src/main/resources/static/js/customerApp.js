@@ -1,6 +1,3 @@
-// var serverurl = "/CouponSystemServer/webapi/";
-var serverUrl = "";
-
 var app = angular.module("CustomerApp", []);
 app.controller('main', function ($scope, $http) {
     $scope.client = {
@@ -9,6 +6,7 @@ app.controller('main', function ($scope, $http) {
 });//end of main controller
 
 app.controller('workingItem', function ($scope, $http) {
+    workingItemElement = document.querySelector("#workingItem");
 
     $scope.selectedId = 1;
     $scope.typeOptions = [
@@ -32,9 +30,33 @@ app.controller('workingItem', function ($scope, $http) {
         "price": ""
     }
 
-    $scope.getWorkingItem = function () {
+    $scope.openCouponDetails = function () {
+        openWorkingItem();
+        getWorkingItem();
 
-        url = serverUrl + "customer/coupon/";
+    }
+
+    $scope.postWorkingItem = function () {
+
+        url = "customer/coupon/";
+        $http.post(url, $scope.workingItem);
+        $scope.closeWorkingItem();
+    }
+
+    $scope.closeWorkingItem = function () {
+        $(workingItemElement).removeClass('open')
+        $(workingItemElement).addClass('close')
+    }
+
+
+    function openWorkingItem() {
+        $(workingItemElement).removeClass('close')
+        $(workingItemElement).addClass('open')
+    }
+
+    function getWorkingItem() {
+
+        url = "customer/coupon/";
         url += $scope.selectedId;
 
         $http({
@@ -46,13 +68,6 @@ app.controller('workingItem', function ($scope, $http) {
         }, function myError(response) {
             $scope.workingItem = response.statusText;
         });
-    }
-
-    $scope.postWorkingItem = function () {
-
-        url = serverUrl + "customer/coupon/";
-        $http.post(url, $scope.workingItem);
-        $scope.workingItem = {};
     }
 
 
@@ -75,8 +90,12 @@ app.controller('itemsTable', function ($scope, $http) {
     $scope.items = [];
 
     $scope.getTableData = function () {
+        getTableData();
+    }
 
-        url = serverUrl + "customer/coupon/"
+    function getTableData() {
+
+        url = "customer/coupon/"
         switch ($scope.selectedOption) {
 
             case 'All':
@@ -100,6 +119,7 @@ app.controller('itemsTable', function ($scope, $http) {
                 break;
 
             default:
+                url += "all";
                 return;
         }
 
@@ -119,6 +139,11 @@ app.controller('itemsTable', function ($scope, $http) {
         }, function myError(response) {
             console.error(response.statusText);
         });
+
     }
+
+
+    getTableData();
+
 
 });  //end of items controller
