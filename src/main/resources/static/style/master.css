@@ -1,19 +1,39 @@
-#welcome{
+body{
+    background-color: black;
+}
+
+.box-Border{
+    width: -moz-fit-content;
+    width: fit-content;
+    border: 1px solid goldenrod;
+    color: goldenrod;
+    padding: 10px;
+    margin: auto;
     text-align: center;
 }
 
-.login{
-    margin: auto;
-    width: 360px;
-    border: 1px solid black;
-    padding: 5px;
+#welcome{
+    text-transform: capitalize;
+    margin-top: 75px;
 }
 
-.login form table tr td label{
+#err{
+    color: red;
+    display: none;
+}
+
+#login{
+    margin-top: 25px;    
+}
+#login form table tr td label{
     text-transform: capitalize;
 }
 
-.select{
+#login-table tbody tr td{
+    padding: 10px;
+}
+
+.buttons{
     margin: auto;
-    width: 200px;
+    height: 37px;
 }

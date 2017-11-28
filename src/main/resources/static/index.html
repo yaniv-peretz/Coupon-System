@@ -1,45 +1,66 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Coupon System - Login</title>
-    <link rel="stylesheet" href="style/master.css">
-  </head>
-  <body>
 
-    <div id="welcome">
-      <h1>Welcome to Coupon System</h1>
-      <h3>please login in</h3>
-    </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Coupon System - Login</title>
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style/master.css">
+</head>
 
-    <div class="login">
-        <form  action="http://localhost:8080/login" method="post">
-  
-        <table>
+<body>
+
+  <div id="welcome" class="box-Border">
+    <h1>Welcome to Coupon System</h1>
+    <h3>please login in</h3>
+  </div>
+
+  <div id="login" class="box-Border">
+    <p id="err">user, password and type do not match, please check again</p>
+    <form action="http://localhost:8080/login" method="post">
+
+      <table id="login-table">
+        <tbody>
           <tr>
-            <td><label for="user">User Name:</label></td>
-            <td><input type="text" name="user"      value=""></td>
+            <td>
+              <label for="user">User Name:</label>
+            </td>
+            <td>
+              <input required type="text" name="user" placeholder="user name">
+            </td>
           </tr>
-  
-          <tr>
-            <td><label for="password:">Password:</label></td>
-            <td><input type="text" name="password"  value=""></td>
-          </tr>
-        </table>
-  
-        <div class="select">
-          <select name="selector" id="">
-            <option value="admin">admin</option>
-            <option value="company">company</option>
-            <option value="customer">customer</option>
-          </select>
-  
-          <input type="submit" name="" value="Login">        
-        </div>
-  
-      </form>
-    </div>
+        </tbody>
+
+        <tr>
+          <td>
+            <label for="password:">Password:</label>
+          </td>
+          <td>
+            <input required type="password" name="password" placeholder="password">
+          </td>
+        </tr>
+      </table>
+
+      <div>
+        <select name="selector" class="buttons">
+          <option value="admin">admin</option>
+          <option value="company">company</option>
+          <option value="customer">customer</option>
+        </select>
+
+        <input type="submit" class="buttons btn-warning" value="Login">
+      </div>
+      
+    </form>
+  </div>
+
+</body>
+<script>
+  if (window.location.search.includes('err')) {
+    document.querySelector('#err').style.display = "initial";
+  }
+</script>
 
 
-  </body>
 </html>

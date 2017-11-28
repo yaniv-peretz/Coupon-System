@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
 		// if got here with undifiend type
 		if (type == null) {
 			response.getWriter().append("Login type undifined");
-			response.sendRedirect("index.html");
+			response.sendRedirect(request.getContextPath() + "/index.html?err=type");
 			return;
 		}
 		
@@ -76,14 +76,14 @@ public class Login extends HttpServlet {
 		
 		// return if login unsuccessful
 		if (client == null) {
-			response.sendRedirect(request.getContextPath() + "/index.html");
+			response.sendRedirect(request.getContextPath() + "/index.html?err=psw");
 			return;
 		}
 		
 		// Login successful, set session data
 		HttpSession session = request.getSession();
 		session.setAttribute("auth", true);
-		session.setAttribute("Client-type", client);
+		session.setAttribute("client", client);
 		
 		switch (type) {
 		case ADMIN:
