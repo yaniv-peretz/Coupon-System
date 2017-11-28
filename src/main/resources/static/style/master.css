@@ -23,9 +23,10 @@ body{
 }
 
 #login{
-    margin-top: 25px;    
+    margin-top: 25px;
 }
-#login form table tr td label{
+
+#login form table tr td label ,{
     text-transform: capitalize;
 }
 
@@ -33,7 +34,8 @@ body{
     padding: 10px;
 }
 
-.buttons{
+.buttons, .buttons option{
+    text-transform: capitalize;        
     margin: auto;
     height: 37px;
 }
