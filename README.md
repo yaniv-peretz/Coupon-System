@@ -1,6 +1,6 @@
 # Coupon System
 A Client-Server Coupon System web app.  
-**Tech Stack:** Java (Spring), AngularJS.
+**Tech Stack:** Java (Spring), Javascript (AngularJS, JQuery) CSS (bootstrap).
   
 ## Dependencies
 Mysql Server running: (port 3306, user: root, password: root)

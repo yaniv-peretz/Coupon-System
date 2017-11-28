@@ -5,6 +5,10 @@
     text-align: center;
 }
 
+.main-header a{
+    color: inherit;
+}
+
 h1, .mode-selector {
     text-align: center;
 }

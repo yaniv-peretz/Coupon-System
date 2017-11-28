@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
-    
+
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/master.css">
     <link rel="stylesheet" href="style/client.css">
@@ -18,83 +18,85 @@
 
         <div class="main-header">
             <header>logged in as company #{{client.id}}</header>
-            <h1>Company Coupon Management</h1>
+            <a href="index.html">
+                <h1>Company Coupon Management</h1>
+            </a>
             <button class="btn-warning" ng-click="openCreateNewItem()">Create New Coupon</button>
         </div>
 
-        <div id="workingItem">
-            <h4>Coupon Details</h4>
+        <form>
+            <div id="workingItem">
+                <h4>Coupon Details</h4>
 
-            <table>
-                <tr>
-                    <td>ID:</td>
-                    <td>
-                        <input ng-disabled="true" type="number" ng-model=workingItem.id>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>title:</td>
-                    <td>
-                        <input ng-disabled="!itemCreateMode" ng-model=workingItem.title>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>type:</td>
-                    <td>
-                        <select ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
-                    </td>
-                </tr>
+                <table>
+                    <tr>
+                        <td>ID:</td>
+                        <td>
+                            <input required ng-disabled="true" type="number" ng-model=workingItem.id>
+                        </td>
+                    </tr>
 
 
+                    <tr>
+                        <td>title:</td>
+                        <td>
+                            <input required ng-disabled="!itemCreateMode" ng-model=workingItem.title>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>startDate:</td>
-                    <td>
-                        <input placeholder="yyyy-m-d" ng-disabled="!itemCreateMode" ng-model=workingItem.startDate>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>type:</td>
+                        <td>
+                            <select required ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>endDate:</td>
-                    <td>
-                        <input placeholder="yyyy-m-d" ng-model=workingItem.endDate>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>startDate:</td>
+                        <td>
+                            <input required placeholder="yyyy-m-d" ng-disabled="!itemCreateMode" ng-model=workingItem.startDate>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>amount:</td>
-                    <td>
-                        <input ng-model=workingItem.amount>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>endDate:</td>
+                        <td>
+                            <input required placeholder="yyyy-m-d" ng-model=workingItem.endDate>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>price:</td>
-                    <td>
-                        <input ng-model=workingItem.price>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>amount:</td>
+                        <td>
+                            <input required ng-model=workingItem.amount>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>image:</td>
-                    <td>
-                        <input ng-model=workingItem.image>
-                    </td>
-                </tr>
-            </table>
+                    <tr>
+                        <td>price:</td>
+                        <td>
+                            <input required ng-model=workingItem.price>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>image:</td>
+                        <td>
+                            <input ng-model=workingItem.image>
+                        </td>
+                    </tr>
+                </table>
 
 
-            <div id="WorkingItem-buttons">
+                <div id="WorkingItem-buttons">
 
-                <button ng-show="itemCreateMode" ng-click="postWorkingItem()">Submit</button>
-                <button ng-hide="itemCreateMode" ng-click="putWorkingItem()">Update</button>
-                <button ng-click="closeWorkingItem()">Cancel</button>
+                    <button class="btn-success" type="submit" ng-show="itemCreateMode" ng-click="postWorkingItem()">Submit</button>
+                    <button class="btn-success" type="submit" ng-hide="itemCreateMode" ng-click="putWorkingItem()">Update</button>
+                    <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
+                </div>
+
             </div>
-
-        </div>
+        </form>
 
         <div>
             <div class="items-table">

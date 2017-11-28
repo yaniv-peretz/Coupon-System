@@ -50,8 +50,13 @@ app.controller('workingItem', function ($scope, $http) {
 
 
     function openWorkingItem() {
-        $(workingItemElement).removeClass('close-panel')
-        $(workingItemElement).addClass('open-panel')
+        if ($scope.selectedId !== null &&
+            $scope.selectedId > 0 &&
+            $scope.selectedId !== undefined) {
+
+            $(workingItemElement).removeClass('close-panel')
+            $(workingItemElement).addClass('open-panel')
+        }
     }
 
     function getWorkingItem() {
