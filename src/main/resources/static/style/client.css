@@ -1,9 +1,4 @@
-body{
-    margin: 0;
-}
-
 .main-header header{
-    background-color: lightgreen;
     text-align: right;
 }
 .main-header {
@@ -16,19 +11,22 @@ h1, .mode-selector {
 
 /* working item */
 #workingItem{
-    background-color: lightblue;
-
-    align-items: center;
     text-transform: capitalize;
-    text-align: center;
-
-    overflow: hidden;
-    max-height: 0px;
+    text-align: left;
     width: 400px;
     margin: auto;
+    margin-top: 30px;
+    overflow: hidden;
+    max-height: 0px;
+}
+
+#workingItem h4{
+    text-align: center;
 }
 
 #WorkingItem-buttons{
+    align-items: center;
+    text-align: center;
     padding: 5px;
     margin: 10px;
 }
@@ -38,32 +36,15 @@ h1, .mode-selector {
     text-align: right;
 }
 
-
-
-
 /* Items table */
-.items-table{
+.items-table, .items-table tr, .items-table tr td{
     margin: auto;
     text-align: center;
     margin-top:30px;
-    
 }
-.items{
-    border-collapse:collapse;
-    background-color: lightgray;
-    margin: auto
-}
-
-.items thead, thead tr, thead tr th{
-        background-color: darkgray;
-        padding: 10px;
-
-}
-
-
 
 /* generics */
-.open{
+.open-panel{
     animation: open 0.75s both;
 }
 
@@ -72,7 +53,7 @@ h1, .mode-selector {
     to   {max-height : 500px }
 }
 
-.close{
+.close-panel{
     animation: close 0.5s both;
 }
 

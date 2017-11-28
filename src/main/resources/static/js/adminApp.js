@@ -9,7 +9,7 @@ app.controller('adminCtrl', function ($scope, $http) {
     workingItemElement = document.querySelector("#workingItem");
 
     $scope.changeScope = function () {
-        if($(workingItemElement).hasClass('open')){
+        if($(workingItemElement).hasClass('open-panel')){
             $scope.closeWorkingItem();
         }
         getItems();
@@ -44,8 +44,8 @@ app.controller('adminCtrl', function ($scope, $http) {
     }
 
     $scope.closeWorkingItem = function () {
-        $(workingItemElement).removeClass('open')
-        $(workingItemElement).addClass('close')
+        $(workingItemElement).removeClass('open-panel')
+        $(workingItemElement).addClass('close-panel')
     }
 
     $scope.openUpdateItem = function (item) {
@@ -104,8 +104,8 @@ app.controller('adminCtrl', function ($scope, $http) {
     }
 
     function openWorkingItem() {
-        $(workingItemElement).removeClass('close')
-        $(workingItemElement).addClass('open')
+        $(workingItemElement).removeClass('close-panel')
+        $(workingItemElement).addClass('open-panel')
     }
 
     function postItem() {

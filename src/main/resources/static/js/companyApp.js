@@ -36,13 +36,13 @@ app.controller('compController', function ($scope, $http) {
     }
 
     function openWorkingItem() {
-        $(workingItemElement).removeClass('close')
-        $(workingItemElement).addClass('open')
+        $(workingItemElement).removeClass('close-panel')
+        $(workingItemElement).addClass('open-panel')
     }
 
     $scope.closeWorkingItem = function () {
-        $(workingItemElement).removeClass('open')
-        $(workingItemElement).addClass('close')
+        $(workingItemElement).removeClass('open-panel')
+        $(workingItemElement).addClass('close-panel')
     }
 
     $scope.postWorkingItem = function () {
@@ -103,6 +103,7 @@ app.controller('compController', function ($scope, $http) {
     ];
     $scope.filter = '';
 
+    //external hook for UI, will trigger items table update
     $scope.getTableData = function () {
         getTableData();
     }
@@ -137,7 +138,6 @@ app.controller('compController', function ($scope, $http) {
                 return;
         }
 
-        console.log(url);
         $http({
             method: "GET",
             url: url,

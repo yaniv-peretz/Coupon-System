@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
+    
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/master.css">
     <link rel="stylesheet" href="style/client.css">
 
 </head>
@@ -16,7 +19,7 @@
         <div class="main-header">
             <header>logged in as company #{{client.id}}</header>
             <h1>Company Coupon Management</h1>
-            <button ng-click="openCreateNewItem()">Create New Coupon</button>
+            <button class="btn-warning" ng-click="openCreateNewItem()">Create New Coupon</button>
         </div>
 
         <div id="workingItem">
@@ -50,14 +53,14 @@
                 <tr>
                     <td>startDate:</td>
                     <td>
-                        <input ng-disabled="!itemCreateMode" placeholder="yyyy-mm-dd" ng-model=workingItem.startDate>
+                        <input placeholder="yyyy-m-d" ng-disabled="!itemCreateMode" ng-model=workingItem.startDate>
                     </td>
                 </tr>
 
                 <tr>
                     <td>endDate:</td>
                     <td>
-                        <input placeholder="yyyy-mm-dd" ng-model=workingItem.endDate>
+                        <input placeholder="yyyy-m-d" ng-model=workingItem.endDate>
                     </td>
                 </tr>
 
@@ -101,10 +104,10 @@
                 <input ng-show="selectedOption.includes('By Price')" size=1 ng-model="filter" />
                 <select ng-show="selectedOption.includes('By Type')" ng-model="filter" ng-options="type for type in typeOptions"></select>
 
-                <button ng-click="getTableData()">Fetch!</button>
+                <button ng-click="getTableData()">Get Coupons!</button>
             </div>
 
-            <table class="items">
+            <table class="table-striped table-hover table-dark items-table ">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -132,8 +135,8 @@
                         <td>{{x.message}}</td>
                         <td>{{x.image}}</td>
                         <td>
-                            <button ng-click="openEditItem(x)">update</button>
-                            <button ng-click="openDeleteConfirmation(x)">delete</button>
+                            <button class="btn-primary" ng-click="openEditItem(x)">update</button>
+                            <button class="btn-danger" ng-click="openDeleteConfirmation(x)">delete</button>
                         </td>
                     </tr>
                 </tbody>

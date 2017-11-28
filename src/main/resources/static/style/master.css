@@ -1,12 +1,12 @@
 body{
     background-color: black;
+    color: goldenrod;    
 }
 
 .box-Border{
     width: -moz-fit-content;
     width: fit-content;
     border: 1px solid goldenrod;
-    color: goldenrod;
     padding: 10px;
     margin: auto;
     text-align: center;

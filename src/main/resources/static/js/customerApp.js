@@ -44,14 +44,14 @@ app.controller('workingItem', function ($scope, $http) {
     }
 
     $scope.closeWorkingItem = function () {
-        $(workingItemElement).removeClass('open')
-        $(workingItemElement).addClass('close')
+        $(workingItemElement).removeClass('open-panel')
+        $(workingItemElement).addClass('close-panel')
     }
 
 
     function openWorkingItem() {
-        $(workingItemElement).removeClass('close')
-        $(workingItemElement).addClass('open')
+        $(workingItemElement).removeClass('close-panel')
+        $(workingItemElement).addClass('open-panel')
     }
 
     function getWorkingItem() {

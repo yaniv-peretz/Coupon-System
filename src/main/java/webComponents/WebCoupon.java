@@ -11,6 +11,7 @@ import javaBeans.CouponType;
 @XmlRootElement
 public class WebCoupon implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
 	
 	private long id;
 	private int amount;
@@ -42,7 +43,6 @@ public class WebCoupon implements Serializable {
 	
 	public WebCoupon(Coupon c) {
 		super();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
 		
 		this.id = c.getId();
 		this.title = c.getTitle();
@@ -128,7 +128,6 @@ public class WebCoupon implements Serializable {
 	}
 	
 	public static Coupon returnCoupon(WebCoupon webcoupon) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
 		Date startDate = new Date();
 		Date endDate = new Date();
 		
@@ -136,7 +135,6 @@ public class WebCoupon implements Serializable {
 			startDate = sdf.parse(webcoupon.getStartDate());
 			endDate = sdf.parse(webcoupon.getEndDate());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

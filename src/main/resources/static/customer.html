@@ -4,8 +4,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style/client.css">
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
+    
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/master.css">
+    <link rel="stylesheet" href="style/client.css">
 
 </head>
 
@@ -28,7 +32,7 @@
             <div class="mode-selector">
                 <h4>Coupon Details</h4>
                 <input type="number" min="1" ng-model="selectedId" size=6>
-                <button ng-click="openCouponDetails()">Get Coupon Details</button>
+                <button class="btn-warning" ng-click="openCouponDetails()">Get Coupon Details</button>
             </div>
 
 
@@ -60,14 +64,14 @@
                     <tr>
                         <td>startDate:</td>
                         <td>
-                            <input ng-disabled="true" placeholder="yyyy-mm-dd" ng-model=workingItem.startDate>
+                            <input placeholder="yyyy-m-d" ng-disabled="true" ng-model=workingItem.startDate>
                         </td>
                     </tr>
 
                     <tr>
                         <td>endDate:</td>
                         <td>
-                            <input ng-disabled="true" placeholder="yyyy-mm-dd" ng-model=workingItem.endDate>
+                            <input placeholder="yyyy-m-d" ng-disabled="true" ng-model=workingItem.endDate>
                         </td>
                     </tr>
 
@@ -95,8 +99,8 @@
 
 
                 <div id="WorkingItem-buttons">
-                    <button ng-click="postWorkingItem()">Buy</button>
-                    <button ng-click="closeWorkingItem()">Cancel</button>
+                    <button class="btn-success" ng-click="postWorkingItem()">Buy</button>
+                    <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
                 </div>
             </div>
 
@@ -116,7 +120,7 @@
             </div>
 
 
-            <table class="items">
+            <table class="table-striped table-hover table-dark items-table ">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -151,12 +155,6 @@
 
     </div>
     <!-- end of Angular app -->
-
-    <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="lib/angular/angular.min.js"></script>
-
     <script src="js/customerApp.js"></script>
 </body>
 
