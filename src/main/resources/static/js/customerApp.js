@@ -70,6 +70,9 @@ app.controller('workingItem', function ($scope, $http) {
         }).then(function mySuccess(response) {
             $scope.workingItem = response.data;
 
+            $scope.workingItem.startDate = new Date($scope.workingItem.startDate);
+            $scope.workingItem.endDate = new Date($scope.workingItem.endDate);
+
         }, function myError(response) {
             $scope.workingItem = response.statusText;
         });

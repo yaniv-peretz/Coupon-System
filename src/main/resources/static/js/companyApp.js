@@ -1,8 +1,12 @@
 var app = angular.module("CompanyApp", []);
 app.controller('compController', function ($scope, $http) {
+    $scope.itemCreateMode = false;
     $scope.client = {
         'id': 'set id in compApp.js'
     }
+
+    $scope.defDate = new Date("2031-05-22");
+
     workingItemElement = document.querySelector("#workingItem");    
     $scope.typeOptions = [
         'RESTURANS',
@@ -13,7 +17,7 @@ app.controller('compController', function ($scope, $http) {
         'CAMPING',
         'TRAVELLING',
     ];
-    $scope.itemCreateMode = false;
+    
     
     $scope.workingItem = {
         "id": 1,
@@ -46,6 +50,8 @@ app.controller('compController', function ($scope, $http) {
     }
 
     $scope.postWorkingItem = function () {
+        $scope.workingItem.startDate = $scope.workingItem.dispalyStartDate.toLocaleDateString();
+        $scope.workingItem.endDate = $scope.workingItem.dispalyEndDate.toLocaleDateString();
 
         url = "company/coupon/";
         $http.post(url, $scope.workingItem);
@@ -60,6 +66,9 @@ app.controller('compController', function ($scope, $http) {
     }
 
     $scope.putWorkingItem = function () {
+
+        $scope.workingItem.startDate = $scope.workingItem.dispalyStartDate.toLocaleDateString();
+        $scope.workingItem.endDate = $scope.workingItem.dispalyEndDate.toLocaleDateString();
 
         url = "company/coupon/";
         $http.put(url, $scope.workingItem);
@@ -150,6 +159,11 @@ app.controller('compController', function ($scope, $http) {
                 $scope.items = response.data;
 
             }
+
+            $scope.items.forEach(item => {
+                item.dispalyStartDate = new Date(item.startDate);
+                item.dispalyEndDate = new Date(item.endDate);                
+            });
 
         }, function myError(response) {
             console.error(response.statusText);

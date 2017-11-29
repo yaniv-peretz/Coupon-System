@@ -54,14 +54,14 @@
                     <tr>
                         <td>startDate:</td>
                         <td>
-                            <input required placeholder="yyyy-m-d" ng-disabled="!itemCreateMode" ng-model=workingItem.startDate>
+                            <input required type="date" ng-disabled="!itemCreateMode" ng-model="workingItem.dispalyStartDate">
                         </td>
                     </tr>
 
                     <tr>
                         <td>endDate:</td>
                         <td>
-                            <input required placeholder="yyyy-m-d" ng-model=workingItem.endDate>
+                            <input required type="date" ng-model="workingItem.dispalyEndDate">
                         </td>
                     </tr>
 
@@ -152,6 +152,7 @@
     </div>
 
     <script src="js/companyApp.js"></script>
+
 </body>
 
 </html>
