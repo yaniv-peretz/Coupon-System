@@ -9,7 +9,7 @@ app.controller('adminCtrl', function ($scope, $http) {
     workingItemElement = document.querySelector("#workingItem");
 
     $scope.changeScope = function () {
-        if($(workingItemElement).hasClass('open-panel')){
+        if ($(workingItemElement).hasClass('open-panel')) {
             $scope.closeWorkingItem();
         }
         getItems();
@@ -120,6 +120,7 @@ app.controller('adminCtrl', function ($scope, $http) {
         }
 
         $http.post(url, $scope.workingItem);
+        $scope.closeWorkingItem();
     }
 
     function deleteItem(item) {
@@ -157,7 +158,7 @@ app.controller('adminCtrl', function ($scope, $http) {
         }
 
         $http.put(url, $scope.workingItem);
-        $scope.closeCreateNewMode();
+        $scope.closeWorkingItem();
     }
 
 
