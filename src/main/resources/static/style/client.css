@@ -13,6 +13,9 @@ h1, .mode-selector {
     text-align: center;
 }
 
+.space{
+    margin-bottom: 25px;
+}
 /* working item */
 #workingItem{
     text-transform: capitalize;
@@ -22,10 +25,16 @@ h1, .mode-selector {
     margin-top: 30px;
     overflow: hidden;
     max-height: 0px;
+    position: absolute;
+    z-index: 1;
+    left: calc(50% - 200px);
+    background-color: rgba(0, 0, 0, 0.85);
 }
 
 #workingItem h4{
     text-align: center;
+    background-color: goldenrod;
+    color: black;
 }
 
 #WorkingItem-buttons{
@@ -41,10 +50,43 @@ h1, .mode-selector {
 }
 
 /* Items table */
-.items-table, .items-table tr, .items-table tr td{
-    margin: auto;
+
+.selectors{
     text-align: center;
-    margin-top:30px;
+    margin: auto;
+}
+
+.items-table{
+    background-color: transparent;
+    margin: auto;
+    border: 5px solid gray;
+}
+.items-table>thead{
+    background-color: black;    
+    color: white;    
+    font-weight: bold;
+}
+
+
+.items-table>tbody{
+    color: black;    
+}
+
+.items-table>tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.items-table>tbody tr:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 0.4);
+ }
+
+
+.items-table>tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+.items-table>thead>tr>th ,.items-table>tbody>tr>td{
+    text-align: center;
 }
 
 /* generics */

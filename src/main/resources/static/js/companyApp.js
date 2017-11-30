@@ -5,8 +5,6 @@ app.controller('compController', function ($scope, $http) {
         'id': 'set id in compApp.js'
     }
 
-    $scope.defDate = new Date("2031-05-22");
-
     workingItemElement = document.querySelector("#workingItem");    
     $scope.typeOptions = [
         'RESTURANS',
@@ -119,7 +117,7 @@ app.controller('compController', function ($scope, $http) {
 
     function getTableData() {
         
-        url = "company/coupon/"
+        var url = "company/coupon/"
         switch ($scope.selectedOption) {
 
             case 'All':

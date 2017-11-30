@@ -11,13 +11,13 @@
 
 <body>
 
-  <div id="welcome" class="box-Border">
+  <div id="welcome" class="box-Border slide-up-fade-in">
     <h1>Welcome to Coupon System</h1>
     <h3>please login in</h3>
   </div>
 
-  <div id="login" class="box-Border">
-    <p id="err">user, password and type do not match, please check again</p>
+  <p class="err" >User, Password or Type do not match, please check again!</p>
+  <div id="login" class="box-Border slide-down-fade-in">
     <form action="http://localhost:8080/login" method="post">
 
       <table id="login-table">
@@ -57,9 +57,21 @@
 
 </body>
 <script>
-  if (window.location.search.includes('err')) {
-    document.querySelector('#err').style.display = "initial";
+  
+  (function() {
+    if (window.location.search.includes('err')) {
+    var element = document.querySelector('.err');
+    element.style.visibility = "visible";
+    element.style.opacity = 1;
+    element.className = element.className + " shake";
+    
+
+    var element = document.querySelector('slide-up-fade-in');
+    $(element).removeClass("slide-up-fade-in")
+    var element = document.querySelector('slide-down-fade-in');
+    $(element).removeClass("slide-down-fade-in")
   }
+})();
 </script>
 
 

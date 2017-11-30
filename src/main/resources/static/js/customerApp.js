@@ -37,10 +37,13 @@ app.controller('workingItem', function ($scope, $http) {
     }
 
     $scope.postWorkingItem = function () {
-
-        url = "customer/coupon/";
+        var url = "customer/coupon/";
+        $scope.workingItem.startDate = $scope.workingItem.displayStartDate.toLocaleDateString();
+        $scope.workingItem.endDate = $scope.workingItem.displayEndDate.toLocaleDateString();
+        
         $http.post(url, $scope.workingItem);
         $scope.closeWorkingItem();
+        $scope.getTableData();
     }
 
     $scope.closeWorkingItem = function () {
@@ -61,7 +64,7 @@ app.controller('workingItem', function ($scope, $http) {
 
     function getWorkingItem() {
 
-        url = "customer/coupon/";
+        var url = "customer/coupon/";
         url += $scope.selectedId;
 
         $http({
@@ -70,8 +73,8 @@ app.controller('workingItem', function ($scope, $http) {
         }).then(function mySuccess(response) {
             $scope.workingItem = response.data;
 
-            $scope.workingItem.startDate = new Date($scope.workingItem.startDate);
-            $scope.workingItem.endDate = new Date($scope.workingItem.endDate);
+            $scope.workingItem.displayStartDate = new Date($scope.workingItem.startDate);
+            $scope.workingItem.displayEndDate = new Date($scope.workingItem.endDate);
 
         }, function myError(response) {
             $scope.workingItem = response.statusText;
@@ -103,7 +106,7 @@ app.controller('itemsTable', function ($scope, $http) {
 
     function getTableData() {
 
-        url = "customer/coupon/"
+        var url = "customer/coupon/"
         switch ($scope.selectedOption) {
 
             case 'All':

@@ -32,7 +32,7 @@
 
         <div ng-controller="workingItem">
 
-            <div class="mode-selector">
+            <div class="mode-selector space">
                 <h4>Coupon Details</h4>
                 <form>
                     <input required type="number" min="1" ng-model="selectedId" size=6>
@@ -43,6 +43,7 @@
 
             <form>
                 <div id="workingItem">
+                    <h4>Coupon Details</h4>
 
                     <table>
                         <tr>
@@ -70,14 +71,14 @@
                         <tr>
                             <td>startDate:</td>
                             <td>
-                                <input type="date" ng-disabled="true" ng-model="workingItem.startDate">
+                                <input type="date" ng-disabled="true" ng-model="workingItem.displayStartDate">
                             </td>
                         </tr>
 
                         <tr>
                             <td>endDate:</td>
                             <td>
-                                <input type="date" ng-disabled="true" ng-model="workingItem.endDate">
+                                <input type="date" ng-disabled="true" ng-model="workingItem.displayEndDate">
                             </td>
                         </tr>
 
@@ -116,7 +117,7 @@
 
         <div ng-controller="itemsTable">
 
-            <div class="items-table">
+            <div class="selectors">
                 <select ng-model="selectedOption" ng-options="item for item in options"></select>
 
                 <input ng-show="selectedOption.includes('By Date')" ng-model="filter" />
@@ -127,7 +128,7 @@
             </div>
 
 
-            <table class="table-striped table-hover table-dark items-table ">
+            <table class="items-table">
                 <thead>
                     <tr>
                         <th>ID</th>

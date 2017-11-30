@@ -16,7 +16,7 @@
 
     <div ng-app="CompanyApp" ng-controller="compController">
 
-        <div class="main-header">
+        <div class="main-header space">
             <header>logged in as company #{{client.id}}</header>
             <a href="index.html">
                 <h1>Company Coupon Management</h1>
@@ -99,7 +99,7 @@
         </form>
 
         <div>
-            <div class="items-table">
+            <div class="selectors">
                 <select ng-model="selectedOption" ng-options="item for item in options"></select>
 
                 <input ng-show="selectedOption.includes('By Date')" ng-model="filter" />
@@ -109,7 +109,7 @@
                 <button ng-click="getTableData()">Get Coupons!</button>
             </div>
 
-            <table class="table-striped table-hover table-dark items-table ">
+            <table class="items-table">
                 <thead>
                     <tr>
                         <th>ID</th>
