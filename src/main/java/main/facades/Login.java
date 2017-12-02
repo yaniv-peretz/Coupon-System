@@ -1,4 +1,4 @@
-package facade;
+package main.facades;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -16,6 +16,7 @@ import main.CouponSystem;
 /**
  * Servlet implementation class Login
  */
+
 @Controller
 @RequestMapping("/login")
 public class Login extends HttpServlet {

@@ -1,4 +1,4 @@
-package facade;
+package main.facades;
 
 import java.util.HashSet;
 import org.springframework.http.HttpStatus;
