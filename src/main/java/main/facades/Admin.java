@@ -1,6 +1,9 @@
 package main.facades;
 
 import java.util.HashSet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import clientFacade.AdminFacade;
-import clientFacade.ClientType;
 import javaBeans.Company;
 import javaBeans.Customer;
 import webComponents.WebCompany;
@@ -21,8 +23,9 @@ import webComponents.WebCustomer;;
 @RequestMapping("/admin")
 public class Admin {
 	
-	private AdminFacade getFacade() {
-		AdminFacade admin = new AdminFacade().login("admin", "1234", ClientType.ADMIN);
+	private AdminFacade getFacade(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		AdminFacade admin = (AdminFacade) session.getAttribute("client");
 		return admin;
 		
 	}
@@ -32,9 +35,12 @@ public class Admin {
 	// #################
 	
 	@RequestMapping(value = "customer/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<WebCustomer> getCustomer(@PathVariable("id") int id) {
+	public @ResponseBody ResponseEntity<WebCustomer> getCustomer(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@PathVariable("id") int id) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		
 		Customer Customer = admin.getCustomer(id);
 		WebCustomer webCustomer = WebCustomer.returnWebCustomer(Customer);
@@ -48,9 +54,12 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "customer", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> postCustomer(@RequestBody WebCustomer webCustomer) {
+	public @ResponseBody ResponseEntity<Object> postCustomer(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody WebCustomer webCustomer) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		Customer cust = WebCustomer.returnCustomer(webCustomer);
 		
 		admin.createCustomer(cust);
@@ -63,9 +72,12 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "customer", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<Object> updateCustomer(@RequestBody WebCustomer webCustomer) {
+	public @ResponseBody ResponseEntity<Object> updateCustomer(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody WebCustomer webCustomer) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		Customer cust = WebCustomer.returnCustomer(webCustomer);
 		
 		admin.updateCustomer(cust);
@@ -78,9 +90,12 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "customer", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<Object> deleteCustomer(@RequestBody WebCustomer webCustomer) {
+	public @ResponseBody ResponseEntity<Object> deleteCustomer(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody WebCustomer webCustomer) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		Customer cust = WebCustomer.returnCustomer(webCustomer);
 		
 		admin.removeCustomer(cust);
@@ -93,9 +108,11 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "customer/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<HashSet<WebCustomer>> doGetCustomers() {
+	public @ResponseBody ResponseEntity<HashSet<WebCustomer>> doGetCustomers(
+			HttpServletRequest request,
+			HttpServletResponse response) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		
 		HashSet<Customer> companies = admin.getAllCustomers();
 		HashSet<WebCustomer> webCompanies = new HashSet<>();
@@ -115,9 +132,12 @@ public class Admin {
 	// #################
 	
 	@RequestMapping(value = "company/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<WebCompany> getCompany(@PathVariable("id") int id) {
+	public @ResponseBody ResponseEntity<WebCompany> getCompany(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@PathVariable("id") int id) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		
 		Company comp = admin.getCompany(id);
 		WebCompany webComp = new WebCompany(comp);
@@ -130,9 +150,12 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "company", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> postCompany(@RequestBody WebCompany webCompany) {
+	public @ResponseBody ResponseEntity<Object> postCompany(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody WebCompany webCompany) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		Company comp = WebCompany.retutnCompany(webCompany);
 		
 		admin.CreateCompany(comp);
@@ -145,9 +168,12 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "company", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<Object> updateCompany(@RequestBody WebCompany webCompany) {
+	public @ResponseBody ResponseEntity<Object> updateCompany(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody WebCompany webCompany) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		Company comp = WebCompany.retutnCompany(webCompany);
 		
 		admin.updateCompany(comp);
@@ -160,9 +186,12 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "company", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<Object> deleteCompany(@RequestBody WebCompany webCompany) {
+	public @ResponseBody ResponseEntity<Object> deleteCompany(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody WebCompany webCompany) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		Company comp = WebCompany.retutnCompany(webCompany);
 		
 		admin.removeCompany(comp);
@@ -171,9 +200,11 @@ public class Admin {
 	}
 	
 	@RequestMapping(value = "/company/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Object> doGetCompanies() {
+	public @ResponseBody ResponseEntity<Object> doGetCompanies(
+			HttpServletRequest request,
+			HttpServletResponse response) {
 		
-		AdminFacade admin = getFacade();
+		AdminFacade admin = getFacade(request, response);
 		
 		HashSet<Company> companies = admin.getAllCompanies();
 		HashSet<WebCompany> webCompanies = new HashSet<>();
