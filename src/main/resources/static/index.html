@@ -5,73 +5,108 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Coupon System - Login</title>
+
+  <!-- Bootstrap & JQuery -->
   <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+  <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
+  <script src="lib/Popper/popper.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="style/master.css">
 </head>
 
 <body>
 
-  <div id="welcome" class="box-Border slide-up-fade-in">
-    <h1>Welcome to Coupon System</h1>
-    <h3>please login in</h3>
-  </div>
+  <div class="container-fluid">
 
-  <p class="err" >User, Password or Type do not match, please check again!</p>
-  <div id="login" class="box-Border slide-down-fade-in">
-    <form action="http://localhost:8080/login" method="post">
+    <div class="row">
 
-      <table id="login-table">
-        <tbody>
-          <tr>
-            <td>
-              <label for="user">User Name:</label>
-            </td>
-            <td>
-              <input required type="text" name="user" placeholder="user name">
-            </td>
-          </tr>
-        </tbody>
+      <div class="col-md-3"></div>
 
-        <tr>
-          <td>
-            <label for="password:">Password:</label>
-          </td>
-          <td>
-            <input required type="password" name="password" placeholder="password">
-          </td>
-        </tr>
-      </table>
-
-      <div >
-        <select name="selector" class="buttons">
-            <option value="admin">Admin</option>
-            <option value="company">Company</option>
-            <option value="customer">Customer</option>
-        </select>
-
-        <input type="submit" class="buttons btn-warning" value="Login">
+      <div class="col-12 col-md-6">
+        <div class="box-Border capitalize slide-up-fade-in">
+          <h1>Welcome to Coupon System</h1>
+          <h3>please login in</h3>
+        </div>
       </div>
 
-    </form>
-  </div>
+      <div class="col-md-3"></div>
+    </div>
 
+    <div class="row">      
+      <p class="col-12 err">User, Password or Type do not match, please check again!</p>
+    </div>
+
+    <div class="row">
+
+      <div class="col-2 col-md-4"></div>
+
+      <div id="login" class="col-8 col-md-4 box-Border capitalize slide-down-fade-in">
+        <form action="http://localhost:8080/login" method="post">
+          <table id="login-table">
+
+            <tbody>
+              <tr>
+                <td>
+                  <label for="user">User Name:</label>
+                </td>
+                <td>
+                  <input required type="text" name="user" placeholder="user name" class="form-control">
+                </td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <label for="password:">Password:</label>
+                </td>
+                <td>
+                  <input required type="password" name="password" placeholder="password" class="form-control">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="row">
+
+            <div class="col-6">
+              <select name="selector" class="form-control buttons">
+                <option value="admin">Admin</option>
+                <option value="company">Company</option>
+                <option value="customer">Customer</option>
+              </select>
+            </div>
+
+            <div class="col-6">
+              <input type="submit" class="form-control  btn-warning" value="Login">
+            </div>
+
+          </div>
+
+        </form>
+    
+      <div class="col-2 col-md-4"></div>
+
+
+    </div> <!-- </div> end of login box -->
+  </div> <!-- end of row -->
+</div><!-- </div> end of container -->
 </body>
 <script>
-  
-  (function() {
-    if (window.location.search.includes('err')) {
-    var element = document.querySelector('.err');
-    element.style.visibility = "visible";
-    element.style.opacity = 1;
-    element.className = element.className + " shake";
-    
 
-    var element = document.querySelector('slide-up-fade-in');
-    $(element).removeClass("slide-up-fade-in")
-    var element = document.querySelector('slide-down-fade-in');
-    $(element).removeClass("slide-down-fade-in")
-  }
-})();
+  (function () {
+    if (window.location.search.includes('err')) {
+      var element = document.querySelector('.err');
+      element.style.visibility = "visible";
+      element.style.opacity = 1;
+      element.className = element.className + " shake";
+
+
+      var element = document.querySelector('slide-up-fade-in');
+      $(element).removeClass("slide-up-fade-in")
+      var element = document.querySelector('slide-down-fade-in');
+      $(element).removeClass("slide-down-fade-in")
+    }
+  })();
 </script>
 
 

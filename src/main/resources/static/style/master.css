@@ -4,19 +4,13 @@ body{
 }
 
 .box-Border{
-    width: -moz-fit-content;
-    width: fit-content;
     border: 1px solid goldenrod;
-    padding: 10px;
-    margin: auto;
     text-align: center;
+    padding: 2%;
 }
 
-#welcome{
+.capitalize{
     text-transform: capitalize;
-    margin-top: 75px;
-    margin-bottom: 25px;
-    
 }
 
 
@@ -30,18 +24,21 @@ body{
     transition: opacity 2s ease-out;
 }
 
+#login{
+    padding: 5px;
+}
 #login form table tr td label ,{
     text-transform: capitalize;
+    
 }
 
-#login-table tbody tr td{
-    padding: 10px;
+#login-table{
+    margin:auto;
 }
 
 .buttons, .buttons option{
     text-transform: capitalize;
     margin: auto;
-    height: 37px;
 }
 
 .shake {
