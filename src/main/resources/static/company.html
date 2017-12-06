@@ -3,152 +3,169 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="lib/angular/angular.min.js"></script>
-    <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
+    <title>Company WorkBench</title>
 
+    <!-- Bootstrap & JQuery -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
+    <script src="lib/Popper/popper.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- AngularJs -->
+    <script src="lib/angular/angular.min.js"></script>
+
     <link rel="stylesheet" href="style/master.css">
     <link rel="stylesheet" href="style/client.css">
-
+    <link rel="stylesheet" href="style/responsive-font-sizes.css">
 </head>
 
-<body>
+<body ng-app="CompanyApp" ng-controller="compController">
 
-    <div ng-app="CompanyApp" ng-controller="compController">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
 
-        <div class="main-header space">
-            <header>logged in as company #{{client.id}}</header>
-            <a href="index.html">
-                <h1>Company Coupon Management</h1>
-            </a>
-            <button class="btn-warning" ng-click="openCreateNewItem()">Create New Coupon</button>
-        </div>
-
-        <form>
-            <div id="workingItem">
-                <h4>Coupon Details</h4>
-
-                <table>
-                    <tr>
-                        <td>ID:</td>
-                        <td>
-                            <input required ng-disabled="true" type="number" ng-model=workingItem.id>
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>title:</td>
-                        <td>
-                            <input required ng-disabled="!itemCreateMode" ng-model=workingItem.title>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>type:</td>
-                        <td>
-                            <select required ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>startDate:</td>
-                        <td>
-                            <input required type="date" ng-disabled="!itemCreateMode" ng-model="workingItem.dispalyStartDate">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>endDate:</td>
-                        <td>
-                            <input required type="date" ng-model="workingItem.dispalyEndDate">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>amount:</td>
-                        <td>
-                            <input required ng-model=workingItem.amount>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>price:</td>
-                        <td>
-                            <input required ng-model=workingItem.price>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>image:</td>
-                        <td>
-                            <input ng-model=workingItem.image>
-                        </td>
-                    </tr>
-                </table>
-
-
-                <div id="WorkingItem-buttons">
-
-                    <button class="btn-success" type="submit" ng-show="itemCreateMode" ng-click="postWorkingItem()">Submit</button>
-                    <button class="btn-success" type="submit" ng-hide="itemCreateMode" ng-click="putWorkingItem()">Update</button>
-                    <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
+                <div class="main-header">
+                    <header>logged in as company #{{client.id}}</header>
+                    <a href="index.html">
+                        <h1>Company Coupon Management</h1>
+                    </a>
+                    <button class="btn-warning" ng-click="openCreateNewItem()">Create New Coupon</button>
                 </div>
 
             </div>
-        </form>
-
-        <div>
-            <div class="selectors">
-                <select ng-model="selectedOption" ng-options="item for item in options"></select>
-
-                <input ng-show="selectedOption.includes('By Date')" ng-model="filter" />
-                <input ng-show="selectedOption.includes('By Price')" size=1 ng-model="filter" />
-                <select ng-show="selectedOption.includes('By Type')" ng-model="filter" ng-options="type for type in typeOptions"></select>
-
-                <button ng-click="getTableData()">Get Coupons!</button>
-            </div>
-
-            <table class="items-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Start Date</th>
-                        <th>Start End</th>
-                        <th>Amount</th>
-                        <th>Price</th>
-                        <th>Message</th>
-                        <th>image</th>
-                        <th>actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr ng-repeat="x in items | orderBy:'id'">
-                        <td>{{x.id}}</td>
-                        <td>{{x.title}}</td>
-                        <td>{{x.type}}</td>
-                        <td>{{x.startDate}}</td>
-                        <td>{{x.endDate}}</td>
-                        <td>{{x.amount}}</td>
-                        <td>{{x.price}}</td>
-                        <td>{{x.message}}</td>
-                        <td>{{x.image}}</td>
-                        <td>
-                            <button class="btn-primary" ng-click="openEditItem(x)">update</button>
-                            <button class="btn-danger" ng-click="openDeleteConfirmation(x)">delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-
-
-
     </div>
 
+
+    <form>
+        <div id="workingItem">
+            <h4>Coupon Details</h4>
+
+            <table>
+                <tr>
+                    <td>ID:</td>
+                    <td>
+                        <input required ng-disabled="true" type="number" ng-model=workingItem.id>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>title:</td>
+                    <td>
+                        <input required ng-disabled="!itemCreateMode" ng-model=workingItem.title>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>type:</td>
+                    <td>
+                        <select required ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>startDate:</td>
+                    <td>
+                        <input required type="date" ng-disabled="!itemCreateMode" ng-model="workingItem.dispalyStartDate">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>endDate:</td>
+                    <td>
+                        <input required type="date" ng-model="workingItem.dispalyEndDate">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>amount:</td>
+                    <td>
+                        <input required ng-model=workingItem.amount>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>price:</td>
+                    <td>
+                        <input required ng-model=workingItem.price>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>image:</td>
+                    <td>
+                        <input ng-model=workingItem.image>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div id="WorkingItem-buttons">
+
+                <button class="btn-success" type="submit" ng-show="itemCreateMode" ng-click="postWorkingItem()">Submit</button>
+                <button class="btn-success" type="submit" ng-hide="itemCreateMode" ng-click="putWorkingItem()">Update</button>
+                <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
+            </div>
+
+        </div>
+    </form>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+
+                <div>
+                    <div class="selectors">
+                        <select ng-model="selectedOption" ng-options="item for item in options"></select>
+
+                        <input ng-show="selectedOption.includes('By Date')" ng-model="filter" />
+                        <input ng-show="selectedOption.includes('By Price')" size=1 ng-model="filter" />
+                        <select ng-show="selectedOption.includes('By Type')" ng-model="filter" ng-options="type for type in typeOptions"></select>
+
+                        <button ng-click="getTableData()">Get Coupons!</button>
+                    </div>
+
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Start Date</th>
+                                <th>Start End</th>
+                                <th>Amount</th>
+                                <th>Price</th>
+                                <th>Message</th>
+                                <th>image</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="x in items | orderBy:'id'">
+                                <td>{{x.id}}</td>
+                                <td>{{x.title}}</td>
+                                <td>{{x.type}}</td>
+                                <td>{{x.startDate}}</td>
+                                <td>{{x.endDate}}</td>
+                                <td>{{x.amount}}</td>
+                                <td>{{x.price}}</td>
+                                <td>{{x.message}}</td>
+                                <td>{{x.image}}</td>
+                                <td>
+                                    <button class="btn-primary button-spacing" ng-click="openEditItem(x)">update</button>
+                                    <button class="btn-danger" ng-click="openDeleteConfirmation(x)">delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <script src="js/companyApp.js"></script>

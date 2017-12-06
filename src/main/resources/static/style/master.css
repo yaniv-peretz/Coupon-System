@@ -1,10 +1,9 @@
-
 body{
     background-color: black;
     color: goldenrod;    
 }
 
-.box-Border{
+.Bordering-box{
     border: 1px solid goldenrod;
     text-align: center;
     padding: 2%;
@@ -14,6 +13,13 @@ body{
     text-transform: capitalize;
 }
 
+.header-box{
+    width: fit-content;
+    display: table;
+    margin: auto;
+}
+
+/* Animations */
 
 .err{
     color: red;
@@ -25,23 +31,6 @@ body{
     transition: opacity 2s ease-out;
 }
 
-#login{
-    padding: 5px;
-}
-#login form table tr td label ,{
-    text-transform: capitalize;
-    
-}
-
-#login-table{
-    margin:auto;
-}
-
-.buttons, .buttons option{
-    text-transform: capitalize;
-    margin: auto;
-}
-
 .shake {
     -webkit-animation-name: spaceboots;
     -webkit-animation-delay: 0.5s;
@@ -51,9 +40,6 @@ body{
 	-webkit-animation-timing-function: linear;
 }
 
-
-
-
 @-webkit-keyframes spaceboots {
     0% { -webkit-transform: translate(1px, 0px); }
 	20% { -webkit-transform: translate(-2px, 0px); }
@@ -62,17 +48,6 @@ body{
 	80% { -webkit-transform: translate(2px, 0px); }
 	100% { -webkit-transform: translate(-1px, 0px); }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 .slide-up-fade-in{
     animation: slide-up-fade-in ease 2s;
@@ -101,7 +76,6 @@ body{
 
 }
 
-
 .slide-down-fade-in{
     animation: slide-down-fade-in ease 2s;
     animation-iteration-count: 1;
@@ -128,9 +102,6 @@ body{
     opacity: 1\9;
 
 }
-
-
-
 
 @keyframes slide-up-fade-in{
     0% {
@@ -186,12 +157,6 @@ body{
         -ms-transform:  translate(0px,0px)  ;
     }
 } 
-
-
-
-
-
-
 
 @keyframes slide-down-fade-in{
     0% {

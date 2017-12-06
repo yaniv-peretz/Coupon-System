@@ -3,26 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>Admin WorkBench</title>
 
     <!-- Bootstrap & JQuery -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
     <script src="lib/Popper/popper.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-
+    
     <!-- AngularJs -->
     <script src="lib/angular/angular.min.js"></script>
-
+    
     <link rel="stylesheet" href="style/master.css">
     <link rel="stylesheet" href="style/client.css">
+    <link rel="stylesheet" href="style/responsive-font-sizes.css">
 </head>
 
 <body ng-app="adminModule" ng-controller="adminCtrl">
 
-    <div class="container">
-
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
+
                 <div class="main-header">
                     <header class="header">logged in as {{client}}</header>
                     <a href="index.html">
@@ -52,57 +54,54 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-12">
-                <form>
-                    <div id="workingItem">
-                        <h4 ng-show="mode.includes('comps')">Company Details</h4>
-                        <h4 ng-hide="mode.includes('comps')">Customer Details</h4>
 
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>ID:</td>
-                                    <td>
-                                        <input ng-disabled="true" type="number" ng-model=workingItem.id>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Name:</td>
-                                    <td>
-                                        <input required ng-disabled="!itemCreateMode" ng-show="mode.includes('comps')" ng-model="workingItem.compName">
-                                        <input required ng-disabled="!itemCreateMode" ng-hide="mode.includes('comps')" ng-model="workingItem.custName">
-                                    </td>
-                                </tr>
-                                <tr ng-show="mode.includes('comps')">
-                                    <td>email:</td>
-                                    <td>
-                                        <input required ng-model="workingItem.email">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>password:</td>
-                                    <td>
-                                        <input required ng-model="workingItem.password">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+    <form>
+        <div id="workingItem">
+            <h4 ng-show="mode.includes('comps')">Company Details</h4>
+            <h4 ng-hide="mode.includes('comps')">Customer Details</h4>
 
-                        <div id="WorkingItem-buttons">
-                            <button class="btn-success" ng-show=itemCreateMode ng-click="sendNewItem()">Send</button>
-                            <button class="btn-success" ng-hide=itemCreateMode ng-click="sendUpdateItem()">Update</button>
-                            <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
-                        </div>
-                    </div>
-                </form>
-                <!-- end of working item -->
+            <table>
+                <tbody>
+                    <tr>
+                        <td>ID:</td>
+                        <td>
+                            <input ng-disabled="true" type="number" ng-model=workingItem.id>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+                            <input required ng-disabled="!itemCreateMode" ng-show="mode.includes('comps')" ng-model="workingItem.compName">
+                            <input required ng-disabled="!itemCreateMode" ng-hide="mode.includes('comps')" ng-model="workingItem.custName">
+                        </td>
+                    </tr>
+                    <tr ng-show="mode.includes('comps')">
+                        <td>email:</td>
+                        <td>
+                            <input required ng-model="workingItem.email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>password:</td>
+                        <td>
+                            <input required ng-model="workingItem.password">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
+            <div id="WorkingItem-buttons">
+                <button class="btn-success" ng-show=itemCreateMode ng-click="sendNewItem()">Send</button>
+                <button class="btn-success" ng-hide=itemCreateMode ng-click="sendUpdateItem()">Update</button>
+                <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
             </div>
         </div>
+    </form>
+    <!-- end of working item -->
 
-
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <table class="items-table">
@@ -124,7 +123,7 @@
                             <td ng-show="mode.includes('comps')">{{x.email}}</td>
                             <td>{{x.password}}</td>
                             <td>
-                                <button class="btn-primary" ng-click="openUpdateItem(x)">update</button>
+                                <button class="btn-primary button-spacing" ng-click="openUpdateItem(x)">update</button>
                                 <button class="btn-danger" ng-click="openDeleteConfirmation(x)">delete</button>
                             </td>
                         </tr>
@@ -133,6 +132,7 @@
             </div>
         </div>
     </div>
+    <!--End of container  -->
 
     <script src="js/adminApp.js"></script>
 </body>
