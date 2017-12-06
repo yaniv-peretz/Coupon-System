@@ -1,3 +1,5 @@
+*{margin: 0px; padding: 0px}
+
 .main-header header{
     text-align: right;
 }
@@ -13,21 +15,17 @@ h1, .mode-selector {
     text-align: center;
 }
 
-.space{
-    margin-bottom: 25px;
-}
+
 /* working item */
 #workingItem{
     text-transform: capitalize;
     text-align: left;
-    width: 400px;
     margin: auto;
     margin-top: 30px;
     overflow: hidden;
     max-height: 0px;
     position: absolute;
     z-index: 1;
-    left: calc(50% - 200px);
     background-color: rgba(0, 0, 0, 0.85);
 }
 
