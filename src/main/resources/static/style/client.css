@@ -1,8 +1,11 @@
-.main-header header{
-    text-align: right;
-}
+*{margin: 0px; padding: 0px}
+
 .main-header {
     text-align: center;
+}
+
+.main-header header{
+    text-align: right;
 }
 
 .main-header a{
@@ -13,22 +16,20 @@ h1, .mode-selector {
     text-align: center;
 }
 
-.space{
-    margin-bottom: 25px;
-}
 /* working item */
 #workingItem{
     text-transform: capitalize;
     text-align: left;
-    width: 400px;
-    margin: auto;
     margin-top: 30px;
     overflow: hidden;
     max-height: 0px;
     position: absolute;
     z-index: 1;
-    left: calc(50% - 200px);
     background-color: rgba(0, 0, 0, 0.85);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
 
 #workingItem h4{
@@ -67,6 +68,9 @@ h1, .mode-selector {
     font-weight: bold;
 }
 
+.items-table{
+    white-space: nowrap;
+}
 
 .items-table>tbody{
     color: black;    
@@ -87,6 +91,10 @@ h1, .mode-selector {
 
 .items-table>thead>tr>th ,.items-table>tbody>tr>td{
     text-align: center;
+}
+
+.button-spacing{
+    margin-right: 10px;    
 }
 
 /* generics */

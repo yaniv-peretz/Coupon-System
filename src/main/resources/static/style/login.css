@@ -1,0 +1,22 @@
+@media (min-width: 992px) {
+    #Welcome{
+            margin-top: 25px 
+    }
+}   
+
+#login{
+    padding: 5px;
+}
+
+#login form table tr td label ,{
+    text-transform: capitalize;    
+}
+
+#login-table{
+    margin:auto;
+}
+
+.buttons, .buttons option{
+    text-transform: capitalize;
+    margin: auto;
+}

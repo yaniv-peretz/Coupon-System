@@ -1,0 +1,50 @@
+/* setting fot the smallest media types */
+@media (min-width: 1px) {
+  body{font-size: small;}
+  h1{font-size: 1.88em;}
+  h2{font-size: 1.38em;}
+  h3{font-size: 1.05em;}
+  h4{font-size: 0.88em;}
+  h5{font-size: 0.71em;}
+  h6{font-size: 0.55em;}
+  }
+
+@media (min-width: 576px) {
+    body{font-size: small;}
+    h1{font-size: 1.9em;}
+    h2{font-size: 1.4em;}
+    h3{font-size: 1.07em;}
+    h4{font-size: 0.9em;}
+    h5{font-size: 0.73em;}
+    h6{font-size: 0.57em;}
+  }
+  
+  @media (min-width: 768px) {
+    body{font-size: medium;}
+    h1{font-size: 1.95em;}
+    h2{font-size: 1.45em;}
+    h3{font-size: 1.12em;}
+    h4{font-size: 0.95em;}
+    h5{font-size: 0.78em;}
+    h6{font-size: 0.62em;}
+  }
+  
+  @media (min-width: 992px) {
+    body{font-size: medium;}
+    h1{font-size: 2em;}
+    h2{font-size: 1.5em;}
+    h3{font-size: 1.17em;}
+    h4{font-size: 1em;}
+    h5{font-size: 0.83em;}
+    h6{font-size: 0.67em;}
+  }
+  
+  @media (min-width: 1200px) {
+    body{font-size: large;}
+    h1{font-size: 2.1em;}
+    h2{font-size: 1.6em;}
+    h3{font-size: 1.27em;}
+    h4{font-size: 1.1em;}
+    h5{font-size: 0.93em;}
+    h6{font-size: 0.77em;}
+  }
