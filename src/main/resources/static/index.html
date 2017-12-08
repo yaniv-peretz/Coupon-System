@@ -1,113 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Coupon System - Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Public</title>
 
-  <!-- Bootstrap & JQuery -->
-  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-  <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
-  <script src="lib/Popper/popper.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- JQuery & AngularJs -->
+    <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
+    <script src="lib/Popper/popper.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
 
-  <link rel="stylesheet" href="style/master.css">
-  <link rel="stylesheet" href="style/login.css">
-  <link rel="stylesheet" href="style/responsive-font-sizes.css">
-  
+    <!-- AngularJS Controller -->
+    <script src="js/public.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/master.css">
+    <link rel="stylesheet" href="style/public.css">
+    <link rel="stylesheet" href="style/responsive-font-sizes.css">
 </head>
 
-<body>
+<body ng-app="publicModule" ng-controller="public-Controller">
 
-  <div class="container-fluid">
+    <h1 class="header">Discount Coupon Portal</h1>
 
-    <div class="row">
+    <!-- side Panel Cart -->
+    <span class="cart">
+        <div class="cart-content">
+            <h3 class="cart-center-position underline">My Cart</h3>
+            <ul>
+                <li ng-repeat="coupon in cart">{{coupon.title}}</li>
+            </ul>
 
-      <div class="col-12">
-        <div id="Welcome" class="Bordering-box header-box capitalize slide-up-fade-in">          
-          <h1>Welcome to Coupon System</h1>
-          <h3>please login in</h3>
+            <div class="buy-button">
+                <button ng-disabled="!loggedIn" class="btn btn-primary cart-center-position">By all</button>
+            </div>
+            <div ng-if="!loggedIn" class="cart-customer-coupons">
+
+                <p class="cart-center-position">please log in</p>
+                <hr>
+                <table>
+                    <tr>
+                        <td>user</td>
+                        <td>
+                            <input required id="user" name="user" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td>
+                            <input required id="password" type="password" name="password" class="form-control">
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" ng-click="login()" class="btn btn-primary cart-center-position">
+
+            </div>
+
+
+            <div ng-if="loggedIn" class="cart-customer-coupons">
+                <h3 class="cart-center-position underline">My Coupons</h3>
+                <ul>
+                    <li ng-repeat="coupon in customerCoupons">{{coupon.title}}</li>
+                </ul>
+
+            </div>
         </div>
-      </div>
-
-    </div>
-
-    <div class="row">      
-      <p class="col-12 err">User, Password or Type do not match, please check again!</p>
-    </div>
-
-    <div class="row">
-
-      <div class="col-2 col-sm-4"></div>
-
-      <div id="login" class="col-8 col-sm-4 Bordering-box capitalize slide-down-fade-in">
-        <form action="http://localhost:8080/login" method="post">
-          <table id="login-table">
-
-            <tbody>
-              <tr>
-                <td>
-                  <label for="user">User Name:</label>
-                </td>
-                <td>
-                  <input required type="text" name="user" placeholder="user name" class="form-control">
-                </td>
-              </tr>
-              
-              <tr>
-                <td>
-                  <label for="password:">Password:</label>
-                </td>
-                <td>
-                  <input required type="password" name="password" placeholder="password" class="form-control">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="row">
-
-            <div class="col-6">
-              <select name="selector" class="form-control buttons">
-                <option value="admin">Admin</option>
-                <option value="company">Company</option>
-                <option value="customer">Customer</option>
-              </select>
-            </div>
-
-            <div class="col-6">
-              <input type="submit" class="form-control  btn-warning" value="Login">
-            </div>
-
-          </div>
-
-        </form>
-    
-      <div class="col-2 col-sm-4"></div>
+        <span class="cart-toggle" ng-click="openCart()">
+            <hr>
+            <hr>
+            <hr>
+        </span>
+    </span>
 
 
-    </div> <!-- </div> end of login box -->
-  </div> <!-- end of row -->
-</div><!-- </div> end of container -->
+    <!-- Main Page Coupons -->
+    <ul class="container-coupons">
+        <li ng-repeat="x in coupons">
+            <h3>{{x.title}}</h3>
+            <img src="./resources/No_Image_Available.jpg" alt="no image">
+            <p class="coupon-desc">{{x.message}}</p>
+            <p class="coupon-price">price: {{x.price}}$</p>
+            <button ng-click="addToCart(x)" class="coupon-buy btn btn-primary">buy Me!</button>
+        </li>
+
+    </ul>
+
+    <div class="footer">
+        <span> <a href="/workbench.html">management Workbench</a></span>
+        <span>@Discound Coupons LTD, by Yaniv Peretz</span>
+        </div>
 </body>
-<script>
-
-  (function () {
-    if (window.location.search.includes('err')) {
-      var element = document.querySelector('.err');
-      element.style.visibility = "visible";
-      element.style.opacity = 1;
-      element.className = element.className + " shake";
-
-
-      var element = document.querySelector('slide-up-fade-in');
-      $(element).removeClass("slide-up-fade-in")
-      var element = document.querySelector('slide-down-fade-in');
-      $(element).removeClass("slide-down-fade-in")
-    }
-  })();
-</script>
-
 
 </html>

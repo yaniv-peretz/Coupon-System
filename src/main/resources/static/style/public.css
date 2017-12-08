@@ -1,0 +1,112 @@
+body{
+    color: black;
+}
+
+.cart{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    z-index: 1;
+}
+
+.cart-content{
+    overflow: hidden;
+    position: relative;
+    width: 0px;
+    max-width: 200px;
+    height: 400px;
+    background-color: goldenrod;
+    -webkit-transition: width 0.3s ease-out;
+    -moz-transition: width 0.3s ease-out;
+    transition: width 0.3s ease-out;
+
+}
+
+.cart-toggle{
+    width: 25px;
+    height: 25px;
+    background-color: goldenrod;
+}
+
+.cart-toggle hr{
+    background-color: black;
+    margin: 5px;
+}
+
+.cart-center-position{
+    display: block;
+    margin: auto;
+    text-align: center; 
+}
+
+.cart-customer-coupons{
+    position: absolute;
+    bottom: 0px;
+    margin: 10px;
+}
+
+
+.header {
+    margin-top: 0px;
+    background-color: goldenrod;
+    color: purple;
+    text-align: center;
+}
+
+.container-coupons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.container-coupons li {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    background-color: lightgreen;
+    margin: 10px;
+    border: 3px dashed black;
+}
+
+.container-coupons h3 {
+    margin-top: 2px;
+    text-align: center;
+}
+
+.container-coupons img {
+    width: 100%;
+}
+
+.coupon-desc {
+    position: absolute;
+    left: 3px;
+    bottom: 30px;
+}
+
+.coupon-price {
+    position: absolute;
+    bottom: 3px;
+    right: 5px;
+    margin-bottom: 0px;
+    font-weight: 900;
+}
+
+.coupon-buy{
+    position: absolute;
+    bottom: 3px;
+    left: 5px;
+}
+
+.footer{
+    background-color: goldenrod;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+}
+
+.underline{
+    text-decoration: underline;
+}

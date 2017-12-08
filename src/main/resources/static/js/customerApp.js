@@ -135,8 +135,8 @@ app.controller('itemsTable', function ($scope, $http) {
         }
 
         $http({
-            method: "GET",
-            url: url,
+            'method': "GET",
+            'url': url,
         }).then(function mySuccess(response) {
 
             if (response.data instanceof Object && response.data.constructor === Object) {

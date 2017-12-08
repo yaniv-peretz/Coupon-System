@@ -17,7 +17,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/yaniv/workspace/spring-workspace/CouponSystemServer/lib/CouponSys.jar" sourcepath="lib/CouponSys.jar"/>
 	<classpathentry kind="lib" path="/home/yaniv/workspace/spring-workspace/CouponSystemServer/lib/mysql-connector.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
@@ -29,5 +28,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/yaniv/workspace/spring-workspace/CouponSystemServer/lib/CouponSys.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
