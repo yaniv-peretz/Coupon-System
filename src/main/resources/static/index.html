@@ -27,17 +27,24 @@
 
     <h1 class="header">Discount Coupon Portal</h1>
 
-    <!-- side Panel Cart -->
+    <!-- 
+    #######################
+        side Panel Cart 
+    #######################
+    -->
     <span class="cart">
+
         <div class="cart-content">
             <h3 class="cart-center-position underline">My Cart</h3>
-            <ul>
-                <li ng-repeat="coupon in cart">{{coupon.title}}</li>
-            </ul>
-
-            <div class="buy-button">
+            <div>
+                <ul>
+                    <li ng-repeat="coupon in cart">{{coupon.title}}</li>
+                </ul>
+            </div>
+            <div class="cart-button">
                 <button ng-disabled="!loggedIn || cart.length == 0" ng-click="buyAllCoupons()" class="btn btn-primary cart-center-position">By all</button>
             </div>
+
             <div ng-if="!loggedIn" class="cart-customer-coupons">
 
                 <p class="cart-center-position">please log in</p>
@@ -56,7 +63,9 @@
                         </td>
                     </tr>
                 </table>
-                <input type="submit" ng-click="login()" class="btn btn-primary cart-center-position">
+                <div class="cart-button">
+                    <input type="submit" ng-click="login()" class="btn btn-primary cart-center-position" value="Login">
+                </div>
 
             </div>
 
@@ -69,6 +78,7 @@
 
             </div>
         </div>
+
         <span class="cart-toggle" ng-click="openCart()">
             <hr>
             <hr>

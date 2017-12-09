@@ -35,7 +35,7 @@ app.controller('public-Controller', function ($scope, $http) {
     $scope.openCart = function () {
         var cart = document.querySelector('.cart-content');
         if (cart.style.width === '0px' || cart.style.width === '') {
-            cart.style.width = '200px';
+            cart.style.width = '225px';
 
         } else {
             cart.style.width = '0px';
