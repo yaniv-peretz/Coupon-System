@@ -70,7 +70,7 @@ public class Customer {
 	}
 	
 	@RequestMapping(value = "coupon", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> purchaseCoupons(
+	public @ResponseBody ResponseEntity<Object> purchaseCoupon(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody WebCoupon webcoupon) {
@@ -79,6 +79,27 @@ public class Customer {
 		
 		Coupon coupon = WebCoupon.returnCoupon(webcoupon);
 		customer.purchaseCoupon(coupon);
+//		@formatter:off
+		return ResponseEntity.
+				status(HttpStatus.OK).
+				contentType(MediaType.APPLICATION_JSON).
+				body(null);
+//		@formatter:on
+	}
+	
+	@RequestMapping(value = "coupons", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Object> purchaseCoupons(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody HashSet<WebCoupon> webcoupons) {
+		
+		CustomerFacade customer = getFacade(request, response);
+		
+		for (WebCoupon webCoupon : webcoupons) {
+			Coupon coupon = WebCoupon.returnCoupon(webCoupon);
+			customer.purchaseCoupon(coupon);
+		}
+		
 //		@formatter:off
 		return ResponseEntity.
 				status(HttpStatus.OK).

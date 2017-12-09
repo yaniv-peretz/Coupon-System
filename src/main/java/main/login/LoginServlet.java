@@ -1,4 +1,4 @@
-package main.facades;
+package main.login;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ import main.CouponSystem;
 
 @Controller
 @RequestMapping("/login")
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	/**

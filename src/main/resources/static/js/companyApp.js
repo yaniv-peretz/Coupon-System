@@ -51,7 +51,7 @@ app.controller('compController', function ($scope, $http) {
         $scope.workingItem.startDate = $scope.workingItem.dispalyStartDate.toLocaleDateString();
         $scope.workingItem.endDate = $scope.workingItem.dispalyEndDate.toLocaleDateString();
 
-        url = "company/coupon/";
+        var url = "company/coupon/";
         $http.post(url, $scope.workingItem);
         $scope.closeWorkingItem();
         getTableData();
@@ -68,14 +68,14 @@ app.controller('compController', function ($scope, $http) {
         $scope.workingItem.startDate = $scope.workingItem.dispalyStartDate.toLocaleDateString();
         $scope.workingItem.endDate = $scope.workingItem.dispalyEndDate.toLocaleDateString();
 
-        url = "company/coupon/";
+        var url = "company/coupon/";
         $http.put(url, $scope.workingItem);
         $scope.closeWorkingItem();
         getTableData();
     }
 
     $scope.openDeleteConfirmation = function (item) {
-        r = confirm("Delete Coupon id:" + item.id + "?");
+        var r = confirm("Delete Coupon id:" + item.id + "?");
         if (r == true) {
             deleteItem(item);
             getTableData();
@@ -84,7 +84,7 @@ app.controller('compController', function ($scope, $http) {
 
     deleteItem = function (item) {
 
-        url = "company/coupon/";
+        var url = "company/coupon/";
         $http({
             'url': url,
             'dataType': "json",
@@ -146,8 +146,8 @@ app.controller('compController', function ($scope, $http) {
         }
 
         $http({
-            method: "GET",
-            url: url,
+            'method': "GET",
+            'url': url,
         }).then(function mySuccess(response) {
 
             if (response.data instanceof Object && response.data.constructor === Object) {

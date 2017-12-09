@@ -3,7 +3,7 @@ app.controller('adminCtrl', function ($scope, $http) {
     $scope.client = 'admin';
     $scope.mode = 'comps';
     $scope.workingItem = {};
-    $scope.selectedId = 1; { }
+    $scope.selectedId = 1;
     $scope.itemCreateMode = false;
     $scope.items = getItems();
     workingItemElement = document.querySelector("#workingItem");
@@ -17,7 +17,7 @@ app.controller('adminCtrl', function ($scope, $http) {
 
     $scope.getItemById = function () {
 
-        url = "admin/";
+        var url = "admin/";
         if ($scope.mode.includes('comps')) {
             url += "company/" + $scope.selectedId;
 
@@ -55,7 +55,7 @@ app.controller('adminCtrl', function ($scope, $http) {
     }
 
     $scope.openDeleteConfirmation = function (item) {
-        r = confirm("Delete item id:" + item.id + "?");
+        var r = confirm("Delete item id:" + item.id + "?");
         if (r == true) {
             deleteItem(item);
             $scope.getItems();
@@ -77,7 +77,7 @@ app.controller('adminCtrl', function ($scope, $http) {
     }
 
     function getItems() {
-        url = "admin/";
+        var url = "admin/";
         if ($scope.mode.includes('comps')) {
             url += "company/all";
 
@@ -110,7 +110,7 @@ app.controller('adminCtrl', function ($scope, $http) {
 
     function postItem() {
 
-        url = "admin/";
+        var url = "admin/";
         if ($scope.mode.includes('comps')) {
             url += "company/";
 
@@ -125,7 +125,7 @@ app.controller('adminCtrl', function ($scope, $http) {
 
     function deleteItem(item) {
 
-        url = "admin/";
+        var url = "admin/";
         if ($scope.mode.includes('comps')) {
             url += "company/";
 
@@ -145,10 +145,9 @@ app.controller('adminCtrl', function ($scope, $http) {
         });
     }
 
-
     function putItem() {
 
-        url = "admin/";
+        var url = "admin/";
         if ($scope.mode.includes('comps')) {
             url += "company/";
 
