@@ -1,13 +1,3 @@
-@media (min-width: 992px) {
-    #Welcome{
-            margin-top: 25px 
-    }
-}   
-
-#login{
-    padding: 5px;
-}
-
 #login form table tr td label ,{
     text-transform: capitalize;    
 }
@@ -19,4 +9,9 @@
 .buttons, .buttons option{
     text-transform: capitalize;
     margin: auto;
+}
+
+.button-login{
+    background-color: goldenrod;
+    border: 1px solid black;
 }

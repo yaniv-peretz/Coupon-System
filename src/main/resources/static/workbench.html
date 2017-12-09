@@ -12,84 +12,78 @@
   <script src="lib/Popper/popper.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 
-  <link rel="stylesheet" href="style/master.css">
-  <link rel="stylesheet" href="style/login.css">
   <link rel="stylesheet" href="style/responsive-font-sizes.css">
-  
+  <link rel="stylesheet" href="style/master.css">
+  <link rel="stylesheet" href="style/master-animations.css">
+  <link rel="stylesheet" href="style/login.css">
+
 </head>
 
 <body>
 
-  <div class="container-fluid">
+  <div class="box main-title capitalize slide-up-fade-in">
+    <h1>Welcome to Coupon System</h1>
+    <h3>please login in</h3>
+  </div>
 
-    <div class="row">
+  <p class="err">User, Password or Type do not match, please check again!</p>
 
-      <div class="col-12">
-        <div id="Welcome" class="Bordering-box header-box capitalize slide-up-fade-in">          
-          <h1>Welcome to Coupon System</h1>
-          <h3>please login in</h3>
+  <div class="box capitalize slide-down-fade-in">
+    <form action="http://localhost:8080/login" method="post">
+      <table id="login-table">
+
+        <tbody>
+          <tr>
+            <td>
+              <label for="user">User Name:</label>
+            </td>
+            <td>
+              <input required type="text" name="user" placeholder="user name" class="form-control">
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <label for="password:">Password:</label>
+            </td>
+            <td>
+              <input required type="password" name="password" placeholder="password" class="form-control">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <select class="form-control" name="selector">
+              <option value="admin">Admin</option>
+              <option value="company">Company</option>
+              <option value="customer">Customer</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <input type="submit" class="form-control button-login" value="Login">
+
+          </div>
         </div>
       </div>
 
-    </div>
+    </form>
+  </div>
 
-    <div class="row">      
-      <p class="col-12 err">User, Password or Type do not match, please check again!</p>
-    </div>
-
-    <div class="row">
-
-      <div class="col-2 col-sm-4"></div>
-
-      <div id="login" class="col-8 col-sm-4 Bordering-box capitalize slide-down-fade-in">
-        <form action="http://localhost:8080/login" method="post">
-          <table id="login-table">
-
-            <tbody>
-              <tr>
-                <td>
-                  <label for="user">User Name:</label>
-                </td>
-                <td>
-                  <input required type="text" name="user" placeholder="user name" class="form-control">
-                </td>
-              </tr>
-              
-              <tr>
-                <td>
-                  <label for="password:">Password:</label>
-                </td>
-                <td>
-                  <input required type="password" name="password" placeholder="password" class="form-control">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="row">
-
-            <div class="col-6">
-              <select name="selector" class="form-control buttons">
-                <option value="admin">Admin</option>
-                <option value="company">Company</option>
-                <option value="customer">Customer</option>
-              </select>
-            </div>
-
-            <div class="col-6">
-              <input type="submit" class="form-control  btn-warning" value="Login">
-            </div>
-
-          </div>
-
-        </form>
-    
-      <div class="col-2 col-sm-4"></div>
-
-
-    </div> <!-- </div> end of login box -->
-  </div> <!-- end of row -->
-</div><!-- </div> end of container -->
+  <!-- </div> end of login box -->
+  </div>
+  <!-- end of row -->
+  </div>
+  <!-- </div> end of container -->
+  <div class="footer">
+    <span>
+      <a href="/index.html">Coupon System Portal</a>
+    </span>
+    <span>@Discound Coupons LTD, by Yaniv Peretz</span>
+  </div>
 </body>
 <script>
 

@@ -1,0 +1,9 @@
+.Bordering-box{
+    border: 1px solid var(--main-background-color);
+    text-align: center;
+    padding: 2%;
+}
+
+.capitalize{
+    text-transform: capitalize;
+}

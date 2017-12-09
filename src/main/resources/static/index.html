@@ -39,7 +39,7 @@
                 <button ng-disabled="!loggedIn || cart.length == 0" ng-click="buyAllCoupons()" class="btn btn-primary cart-center-position">By all</button>
             </div>
             <div ng-if="!loggedIn" class="cart-customer-coupons">
- 
+
                 <p class="cart-center-position">please log in</p>
                 <hr class="cart-seperator">
                 <table>
@@ -77,9 +77,6 @@
         </span>
     </span>
 
-
-
-
     <!-- Main Page Coupons -->
     <ul class="container-coupons">
         <li ng-repeat="x in coupons" class="coupon">
@@ -93,9 +90,11 @@
     </ul>
 
     <div class="footer">
-        <span> <a href="/workbench.html">management Workbench</a></span>
+        <span>
+            <a href="/workbench.html">management Workbench</a>
+        </span>
         <span>@Discound Coupons LTD, by Yaniv Peretz</span>
-        </div>
+    </div>
 </body>
 
 </html>

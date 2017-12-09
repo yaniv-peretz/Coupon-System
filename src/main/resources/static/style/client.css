@@ -1,11 +1,11 @@
-*{margin: 0px; padding: 0px}
+.header{
+    text-align: right;
+    background-color: var(--element-background-color);
+}
+
 
 .main-header {
     text-align: center;
-}
-
-.main-header header{
-    text-align: right;
 }
 
 .main-header a{
@@ -18,6 +18,7 @@ h1, .mode-selector {
 
 /* working item */
 #workingItem{
+    color: white;
     text-transform: capitalize;
     text-align: left;
     margin-top: 30px;
