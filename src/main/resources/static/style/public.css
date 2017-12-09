@@ -1,12 +1,52 @@
 body{
+    background-color: #232F3F;
     color: black;
 }
 
+.header {
+    margin-top: 0px;
+    background-color: #FCBB6A;
+    color: #232F3F;
+    text-align: center;
+}
+
+/* ###################
+ *      Cart
+ * ################### */
 .cart{
     position: fixed;
     display: flex;
     flex-direction: row;
     z-index: 1;
+}
+
+.cart-toggle{
+    position: relative;
+    width: 25px;
+    height: 25px;
+    background-color: #FCBB6A;
+}
+
+.cart-toggle hr{
+    background-color:#232F3F;
+    margin: 5px;
+    border: 1px solid;
+    border-top: initial;
+}
+
+.cart-counter{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 65%;
+    height: 65%;
+    
+    background-color: red;
+    border: 1px solid black;
+    border-radius: 90px;    
+
+    text-align: center;
+    font-size: 11px;
 }
 
 .cart-content{
@@ -15,22 +55,11 @@ body{
     width: 0px;
     max-width: 200px;
     height: 400px;
-    background-color: goldenrod;
+    background-color: #FCBB6A;
     -webkit-transition: width 0.3s ease-out;
     -moz-transition: width 0.3s ease-out;
     transition: width 0.3s ease-out;
 
-}
-
-.cart-toggle{
-    width: 25px;
-    height: 25px;
-    background-color: goldenrod;
-}
-
-.cart-toggle hr{
-    background-color: black;
-    margin: 5px;
 }
 
 .cart-center-position{
@@ -45,14 +74,13 @@ body{
     margin: 10px;
 }
 
-
-.header {
-    margin-top: 0px;
-    background-color: goldenrod;
-    color: purple;
-    text-align: center;
+.cart-seperator{
+    background-color: black;
 }
 
+
+
+/* Coupons Main Page */
 .container-coupons {
     display: flex;
     flex-direction: row;
@@ -60,18 +88,20 @@ body{
     list-style: none;
 }
 
-.container-coupons li {
+.coupon {
     position: relative;
     width: 200px;
-    height: 250px;
-    background-color: lightgreen;
+    height: 300px;
     margin: 10px;
-    border: 3px dashed black;
+
+    border: 3px dashed;
+    background-color: lightgray;
 }
 
-.container-coupons h3 {
+.coupon-title{
     margin-top: 2px;
     text-align: center;
+    font-weight: 600;
 }
 
 .container-coupons img {
@@ -85,21 +115,22 @@ body{
 }
 
 .coupon-price {
-    position: absolute;
-    bottom: 3px;
-    right: 5px;
-    margin-bottom: 0px;
-    font-weight: 900;
+    margin-top: 2px;
+    text-align: center;
+    font-weight: 600;
 }
 
 .coupon-buy{
     position: absolute;
     bottom: 3px;
     left: 5px;
+    width: 95%;
+    margin: auto;
+    left: 2.5%;
 }
 
 .footer{
-    background-color: goldenrod;
+    background-color: #FCBB6A;
     position: fixed;
     bottom: 0px;
     left: 0px;

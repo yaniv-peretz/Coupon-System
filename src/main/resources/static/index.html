@@ -36,12 +36,12 @@
             </ul>
 
             <div class="buy-button">
-                <button ng-disabled="!loggedIn" class="btn btn-primary cart-center-position">By all</button>
+                <button ng-disabled="!loggedIn || cart.length == 0" ng-click="buyAllCoupons()" class="btn btn-primary cart-center-position">By all</button>
             </div>
             <div ng-if="!loggedIn" class="cart-customer-coupons">
-
+ 
                 <p class="cart-center-position">please log in</p>
-                <hr>
+                <hr class="cart-seperator">
                 <table>
                     <tr>
                         <td>user</td>
@@ -73,17 +73,20 @@
             <hr>
             <hr>
             <hr>
+            <span ng-if="cart.length > 0" class="cart-counter">{{cart.length}}</span>
         </span>
     </span>
 
 
+
+
     <!-- Main Page Coupons -->
     <ul class="container-coupons">
-        <li ng-repeat="x in coupons">
-            <h3>{{x.title}}</h3>
+        <li ng-repeat="x in coupons" class="coupon">
             <img src="./resources/No_Image_Available.jpg" alt="no image">
-            <p class="coupon-desc">{{x.message}}</p>
+            <h3 class="coupon-title">{{x.title}}</h3>
             <p class="coupon-price">price: {{x.price}}$</p>
+            <p class="coupon-desc">{{x.message}}</p>
             <button ng-click="addToCart(x)" class="coupon-buy btn btn-primary">buy Me!</button>
         </li>
 

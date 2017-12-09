@@ -74,6 +74,23 @@ app.controller('public-Controller', function ($scope, $http) {
 
     }
 
+
+    $scope.buyAllCoupons = function () {
+        //purchase all coupons in cart
+
+        var url = "customer/coupons";
+        $http.post(url, $scope.cart)
+            .then(function mySuccess(response) {
+                $scope.customerCoupons = $scope.customerCoupons.concat($scope.cart);
+                $scope.cart = [];
+                removeCouponCustomerAlreadyOwns();
+
+            }, function myError(response) {
+                alert('buying coupons failed, try again later')
+            });
+
+    }
+
     function getCustomerCoupons() {
         var url = "customer/coupon/all";
         $http({
@@ -89,6 +106,7 @@ app.controller('public-Controller', function ($scope, $http) {
             }
             //remove coupons duplications
             removeCouponCustomerAlreadyOwns();
+            removeCartCouponCustomerAlreadyOwns();
 
         }, function myError(response) {
             alert("fechting all coupons failed!");
@@ -102,9 +120,15 @@ app.controller('public-Controller', function ($scope, $http) {
                 return allCoupons.id !== removeElement.id;
             });
         });
-
     }
 
+    function removeCartCouponCustomerAlreadyOwns() {
+        $scope.customerCoupons.forEach(removeElement => {
+            $scope.cart = $scope.cart.filter(function (cartCoupons) {
+                return cartCoupons.id !== removeElement.id;
+            });
+        });
+    }
 
 
 
