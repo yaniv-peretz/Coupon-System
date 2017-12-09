@@ -23,9 +23,10 @@ public class AuthFilter implements Filter {
 			throws IOException, ServletException {
 		
 		boolean auth = false;
-		
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpSession session = request.getSession();
+		
+		// Check if already authenticated successfully, else block the request.
 		if (session.getAttribute("auth") != null) {
 			auth = (boolean) session.getAttribute("auth");
 		}

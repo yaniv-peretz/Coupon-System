@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 		// if got here with undifiend type
 		if (type == null) {
 			response.getWriter().append("Login type undifined");
-			response.sendRedirect(request.getContextPath() + "/index.html?err=type");
+			response.sendRedirect(request.getContextPath() + "/workbench.html?err=type");
 			return;
 		}
 		
@@ -77,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 		
 		// return if login unsuccessful
 		if (client == null) {
-			response.sendRedirect(request.getContextPath() + "/index.html?err=psw");
+			response.sendRedirect(request.getContextPath() + "/workbench.html?err=psw");
 			return;
 		}
 		
@@ -100,7 +100,7 @@ public class LoginServlet extends HttpServlet {
 			break;
 		
 		default:
-			response.sendRedirect(request.getContextPath() + "/index.html");
+			response.sendRedirect(request.getContextPath() + "/workbench.html");
 		}
 		return;
 	}
