@@ -1,6 +1,5 @@
 package main;
 
-
 import javax.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -30,6 +29,9 @@ public class CouponSystemServerApplication {
 		FilterRegistrationBean registration = new FilterRegistrationBean();
 		Filter authRequiredFilter = new AuthFilter();
 		beanFactory.autowireBean(authRequiredFilter);
+		
+		// set filter on the following paths, these paths will require authentication
+		// first.
 		registration.setFilter(authRequiredFilter);
 		registration.addUrlPatterns("/admin/*");
 		registration.addUrlPatterns("/company/*");
