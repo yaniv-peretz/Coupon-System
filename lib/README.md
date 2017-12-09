@@ -1,4 +1,4 @@
 # CouponSys.jar
-includes all the base java obcets, as creating the DB access.
+Structures the base java objects, as creation of the DB access, java beans, and access facades.
 to view the source code, open CouponSys.jar with zip/rar program.
 
