@@ -69,8 +69,6 @@
 .cart-customer-coupons{
     order: 99;
     align-self: flex-end;
-    /* position: absolute; */
-    /* bottom: 0px; */
     margin: 10px;
 }
 
@@ -84,28 +82,46 @@
     background-color: black;
 }
 
-
-
-/* Coupons Main Page */
+/*  #####################
+     Coupons Main Page 
+     ####################*/
 .container-coupons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     list-style: none;
+    justify-content: center;
+    padding: 0px;
 }
 
 .coupon {
     position: relative;
-    width: 200px;
-    height: 300px;
+    width: 170px;
+    height: 250px;
     margin: 10px;
 
     border: 3px dashed;
     background-color: lightgray;
+    opacity: 0.7;
+
+    font-size: 0.9rem;
+}
+
+.coupon:hover{
+    -webkit-transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    transition: all 1s ease-out;
+    opacity: 1;
+    border: 3px solid #FCBB6A;
+
+    /* -webkit-transition: border 10.2s ease-out;
+    -moz-transition: border 10.2s ease-out;
+    transition: border 10.2s ease-out; */
 }
 
 .coupon-title{
     margin-top: 2px;
+    margin-bottom: 2px;
     text-align: center;
     font-weight: 600;
 }
@@ -115,15 +131,14 @@
 }
 
 .coupon-desc {
-    position: absolute;
-    left: 3px;
-    bottom: 30px;
+    text-align: center;
 }
 
 .coupon-price {
     margin-top: 2px;
+    margin-bottom: 2px;
     text-align: center;
-    font-weight: 600;
+    color: blue;
 }
 
 .coupon-buy{

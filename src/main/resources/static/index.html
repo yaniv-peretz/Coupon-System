@@ -87,17 +87,19 @@
         </span>
     </span>
 
-    <!-- Main Page Coupons -->
-    <ul class="container-coupons">
-        <li ng-repeat="x in coupons" class="coupon">
-            <img src="./resources/No_Image_Available.jpg" alt="no image">
-            <h3 class="coupon-title">{{x.title}}</h3>
-            <p class="coupon-price">price: {{x.price}}$</p>
-            <p class="coupon-desc">{{x.message}}</p>
-            <button ng-click="addToCart(x)" class="coupon-buy btn btn-primary">buy Me!</button>
-        </li>
+    <!-- #######################
+            Main Page Coupons
+        #######################-->
+        <ul class="container-coupons">
+            <li ng-repeat="x in coupons" class="coupon">
+                <img src="./resources/No_Image_Available.jpg" alt="no image">
+                <h5 class="coupon-title">{{x.title}}</h5>
+                <p class="coupon-price">price: {{x.price}}$</p>
+                <p class="coupon-desc">{{x.message}}</p>
+                <button ng-click="addToCart(x)" class="coupon-buy btn btn-primary">buy Me!</button>
+            </li>
 
-    </ul>
+        </ul>
 
     <div class="footer">
         <span>
