@@ -28,6 +28,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/yaniv/workspace/spring-workspace/CouponSystemServer/lib/CouponSys.jar"/>
+	<classpathentry kind="lib" path="/home/yaniv/workspace/spring-workspace/CouponSystemServer/lib/Core-CouponSystem.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
