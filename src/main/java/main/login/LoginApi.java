@@ -27,7 +27,14 @@ public class LoginApi {
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		boolean auth = (boolean) request.getSession().getAttribute("auth");
+		boolean auth;
+		try {
+			auth = (boolean) request.getSession().getAttribute("auth");
+			
+		} catch (Exception e) {
+			auth = false;
+		}
+		
 		if (auth) {
 //			@formatter:off
 			return ResponseEntity.status(HttpStatus.OK)

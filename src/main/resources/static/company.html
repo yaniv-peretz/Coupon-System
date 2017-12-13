@@ -5,18 +5,20 @@
     <meta charset="UTF-8">
     <title>Company WorkBench</title>
 
-    <!-- Bootstrap & JQuery -->
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <!-- AngularJs & bootstrap & JQuery -->
     <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
     <script src="lib/Popper/popper.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- AngularJs -->
     <script src="lib/angular/angular.min.js"></script>
-
+    
+    <!-- Check authentication, or return to the workbench -->
+    <script src="js/checkRedirect.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/responsive-font-sizes.css">
     <link rel="stylesheet" href="style/master.css">
     <link rel="stylesheet" href="style/client.css">
-    <link rel="stylesheet" href="style/responsive-font-sizes.css">
 </head>
 
 <body ng-app="CompanyApp" ng-controller="compController">
