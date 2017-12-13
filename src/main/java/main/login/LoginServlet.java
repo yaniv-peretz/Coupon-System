@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import clientFacade.ClientFacadeInterface;
 import clientFacade.ClientType;
 import main.CouponSystem;
+import webComponents.WebClient;
 
 /**
  * Servlet implementation class Login
@@ -85,6 +86,7 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("auth", true);
 		session.setAttribute("client", client);
+		session.setAttribute("webClient", WebClient.returnWebClientFromClient(client.getClient()));
 		
 		switch (type) {
 		case ADMIN:

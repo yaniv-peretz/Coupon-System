@@ -15,11 +15,35 @@ import clientFacade.ClientFacadeInterface;
 import clientFacade.ClientType;
 import clientFacade.CustomerFacade;
 import main.CouponSystem;
+import webComponents.WebClient;
 import webComponents.WebCompany;
 
 @RestController
 @RequestMapping("api/login")
 public class LoginApi {
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<WebClient> loginCheck(
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		boolean auth = (boolean) request.getSession().getAttribute("auth");
+		if (auth) {
+//			@formatter:off
+			return ResponseEntity.status(HttpStatus.OK)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body((WebClient) request.getSession().getAttribute("webClient"));
+//			@formatter:on			
+			
+		} else {
+//			@formatter:off
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(null);
+//			@formatter:on
+			
+		}
+	}
 	
 	/**
 	 * Try to authenticate a Customer.
@@ -42,10 +66,10 @@ public class LoginApi {
 		// try to login, else return specific HTTP-status
 		try {
 			CouponSystem sys = CouponSystem.getInstance();
-			ClientFacadeInterface client = sys.login(user, password, type);
+			ClientFacadeInterface clientFacade = sys.login(user, password, type);
 			
 			// user & password incorrect - customer not found
-			if (client == null) {
+			if (clientFacade == null) {
 //			@formatter:off
 				return ResponseEntity.
 						status(HttpStatus.NOT_FOUND).
@@ -55,10 +79,11 @@ public class LoginApi {
 			}
 			
 			// Login successful, set session data
-			CustomerFacade customerFacade = (CustomerFacade) client;
+			CustomerFacade customerFacade = (CustomerFacade) clientFacade;
 			HttpSession session = request.getSession();
 			session.setAttribute("auth", true);
 			session.setAttribute("client", customerFacade);
+			session.setAttribute("webClient", WebClient.returnWebClientFromClient(customerFacade.getClient()));
 			
 //		@formatter:off
 			return ResponseEntity.
