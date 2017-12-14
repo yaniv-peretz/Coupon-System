@@ -17,6 +17,7 @@ Start the server and go to: http://localhost:8080/index.html
 * Spring filter
 * JUnit tests
 #### FrontEnd
+* Responsive
 * Document coockie
 * Ajax
 * JQuery
