@@ -9,3 +9,14 @@ Mysql Server running: (port 3306, user: root, password: root)
 Upload project into a new maven project, (Tomcat server 7.0)  
 Ensure both liberies (in lib folder) are part of the Java build path.  
 Start the server and go to: http://localhost:8080/index.html
+
+
+### Features
+#### Server
+* Request session storage
+* Spring filter
+* JUnit tests
+#### FrontEnd
+* Document coockie
+* Ajax
+* JQuery
