@@ -47,20 +47,21 @@ app.controller('public-Controller', function ($scope, $http) {
         if (!$scope.cart.includes(coupon)) {
             $scope.cart.push(coupon);
 
-        }
+        }F
     }
 
     $scope.login = function () {
         // login as customer
-        var url = "/api/login";
         var password = document.querySelector('#password').value;
-        var user = document.querySelector('#user').value;
-
+        var user = document.querySelector('#name').value;
+        
         var login = {
-            'compName': user,
-            'password': password
+            'name': user,
+            'password': password,
+            'type':"customer"
         }
-
+        
+        var url = "/api/login";
         $http.post(url, login)
             .then(function mySuccess(response) {
 

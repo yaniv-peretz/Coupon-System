@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import clientFacade.ClientFacadeInterface;
 import clientFacade.ClientType;
-import clientFacade.CustomerFacade;
 import main.CouponSystem;
 import webComponents.WebClient;
-import webComponents.WebCompany;
 
 @RestController
 @RequestMapping("api/login")
@@ -63,12 +61,12 @@ public class LoginApi {
 	public @ResponseBody ResponseEntity<Boolean> login(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestBody WebCompany webCompany) {
+			@RequestBody WebClient webClient) {
 		
 		// get customer user and password parameters.
-		String user = webCompany.getCompName();
-		String password = webCompany.getPassword();
-		ClientType type = ClientType.CUSTOMER;
+		String user = webClient.getName();
+		String password = webClient.getPassword();
+		ClientType type = ClientType.valueOf(webClient.getType().toUpperCase());
 		
 		// try to login, else return specific HTTP-status
 		try {
@@ -86,11 +84,10 @@ public class LoginApi {
 			}
 			
 			// Login successful, set session data
-			CustomerFacade customerFacade = (CustomerFacade) clientFacade;
 			HttpSession session = request.getSession();
 			session.setAttribute("auth", true);
-			session.setAttribute("client", customerFacade);
-			session.setAttribute("webClient", WebClient.returnWebClientFromClient(customerFacade.getClient()));
+			session.setAttribute("client", clientFacade);
+			session.setAttribute("webClient", webClient);
 			
 //		@formatter:off
 			return ResponseEntity.
