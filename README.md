@@ -18,6 +18,6 @@ Start the server and go to: http://localhost:8080/index.html
 * JUnit tests
 #### FrontEnd
 * Responsive
-* Document coockie
+* Document cookie
 * Ajax
 * JQuery
