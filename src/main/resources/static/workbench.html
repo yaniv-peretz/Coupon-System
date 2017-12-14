@@ -20,7 +20,6 @@
 </head>
 
 <body>
-
   <div class="box main-title capitalize slide-up-fade-in">
     <h1>Welcome to Coupon System</h1>
     <h3>please login in</h3>
@@ -29,16 +28,16 @@
   <p class="err">User, Password or Type do not match, please check again!</p>
 
   <div class="box capitalize slide-down-fade-in">
-    <form action="http://localhost:8080/login" method="post">
+    <form action="/login" method="post">
       <table id="login-table">
 
         <tbody>
           <tr>
             <td>
-              <label for="user">User Name:</label>
+              <label for="name">User Name:</label>
             </td>
             <td>
-              <input required type="text" name="user" placeholder="user name" class="form-control">
+              <input required type="text" name="name" placeholder="user name" class="form-control">
             </td>
           </tr>
 
@@ -64,7 +63,7 @@
             </select>
           </div>
           <div class="col-6">
-            <input type="submit" class="form-control button-login" value="Login">
+            <input type="submit" onclick="setCookie()" class="form-control button-login" value="Login">
 
           </div>
         </div>
@@ -84,24 +83,8 @@
     </span>
     <span>@Discound Coupons LTD, by Yaniv Peretz</span>
   </div>
+
+  <script src="js/workbench.js"></script>
 </body>
-<script>
-
-  (function () {
-    if (window.location.search.includes('err')) {
-      var element = document.querySelector('.err');
-      element.style.visibility = "visible";
-      element.style.opacity = 1;
-      element.className = element.className + " shake";
-
-
-      var element = document.querySelector('slide-up-fade-in');
-      $(element).removeClass("slide-up-fade-in")
-      var element = document.querySelector('slide-down-fade-in');
-      $(element).removeClass("slide-down-fade-in")
-    }
-  })();
-</script>
-
 
 </html>

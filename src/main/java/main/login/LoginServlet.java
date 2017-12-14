@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String user = request.getParameter("user");
+		String user = request.getParameter("name");
 		String password = request.getParameter("password");
 		String selector = request.getParameter("selector");
 		
@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
 		
 		}
 		
-		// if got here with undifiend type
+		// if got here with undefined type
 		if (type == null) {
 			response.getWriter().append("Login type undifined");
 			response.sendRedirect(request.getContextPath() + "/workbench.html?err=type");
@@ -86,7 +86,9 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("auth", true);
 		session.setAttribute("client", client);
-		session.setAttribute("webClient", WebClient.returnWebClientFromClient(client.getClient()));
+		WebClient webClient = WebClient.returnWebClientFromClient(client.getClient());
+		webClient.setType(type.toString());
+		session.setAttribute("webClient", webClient);
 		
 		switch (type) {
 		case ADMIN:
