@@ -27,6 +27,12 @@ app.controller('public-Controller', function ($scope, $http) {
         }).then(function mySuccess(response) {
             $scope.coupons = response.data;
 
+            $scope.coupons.forEach(coupn => {
+                if(coupn.image == null){
+                    coupn.image = "./resources/No_Image_Available.jpg";
+                }    
+            });                
+
         }, function myError(response) {
             console.log(response);
         });

@@ -92,7 +92,7 @@
         #######################-->
         <ul class="container-coupons">
             <li ng-repeat="x in coupons" class="coupon">
-                <img src="./resources/No_Image_Available.jpg" alt="no image">
+                <img src={{x.image}} alt="no image">
                 <h5 class="coupon-title">{{x.title}}</h5>
                 <p class="coupon-price">price: {{x.price}}$</p>
                 <p class="coupon-desc">{{x.message}}</p>

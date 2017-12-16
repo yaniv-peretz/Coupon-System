@@ -101,6 +101,7 @@
                     </td>
                 </tr>
             </table>
+            <img src={{workingItem.image}} alt="image not set up">
 
 
             <div id="WorkingItem-buttons">
@@ -140,7 +141,6 @@
                                 <th>Amount</th>
                                 <th>Price</th>
                                 <th>message</th>
-                                <th>image</th>
                                 <th>actions</th>
                             </tr>
                         </thead>
@@ -155,7 +155,6 @@
                                 <td>{{x.amount}}</td>
                                 <td>{{x.price}}</td>
                                 <td>{{x.message}}</td>
-                                <td>{{x.image}}</td>
                                 <td>
                                     <button class="btn-primary button-spacing" ng-click="openEditItem(x)">update</button>
                                     <button class="btn-danger" ng-click="openDeleteConfirmation(x)">delete</button>

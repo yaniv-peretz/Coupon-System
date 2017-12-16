@@ -160,7 +160,12 @@ app.controller('compController', function ($scope, $http) {
 
             $scope.items.forEach(item => {
                 item.dispalyStartDate = new Date(item.startDate);
-                item.dispalyEndDate = new Date(item.endDate);                
+                item.dispalyEndDate = new Date(item.endDate);
+
+                //set defualt image when no image is selected
+                if(item.image == null){
+                    item.image = "./resources/No_Image_Available.jpg";
+                }                
             });
 
         }, function myError(response) {

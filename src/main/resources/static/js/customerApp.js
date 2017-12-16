@@ -147,6 +147,13 @@ app.controller('itemsTable', function ($scope, $http) {
 
             }
 
+            $scope.items.forEach(item => {
+                //set defualt image when no image is selected
+                if(item.image == null){
+                    item.image = "./resources/No_Image_Available.jpg";
+                }                
+            });
+
         }, function myError(response) {
             console.error(response.statusText);
         });
