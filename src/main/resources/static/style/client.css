@@ -21,7 +21,6 @@ h1, .mode-selector {
     color: white;
     text-transform: capitalize;
     text-align: left;
-    margin-top: 30px;
     overflow: hidden;
     max-height: 0px;
     position: absolute;
@@ -29,7 +28,6 @@ h1, .mode-selector {
     background-color: rgba(0, 0, 0, 0.85);
     top: 0;
     left: 0;
-    bottom: 0;
     right: 0;
 }
 
@@ -51,6 +49,11 @@ h1, .mode-selector {
     text-align: right;
 }
 
+#workingItem img{
+    width: 170px;
+    display: block;
+    margin: auto;
+}
 /* Items table */
 
 .selectors{
@@ -105,7 +108,7 @@ h1, .mode-selector {
 
 @keyframes open {
     from {max-height : 0px}
-    to   {max-height : 500px }
+    to   {max-height : 999px }
 }
 
 .close-panel{
@@ -113,7 +116,7 @@ h1, .mode-selector {
 }
 
 @keyframes close {
-    from {max-height : 500px}
+    from {max-height : 999px}
     to   {max-height : 0px }
 }
 

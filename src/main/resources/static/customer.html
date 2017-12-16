@@ -95,14 +95,9 @@
                             <input ng-disabled="true" ng-model=workingItem.price>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td>image:</td>
-                        <td>
-                            <input ng-disabled="true" ng-model=workingItem.image>
-                        </td>
-                    </tr>
                 </table>
+                <img src={{workingItem.image}} alt="image not set up">
+                
 
 
                 <div id="WorkingItem-buttons">
@@ -138,10 +133,8 @@
                             <th>Title</th>
                             <th>Start Date</th>
                             <th>Start End</th>
-                            <th>Amount</th>
                             <th>Price</th>
                             <th>Message</th>
-                            <th>image</th>
                         </tr>
                     </thead>
 
@@ -152,10 +145,8 @@
                             <td>{{x.title}}</td>
                             <td>{{x.startDate}}</td>
                             <td>{{x.endDate}}</td>
-                            <td>{{x.amount}}</td>
                             <td>{{x.price}}</td>
                             <td>{{x.message}}</td>
-                            <td>{{x.image}}</td>
                         </tr>
                     </tbody>
                 </table>
