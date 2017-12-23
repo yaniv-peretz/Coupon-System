@@ -20,7 +20,7 @@ import webComponents.WebCompany;
 import webComponents.WebCustomer;;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping(value = "admin")
 public class Admin {
 	
 	private AdminFacade getFacade(HttpServletRequest request, HttpServletResponse response) {
@@ -199,7 +199,7 @@ public class Admin {
 		//		@formatter:on
 	}
 	
-	@RequestMapping(value = "/company/all", method = RequestMethod.GET)
+	@RequestMapping(value = "company/all", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Object> doGetCompanies(
 			HttpServletRequest request,
 			HttpServletResponse response) {

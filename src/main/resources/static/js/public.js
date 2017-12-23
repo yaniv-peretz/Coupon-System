@@ -28,8 +28,8 @@ app.controller('public-Controller', function ($scope, $http) {
             $scope.coupons = response.data;
 
             $scope.coupons.forEach(coupn => {
-                if(coupn.image == null){
-                    coupn.image = "./resources/No_Image_Available.jpg";
+                if(coupn.image == null || coupn.image == undefined ){
+                    coupn.image = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
                 }    
             });                
 
@@ -53,7 +53,7 @@ app.controller('public-Controller', function ($scope, $http) {
         if (!$scope.cart.includes(coupon)) {
             $scope.cart.push(coupon);
 
-        }F
+        }
     }
 
     $scope.login = function () {
@@ -67,7 +67,7 @@ app.controller('public-Controller', function ($scope, $http) {
             'type':"customer"
         }
         
-        var url = "/api/login";
+        var url = "api/login";
         $http.post(url, login)
             .then(function mySuccess(response) {
 

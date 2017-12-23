@@ -1,7 +1,7 @@
 var client = {};
 
 (function () {
-    var redirectUrl = "http://localhost:8080/workbench.html";
+    var redirectUrl = "workbench.html";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
@@ -40,7 +40,7 @@ var client = {};
         }
     };
 
-    var url = "/api/login";
+    var url = "api/login";
     xhttp.open("GET", url, true);
     xhttp.send();
 })();
@@ -74,14 +74,14 @@ function loginFromCookie() {
                 
             } else {
                 //cookie doesn't include valid name & password
-                var url = "http://localhost:8080/workbench.html";
+                var url = "workbench.html";
                 window.location.replace(url);
                 
             }
         }
     }    
       
-    var url = "/api/login";
+    var url = "api/login";
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(JSON.stringify(client));

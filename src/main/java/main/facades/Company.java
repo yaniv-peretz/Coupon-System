@@ -20,7 +20,7 @@ import javaBeans.CouponType;
 import webComponents.WebCoupon;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping(value = "company")
 public class Company {
 	
 	private CompanyFacade getFacade(HttpServletRequest request, HttpServletResponse response) {

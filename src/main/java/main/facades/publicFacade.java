@@ -15,7 +15,7 @@ import javaBeans.Coupon;
 import webComponents.WebCoupon;;
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping(value = "public")
 public class publicFacade {
 	
 	// #################
