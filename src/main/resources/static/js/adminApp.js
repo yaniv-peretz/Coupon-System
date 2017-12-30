@@ -89,7 +89,7 @@ app.controller('adminCtrl', function ($scope, $http) {
         $http({
             'method': "GET",
             'url': url,
-        }).then(function mySuccess(response) {
+        }).then((response) => {
             if (response.data instanceof Object && response.data.constructor === Object) {
                 $scope.items = [response.data];
 
@@ -98,8 +98,9 @@ app.controller('adminCtrl', function ($scope, $http) {
 
             }
 
-        }, function myError(response) {
-            $scope.items = response.statusText;
+        }, (response) => {
+            alert('getting items failed');
+            console.log(response);
         });
     }
 

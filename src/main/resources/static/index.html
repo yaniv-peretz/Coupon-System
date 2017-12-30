@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible">
     <title>Public</title>
 
     <!-- JQuery & AngularJs -->
@@ -13,100 +13,130 @@
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
 
-    <!-- AngularJS Controller -->
-    <script src="js/public.js"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/master.css">
     <link rel="stylesheet" href="style/public.css">
     <link rel="stylesheet" href="style/responsive-font-sizes.css">
+    <link rel="stylesheet" href="lib/sprite.svg">
 </head>
 
 <body ng-app="publicModule" ng-controller="public-Controller">
+    <!-- #######################
+            Navbar
+        #######################-->
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <h1 class="header">Discount Coupon Portal</h1>
-
-    <!-- 
-    #######################
-        side Panel Cart 
-    #######################
-    -->
-    <span class="cart">
-
-        <div class="cart-content">
-            <h3 class="cart-center-position underline">My Cart</h3>
-            <div>
-                <ul>
-                    <li ng-repeat="coupon in cart">{{coupon.title}}</li>
-                </ul>
-            </div>
-            <div class="cart-button">
-                <button ng-disabled="!loggedIn || cart.length == 0" ng-click="buyAllCoupons()" class="btn btn-primary cart-center-position">By all</button>
-            </div>
-
-            <div ng-if="!loggedIn" class="cart-customer-coupons">
-
-                <p class="cart-center-position">please log in</p>
-                <hr class="cart-seperator">
-                <table>
-                    <tr>
-                        <td>user</td>
-                        <td>
-                            <input required id="name" name="name" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>password</td>
-                        <td>
-                            <input required id="password" type="password" name="password" class="form-control">
-                        </td>
-                    </tr>
-                </table>
-                <div class="cart-button">
-                    <input type="submit" ng-click="login()" class="btn btn-primary cart-center-position" value="Login">
-                </div>
-
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" data-toggle="modal" data-target="#myCart">
+                    <a class="nav-link" href="#">
+                        <span class="icon-relative">
+                            <svg class="icon">
+                                <use xlink:href="resources/bytesize-icons-master/dist/icons/cart.svg#i-cart"></use>
+                            </svg>
+                            <span ng-if="cart.length > 0" class="my-cart-counter">{{cart.length}}</span>
+                        </span>
+                        My Cart
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="modal" data-target="#myCoupons">
+                    <a class="nav-link" href="#">
+                        <svg class="icon">
+                            <use xlink:href="resources/bytesize-icons-master/dist/icons/inbox.svg#i-inbox"></use>
+                        </svg>
+                        My Coupons</a>
+                </li>
+            </ul>
+            <form ng-if="!loggedIn" name="login-form" class="form-inline my-2 my-lg-0">
+                <input id="username" class="form-control" placeholder="user-name" aria-label="user" required>
+                <input id="password" class="form-control" type="password" placeholder="passowrd" aria-label="passowrd" required>
+                <button class="btn btn-success" type="submit" ng-click="login()">Login</button>
+            </form>
+            <div ng-if="loggedIn" class="nav-bar-user">
+                hello {{customer}}
             </div>
 
-
-            <div ng-if="loggedIn" class="cart-customer-coupons">
-                <h3 class="cart-center-position underline">My Coupons</h3>
-                <ul>
-                    <li ng-repeat="coupon in customerCoupons">{{coupon.title}}</li>
-                </ul>
-
-            </div>
         </div>
-
-        <span class="cart-toggle" ng-click="openCart()">
-            <hr>
-            <hr>
-            <hr>
-            <span ng-if="cart.length > 0" class="cart-counter">{{cart.length}}</span>
-        </span>
-    </span>
+    </nav>
 
     <!-- #######################
             Main Page Coupons
         #######################-->
-        <ul class="container-coupons">
-            <li ng-repeat="x in coupons" class="coupon">
-                <img src={{x.image}} alt="no image">
-                <h5 class="coupon-title">{{x.title}}</h5>
-                <p class="coupon-price">price: {{x.price}}$</p>
-                <p class="coupon-desc">{{x.message}}</p>
-                <button ng-click="addToCart(x)" class="coupon-buy btn btn-primary">buy Me!</button>
-            </li>
+    <ul class="container-coupons">
+        <li ng-repeat="x in coupons" class="coupon">
+            <img src={{x.image}} alt="no image">
+            <h5 class="coupon-title">{{x.title}}</h5>
+            <p class="coupon-price">price: {{x.price}}$</p>
+            <p class="coupon-desc">{{x.message}}</p>
+            <button ng-click="addToCart(x)" class="coupon-buy btn btn-primary">buy Me!</button>
+        </li>
+    </ul>
 
-        </ul>
-
-    <div class="footer">
-        <span>
-            <a href="workbench.html">management Workbench</a>
-        </span>
-        <span>@Discound Coupons LTD, by Yaniv Peretz</span>
+    <!-- #######################
+            Footer
+        #######################-->
+    <div class="footer-box card border-primary mb-3" style="max-width: 18rem;">
+        <div class="card-body text-primary">
+            <a href="workbench.html">Management console</a>
+        </div>
     </div>
+
+    <!-- #######################
+            Modals
+        #######################-->
+    <!-- My Cart Modal -->
+    <div class="modal fade" id="myCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Cart</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li ng-repeat="coupon in cart">{{coupon.title}}</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!loggedIn || cart.length == 0" ng-click="buyAllCoupons()">Buy Coupons</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Coupons Modal -->
+    <div class="modal fade" id="myCoupons" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Coupons</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li ng-repeat="coupon in customerCoupons">{{coupon.title}}</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
 </body>
 
 </html>

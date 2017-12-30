@@ -16,7 +16,7 @@ import webComponents.WebCoupon;;
 
 @RestController
 @RequestMapping(value = "public")
-public class publicFacade {
+public class Public {
 	
 	// #################
 	// Admin-Customer API
@@ -26,6 +26,7 @@ public class publicFacade {
 	public @ResponseBody ResponseEntity<HashSet<WebCoupon>> getCustomer(
 			HttpServletRequest request,
 			HttpServletResponse response) {
+		// ensure the system is up and running
 		
 		try {
 			// get all coupons from DB

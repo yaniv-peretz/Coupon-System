@@ -24,7 +24,7 @@ app.controller('public-Controller', function ($scope, $http) {
         $http({
             'method': "GET",
             'url': url,
-        }).then(function mySuccess(response) {
+        }).then((response) => {
             $scope.coupons = response.data;
 
             $scope.coupons.forEach(coupn => {
@@ -33,8 +33,8 @@ app.controller('public-Controller', function ($scope, $http) {
                 }    
             });                
 
-        }, function myError(response) {
-            console.log(response);
+        }, (response) => {
+            alert("could not get all coupons - something went wrong")
         });
     }
 
@@ -56,23 +56,24 @@ app.controller('public-Controller', function ($scope, $http) {
         }
     }
 
-    $scope.login = function () {
+    $scope.login = () => {
         // login as customer
+        var user = document.querySelector('#username').value;
         var password = document.querySelector('#password').value;
-        var user = document.querySelector('#name').value;
         
         var login = {
             'name': user,
             'password': password,
             'type':"customer"
         }
-        
+
         var url = "api/login";
         $http.post(url, login)
             .then(function mySuccess(response) {
 
                 // get all customer coupons
                 $scope.loggedIn = true;
+                $scope.customer = user;
                 getCustomerCoupons();
 
             }, function myError(response) {
@@ -82,7 +83,7 @@ app.controller('public-Controller', function ($scope, $http) {
     }
 
 
-    $scope.buyAllCoupons = function () {
+    $scope.buyAllCoupons = () => {
         //purchase all coupons in cart
 
         var url = "customer/coupons";

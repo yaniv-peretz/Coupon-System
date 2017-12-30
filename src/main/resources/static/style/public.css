@@ -1,92 +1,72 @@
-.header {
-    margin-top: 0px;
-    background-color: #FCBB6A;
-    color: #232F3F;
-    text-align: center;
-}
-
-/* ###################
- *      Cart
- * ################### */
-.cart{
-    position: fixed;
-    top: 0px;
-    display: flex;
-    flex-direction: row;
-    z-index: 1;
-}
-
-.cart-toggle{
+body {
     position: relative;
-    width: 50px;
-    height: 44px;
-    background-color: #FCBB6A;
+    background-color: white;
 }
 
-.cart-toggle hr{
-    background-color:#232F3F;
-    margin: 10px;
-    border: 1px solid;
-    border-top: initial;
+
+/*  #######################
+        Navbar
+    #######################*/
+
+.icon {
+    width: 19px;
+    height: 19px;
+    color: black;
 }
 
-.cart-counter{
+.icon-relative {
+    position: relative;
+}
+
+.my-cart-counter {
+    width: 14px;
+    height: 14px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    font-size: 10px;
     position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 40%;
-    height: 40%;
-    
+    top: -10px;
+    left: 10px;
+    text-align: center;
     background-color: red;
     border: 1px solid black;
-    border-radius: 90px;    
-
-    text-align: center;
-    font-size: 11px;
+    color: black;
 }
 
-.cart-content{
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    /* position: relative; */
-    width: 0px;
-    max-width: 300px;
-    min-height: 400px;
-    background-color: #FCBB6A;
-    -webkit-transition: width 0.3s ease-out;
-    -moz-transition: width 0.3s ease-out;
-    transition: width 0.3s ease-out;
-
+.nav-bar-user {
+    background-color: white;
+    padding: 8px;
+    color: #007BFF;
+    border-radius: 9px;
 }
 
-.cart-center-position{
-    margin: auto;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    text-align: center;
+
+/*  #######################
+        Footer
+    ####################### */
+
+.footer-box {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
 }
 
-.cart-customer-coupons{
-    order: 99;
-    align-self: flex-end;
-    margin: 10px;
-}
 
-.cart-button{
-    margin: auto;
-    margin-top: 0px;
-    text-align: center;
-}
+/*  #######################
+        Modals
+    #######################*/
 
-.cart-seperator{
-    background-color: black;
-}
+
+/* My Cart*/
+
 
 /*  #####################
      Coupons Main Page 
      ####################*/
+
 .container-coupons {
+    margin-top: 60px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -100,27 +80,24 @@
     width: 170px;
     height: 250px;
     margin: 10px;
-
     border: 3px dashed;
     background-color: lightgray;
     opacity: 0.7;
-
     font-size: 0.9rem;
 }
 
-.coupon:hover{
+.coupon:hover {
     -webkit-transition: all 1s ease-out;
     -moz-transition: all 1s ease-out;
     transition: all 1s ease-out;
     opacity: 1;
-    border: 3px solid #FCBB6A;
-
+    border: 3px solid blue;
     /* -webkit-transition: border 10.2s ease-out;
     -moz-transition: border 10.2s ease-out;
     transition: border 10.2s ease-out; */
 }
 
-.coupon-title{
+.coupon-title {
     margin-top: 2px;
     margin-bottom: 2px;
     text-align: center;
@@ -143,7 +120,7 @@
     color: blue;
 }
 
-.coupon-buy{
+.coupon-buy {
     position: absolute;
     bottom: 3px;
     left: 5px;
@@ -152,6 +129,6 @@
     left: 2.5%;
 }
 
-.underline{
+.underline {
     text-decoration: underline;
 }
