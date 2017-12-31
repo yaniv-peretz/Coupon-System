@@ -1,0 +1,150 @@
+package main.entities.tables;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import main.entities.tables.enums.CouponType;
+
+@Entity(name = "COUPONS")
+public class Coupon {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "company_id")
+	private Company company;
+	@Column(unique = true, nullable = false)
+	private String title;
+	@Column(nullable = false)
+	private int amount;
+	@Column(nullable = false)
+	private long startDate;
+	@Column(nullable = false)
+	private long endDate;
+	@Column(nullable = false)
+	private CouponType type;
+	private String message;
+	@Column(nullable = false)
+	private double price;
+	private String image;
+	
+	public Coupon() {
+		super();
+	}
+	
+	public Coupon(Company company, String title, int amount, long startDate, long endDate, CouponType type,
+			String message, double price) {
+		super();
+		this.company = company;
+		this.title = title;
+		this.amount = amount;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.type = type;
+		this.message = message;
+		this.price = price;
+	}
+	
+	public Coupon(Company company, String title, int amount, long startDate, long endDate, CouponType type,
+			String message, double price, String image) {
+		
+		this(company, title, amount, startDate, endDate, type,
+				message, price);
+		this.image = image;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public Company getCompany() {
+		return company;
+	}
+	
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public int getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	
+	public long getStartDate() {
+		return startDate;
+	}
+	
+	public void setStartDate(long startDate) {
+		this.startDate = startDate;
+	}
+	
+	public long getEndDate() {
+		return endDate;
+	}
+	
+	public void setEndDate(long endDate) {
+		this.endDate = endDate;
+	}
+	
+	public CouponType getType() {
+		return type;
+	}
+	
+	public void setType(CouponType type) {
+		this.type = type;
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public double getPrice() {
+		return price;
+	}
+	
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	public String getImage() {
+		return image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+	@Override
+	public String toString() {
+		return "Coupon [id=" + id + ", company=" + company.getId() + ", title=" + title + ", amount=" + amount
+				+ ", startDate="
+				+ startDate + ", endDate=" + endDate + ", type=" + type + ", message=" + message + ", price=" + price
+				+ ", image=" + image + "]";
+	}
+	
+}
