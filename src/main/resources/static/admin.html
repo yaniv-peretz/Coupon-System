@@ -116,7 +116,7 @@
                             <td>{{x.password}}</td>
                             <td>
                                 <button class="btn-primary button-spacing" ng-click="openUpdateItem(x)">update</button>
-                                <button class="btn-danger" ng-click="openDeleteConfirmation(x)">delete</button>
+                                <button class="btn-danger" ng-click="openDeleteConfirmation(x.id, $index)">delete</button>
                             </td>
                         </tr>
                     </tbody>

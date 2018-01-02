@@ -6,13 +6,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import clientFacade.ClientFacadeInterface;
-import clientFacade.ClientType;
-import main.CouponSystem;
-import webComponents.WebClient;
+import main.entities.services.LoginService;
 
 /**
  * Servlet implementation class Login
@@ -22,6 +20,9 @@ import webComponents.WebClient;
 @RequestMapping(value = "login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	LoginService loginService;
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -47,48 +48,17 @@ public class LoginServlet extends HttpServlet {
 		String user = request.getParameter("name");
 		String password = request.getParameter("password");
 		String selector = request.getParameter("selector");
+		ClientType type = ClientType.valueOf(selector.toUpperCase());
 		
-		ClientType type = null;
+		int id = loginService.login(user, password, type);
 		
-		switch (selector) {
-		case "admin":
-			type = ClientType.ADMIN;
-			break;
-		
-		case "company":
-			type = ClientType.COMPANY;
-			break;
-		
-		case "customer":
-			type = ClientType.CUSTOMER;
-			break;
-		
+		if (id < 1) {
+			response.sendRedirect(request.getContextPath() + "/workbench.html");
 		}
 		
-		// if got here with undefined type
-		if (type == null) {
-			response.getWriter().append("Login type undifined");
-			response.sendRedirect(request.getContextPath() + "/workbench.html?err=type");
-			return;
-		}
-		
-		// initiate the system - try to login
-		CouponSystem sys = CouponSystem.getInstance();
-		ClientFacadeInterface client = sys.login(user, password, type);
-		
-		// return if login unsuccessful
-		if (client == null) {
-			response.sendRedirect(request.getContextPath() + "/workbench.html?err=psw");
-			return;
-		}
-		
-		// Login successful, set session data
 		HttpSession session = request.getSession();
 		session.setAttribute("auth", true);
-		session.setAttribute("client", client);
-		WebClient webClient = WebClient.returnWebClientFromClient(client.getClient());
-		webClient.setType(type.toString());
-		session.setAttribute("webClient", webClient);
+		session.setAttribute("id", id);
 		
 		switch (type) {
 		case ADMIN:

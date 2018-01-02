@@ -1,6 +1,5 @@
 package main.entities.tables;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,17 +7,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import main.entities.tables.enums.CouponType;
 
-@Entity(name = "COUPONS")
-public class Coupon {
+@Entity
+@Table(name = "COUPONS")
+public class Coupon implements Comparable<Coupon> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@ManyToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "company_id")
-	private Company company;
 	@Column(unique = true, nullable = false)
 	private String title;
 	@Column(nullable = false)
@@ -34,14 +32,17 @@ public class Coupon {
 	private double price;
 	private String image;
 	
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	private Company company;
+	
 	public Coupon() {
 		super();
 	}
 	
-	public Coupon(Company company, String title, int amount, long startDate, long endDate, CouponType type,
-			String message, double price) {
+	public Coupon(String title, int amount, long startDate, long endDate, CouponType type, String message, double price,
+			String image, Company company) {
 		super();
-		this.company = company;
 		this.title = title;
 		this.amount = amount;
 		this.startDate = startDate;
@@ -49,14 +50,8 @@ public class Coupon {
 		this.type = type;
 		this.message = message;
 		this.price = price;
-	}
-	
-	public Coupon(Company company, String title, int amount, long startDate, long endDate, CouponType type,
-			String message, double price, String image) {
-		
-		this(company, title, amount, startDate, endDate, type,
-				message, price);
 		this.image = image;
+		this.company = company;
 	}
 	
 	public int getId() {
@@ -65,14 +60,6 @@ public class Coupon {
 	
 	public void setId(int id) {
 		this.id = id;
-	}
-	
-	public Company getCompany() {
-		return company;
-	}
-	
-	public void setCompany(Company company) {
-		this.company = company;
 	}
 	
 	public String getTitle() {
@@ -139,12 +126,46 @@ public class Coupon {
 		this.image = image;
 	}
 	
+	public Company getCompany() {
+		return company;
+	}
+	
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
 	@Override
 	public String toString() {
-		return "Coupon [id=" + id + ", company=" + company.getId() + ", title=" + title + ", amount=" + amount
-				+ ", startDate="
-				+ startDate + ", endDate=" + endDate + ", type=" + type + ", message=" + message + ", price=" + price
-				+ ", image=" + image + "]";
+		return "Coupon [id=" + id + ", title=" + title + ", amount=" + amount + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", type=" + type + ", message=" + message + ", price=" + price + ", image="
+				+ image + "companyId=" + company.getId() + "]";
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Coupon other = (Coupon) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public int compareTo(Coupon coupon) {
+		return this.getId() - coupon.getId();
 	}
 	
 }

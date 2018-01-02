@@ -48,10 +48,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
 		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -5,8 +5,11 @@ app.controller('adminCtrl', function ($scope, $http) {
     $scope.workingItem = {};
     $scope.selectedId = 1;
     $scope.itemCreateMode = false;
-    $scope.items = getItems();
+    $scope.items = [];
     workingItemElement = document.querySelector("#workingItem");
+
+    //initialze
+    getItems();
 
     $scope.changeScope = function () {
         if ($(workingItemElement).hasClass('open-panel')) {
@@ -54,17 +57,17 @@ app.controller('adminCtrl', function ($scope, $http) {
         openWorkingItem();
     }
 
-    $scope.openDeleteConfirmation = function (item) {
-        var r = confirm("Delete item id:" + item.id + "?");
+    $scope.openDeleteConfirmation = function (itemId, index) {
+        var r = confirm("Delete item id:" + itemId + "?");
         if (r == true) {
-            deleteItem(item);
-            $scope.getItems();
+            deleteItem(itemId, index);
         }
     }
 
     $scope.sendNewItem = function () {
         postItem();
         $scope.closeWorkingItem();
+        $scope.items.push($scope.workingItem);
     }
 
     $scope.sendUpdateItem = function () {
@@ -110,40 +113,42 @@ app.controller('adminCtrl', function ($scope, $http) {
     }
 
     function postItem() {
+        let item = $scope.mode.includes('comps') ? "company" : "customer";
+        var url = `admin/${item}/`;
 
-        var url = "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/";
-
-        } else {
-            url += "customer/";
-
-        }
-
-        $http.post(url, $scope.workingItem);
+        $scope.workingItem.id = 0;
+        $http.post(url, $scope.workingItem)
+            .then((response) => {
+                var json = response.data;
+                $scope.items.forEach(element => {
+                    if (element.id == 0) {
+                        element.id = json.id;
+                    }
+                });
+            }, () => {
+                console.log("not saved");
+            });
         $scope.closeWorkingItem();
     }
 
-    function deleteItem(item) {
+    function deleteItem(itemId, index) {
 
-        var url = "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/";
-
-        } else {
-            url += "customer/";
-
-        }
+        let itemType = $scope.mode.includes('comps') ? "company" : "customer";
+        var _url = `admin/${itemType}/${itemId}`;
 
         $http({
-            'url': url,
-            dataType: "json",
-            method: "DELETE",
-            data: item,
-            headers: {
-                "Content-Type": "application/json"
-            }
+            'url': _url,
+            'method': "DELETE"
+        }).then((response) => {
+        }, (response) => {
+            console.log("not deleted");
         });
+
+
+        console.log(`itemId:${itemId} index:${index}`);
+        $scope.items.splice(index, 1);
+        //refresh the table
+        $scope.items = $scope.items;
     }
 
     function putItem() {

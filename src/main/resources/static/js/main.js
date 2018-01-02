@@ -28,7 +28,7 @@ app.controller('public-Controller', function ($scope, $http) {
             $scope.coupons = response.data;
 
             $scope.coupons.forEach(coupn => {
-                if(coupn.image == null || coupn.image == undefined ){
+                if(coupn.image == "" || coupn.image == null || coupn.image == undefined ){
                     coupn.image = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
                 }    
             });                
@@ -38,16 +38,16 @@ app.controller('public-Controller', function ($scope, $http) {
         });
     }
 
-    $scope.openCart = function () {
-        var cart = document.querySelector('.cart-content');
-        if (cart.style.width === '0px' || cart.style.width === '') {
-            cart.style.width = '225px';
+    // $scope.openCart = () => {
+    //     var cart = document.querySelector('.cart-content');
+    //     if (cart.style.width === '0px' || cart.style.width === '') {
+    //         cart.style.width = '225px';
 
-        } else {
-            cart.style.width = '0px';
+    //     } else {
+    //         cart.style.width = '0px';
 
-        }
-    }
+    //     }
+    // }
 
     $scope.addToCart = function (coupon) {
         if (!$scope.cart.includes(coupon)) {
@@ -62,9 +62,8 @@ app.controller('public-Controller', function ($scope, $http) {
         var password = document.querySelector('#password').value;
         
         var login = {
-            'name': user,
+            'custName': user,
             'password': password,
-            'type':"customer"
         }
 
         var url = "api/login";
@@ -82,18 +81,21 @@ app.controller('public-Controller', function ($scope, $http) {
 
     }
 
-
     $scope.buyAllCoupons = () => {
         //purchase all coupons in cart
+        let couponsIds = [];
+        $scope.cart.forEach(element => {
+            couponsIds.push(element.id);
+        });
 
         var url = "customer/coupons";
-        $http.post(url, $scope.cart)
-            .then(function mySuccess(response) {
+        $http.post(url, couponsIds)
+            .then((response) => {
                 $scope.customerCoupons = $scope.customerCoupons.concat($scope.cart);
                 $scope.cart = [];
                 removeCouponCustomerAlreadyOwns();
 
-            }, function myError(response) {
+            }, (response) => {
                 alert('buying coupons failed, try again later')
             });
 

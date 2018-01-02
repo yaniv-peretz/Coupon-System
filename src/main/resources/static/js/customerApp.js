@@ -37,16 +37,21 @@ app.controller('workingItem', function ($scope, $http) {
     }
 
     $scope.postWorkingItem = function () {
-        var url = "customer/coupon/";
+        let url = `customer/coupon/${$scope.workingItem.id}/`;
         $scope.workingItem.startDate = $scope.workingItem.displayStartDate.toLocaleDateString();
         $scope.workingItem.endDate = $scope.workingItem.displayEndDate.toLocaleDateString();
         
-        $http.post(url, $scope.workingItem);
+        $http.post(url)
+        .then(()=>{
+            getTableData();
+
+        },()=>{
+            alert("purchasing coupon failed");
+        });
         $scope.closeWorkingItem();
-        $scope.getTableData();
     }
 
-    $scope.closeWorkingItem = function () {
+    $scope.closeWorkingItem = () => {
         $(workingItemElement).removeClass('open-panel')
         $(workingItemElement).addClass('close-panel')
     }
@@ -100,7 +105,7 @@ app.controller('itemsTable', function ($scope, $http) {
     $scope.filter = 1;
     $scope.items = [];
 
-    $scope.getTableData = function () {
+    $scope.getTableData = () => {
         getTableData();
     }
 
@@ -148,6 +153,9 @@ app.controller('itemsTable', function ($scope, $http) {
             }
 
             $scope.items.forEach(item => {
+                item.dispalyStartDate = new Date(item.startDate);
+                item.dispalyEndDate = new Date(item.endDate);
+                
                 //set defualt image when no image is selected
                 if(item.image == null){
                     item.image = "./resources/No_Image_Available.jpg";
@@ -160,8 +168,6 @@ app.controller('itemsTable', function ($scope, $http) {
 
     }
 
-
     getTableData();
-
 
 });  //end of items controller
