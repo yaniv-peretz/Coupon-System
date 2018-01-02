@@ -3,6 +3,7 @@ package main.login;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,42 +12,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import clientFacade.ClientFacadeInterface;
-import clientFacade.ClientType;
-import main.CouponSystem;
-import webComponents.WebClient;
+import main.entities.repoInterfaces.CustomerRepo;
+import main.entities.tables.Customer;
+import webComponents.WebCustomer;
 
 @RestController
 @RequestMapping("api/login")
 public class LoginApi {
 	
+	@Autowired
+	CustomerRepo customerRepo;
+	
 	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<WebClient> loginCheck(
+	public @ResponseBody ResponseEntity<Object> loginCheck(
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		boolean auth;
 		try {
-			auth = (boolean) request.getSession().getAttribute("auth");
-			
+			if ((boolean) request.getSession().getAttribute("auth")) {
+				return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("");
+			} else {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			}
 		} catch (Exception e) {
-			auth = false;
-		}
-		
-		if (auth) {
-//			@formatter:off
-			return ResponseEntity.status(HttpStatus.OK)
-					.contentType(MediaType.APPLICATION_JSON)
-					.body((WebClient) request.getSession().getAttribute("webClient"));
-//			@formatter:on			
-			
-		} else {
-//			@formatter:off
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-					.contentType(MediaType.APPLICATION_JSON)
-					.body(null);
-//			@formatter:on
-			
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
 	
@@ -55,55 +44,27 @@ public class LoginApi {
 	 * 
 	 * @param request
 	 * @param response
-	 * @return status: OK, true on success. false and error status on failure.
+	 * @return status: true on success. false and error status on failure.
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Boolean> login(
+	public @ResponseBody ResponseEntity<Object> login(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestBody WebClient webClient) {
+			@RequestBody WebCustomer webCustomer) {
 		
-		// get customer user and password parameters.
-		String user = webClient.getName();
-		String password = webClient.getPassword();
-		ClientType type = ClientType.valueOf(webClient.getType().toUpperCase());
+		String user = webCustomer.getCustName();
+		String password = webCustomer.getPassword();
+		Customer customer = customerRepo.findCustomerByNameAndPassword(user, password);
 		
-		// try to login, else return specific HTTP-status
-		try {
-			CouponSystem sys = CouponSystem.getInstance();
-			ClientFacadeInterface clientFacade = sys.login(user, password, type);
-			
-			// user & password incorrect - customer not found
-			if (clientFacade == null) {
-//			@formatter:off
-				return ResponseEntity.
-						status(HttpStatus.NOT_FOUND).
-						contentType(MediaType.APPLICATION_JSON).
-						body(false);
-//			@formatter:on
-			}
-			
-			// Login successful, set session data
-			HttpSession session = request.getSession();
-			session.setAttribute("auth", true);
-			session.setAttribute("client", clientFacade);
-			session.setAttribute("webClient", webClient);
-			
-//		@formatter:off
-			return ResponseEntity.
-					status(HttpStatus.OK).
-					contentType(MediaType.APPLICATION_JSON).
-					body(true);
-//		@formatter:on
-			
-		} catch (Exception e) {
-//			@formatter:off
-				return ResponseEntity.
-						status(HttpStatus.INTERNAL_SERVER_ERROR).
-						contentType(MediaType.APPLICATION_JSON).
-						body(false);
-//			@formatter:on
+		if (customer == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
 		}
 		
+		// Login successful, set session data
+		HttpSession session = request.getSession();
+		session.setAttribute("auth", true);
+		session.setAttribute("id", customer.getId());
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(true);
 	}
+	
 }

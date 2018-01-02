@@ -1,23 +1,19 @@
 package webComponents;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
-import javaBeans.Coupon;
-import javaBeans.CouponType;
+import main.entities.tables.Coupon;
+import main.entities.tables.enums.CouponType;
 
 @XmlRootElement
 public class WebCoupon implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
 	
-	private long id;
+	private int id;
 	private int amount;
 	private String title;
-	private String startDate;
-	private String endDate;
+	private long startDate;
+	private long endDate;
 	private CouponType type;
 	private String message;
 	private double price;
@@ -27,7 +23,7 @@ public class WebCoupon implements Serializable {
 		super();
 	}
 	
-	public WebCoupon(long id, String title, String startDate, String endDate, int amount, CouponType type,
+	public WebCoupon(int id, String title, long startDate, long endDate, int amount, CouponType type,
 			String message, double price, String image) {
 		super();
 		this.id = id;
@@ -46,8 +42,8 @@ public class WebCoupon implements Serializable {
 		
 		this.id = c.getId();
 		this.title = c.getTitle();
-		this.startDate = sdf.format(c.getStartDate());
-		this.endDate = sdf.format(c.getEndDate());
+		this.startDate = c.getStartDate();
+		this.endDate = c.getEndDate();
 		this.amount = c.getAmount();
 		this.type = c.getType();
 		this.message = c.getMessage();
@@ -55,11 +51,11 @@ public class WebCoupon implements Serializable {
 		this.image = c.getImage();
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -79,19 +75,19 @@ public class WebCoupon implements Serializable {
 		this.title = title;
 	}
 	
-	public String getStartDate() {
+	public long getStartDate() {
 		return startDate;
 	}
 	
-	public void setStartDate(String startDate) {
+	public void setStartDate(long startDate) {
 		this.startDate = startDate;
 	}
 	
-	public String getEndDate() {
+	public long getEndDate() {
 		return endDate;
 	}
 	
-	public void setEndDate(String endDate) {
+	public void setEndDate(long endDate) {
 		this.endDate = endDate;
 	}
 	
@@ -128,28 +124,8 @@ public class WebCoupon implements Serializable {
 	}
 	
 	public static Coupon returnCoupon(WebCoupon webcoupon) {
-		java.util.Date startDate = new Date();
-		java.util.Date endDate = new Date();
-		
-		try {
-			startDate = sdf.parse(webcoupon.getStartDate());
-			endDate = sdf.parse(webcoupon.getEndDate());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		Coupon coupon = new Coupon(webcoupon.getId(),
-				webcoupon.getTitle(),
-				startDate,
-				endDate,
-				webcoupon.getAmount(),
-				webcoupon.getType(),
-				webcoupon.getMessage(),
-				webcoupon.getPrice(),
-				webcoupon.getImage()
-		
-		);
-		
-		return coupon;
+		return new Coupon(webcoupon.getTitle(), webcoupon.getAmount(), webcoupon.getStartDate(), webcoupon.getEndDate(),
+				webcoupon.getType(), webcoupon.getMessage(), webcoupon.getPrice(), webcoupon.getImage(), null);
 	}
+	
 }

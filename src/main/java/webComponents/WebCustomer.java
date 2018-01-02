@@ -2,13 +2,13 @@ package webComponents;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
-import javaBeans.Customer;
+import main.entities.tables.Customer;
 
 @XmlRootElement
-public class WebCustomer extends WebClient implements Serializable {
+public class WebCustomer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private long id;
+	private int id;
 	private String custName;
 	private String password;
 	
@@ -16,7 +16,7 @@ public class WebCustomer extends WebClient implements Serializable {
 		super();
 	}
 	
-	public WebCustomer(long id, String custName, String password) {
+	public WebCustomer(int id, String custName, String password) {
 		super();
 		this.id = id;
 		this.custName = custName;
@@ -26,15 +26,15 @@ public class WebCustomer extends WebClient implements Serializable {
 	public WebCustomer(Customer cust) {
 		super();
 		this.id = cust.getId();
-		this.custName = cust.getCustName();
+		this.custName = cust.getName();
 		this.password = cust.getPassword();
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -55,10 +55,13 @@ public class WebCustomer extends WebClient implements Serializable {
 	}
 	
 	public static WebCustomer returnWebCustomer(Customer Customer) {
-		return new WebCustomer(Customer.getId(), Customer.getCustName(), Customer.getPassword());
+		return new WebCustomer(Customer.getId(), Customer.getName(), Customer.getPassword());
 	}
 	
 	public static Customer returnCustomer(WebCustomer webCustomer) {
-		return new Customer(webCustomer.getId(), webCustomer.getCustName(), webCustomer.getPassword());
+		Customer customer = new Customer(webCustomer.getCustName(), webCustomer.getPassword());
+		customer.setId(webCustomer.getId());
+		return customer;
 	}
+	
 }

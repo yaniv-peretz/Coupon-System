@@ -7,14 +7,14 @@
 
     <!-- AngularJs & bootstrap & JQuery -->
     <script src="lib/JQuery/jquery-3.2.1.min.js"></script>
-    <script src="lib/JQuery/jquery.cookie.js"></script>    
+    <script src="lib/JQuery/jquery.cookie.js"></script>
     <script src="lib/Popper/popper.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
-    
+
     <!-- Check authentication, or return to the workbench -->
     <script src="js/checkRedirect.js"></script>
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/responsive-font-sizes.css">
@@ -150,14 +150,14 @@
                                 <td>{{x.id}}</td>
                                 <td>{{x.title}}</td>
                                 <td>{{x.type}}</td>
-                                <td>{{x.startDate}}</td>
-                                <td>{{x.endDate}}</td>
+                                <td>{{x.dispalyStartDate.toLocaleDateString()}}</td>
+                                <td>{{x.dispalyEndDate.toLocaleDateString()}}</td>
                                 <td>{{x.amount}}</td>
                                 <td>{{x.price}}</td>
                                 <td>{{x.message}}</td>
                                 <td>
                                     <button class="btn-primary button-spacing" ng-click="openEditItem(x)">update</button>
-                                    <button class="btn-danger" ng-click="openDeleteConfirmation(x)">delete</button>
+                                    <button class="btn-danger" ng-click="openDeleteConfirmation(x.id, $index)">delete</button>
                                 </td>
                             </tr>
                         </tbody>

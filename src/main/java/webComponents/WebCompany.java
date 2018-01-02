@@ -2,13 +2,13 @@ package webComponents;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
-import javaBeans.Company;
+import main.entities.tables.Company;
 
 @XmlRootElement
-public class WebCompany extends WebClient implements Serializable {
+public class WebCompany implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private long id;
+	private int id;
 	private String compName;
 	private String password;
 	private String email;
@@ -17,7 +17,7 @@ public class WebCompany extends WebClient implements Serializable {
 		super();
 	}
 	
-	public WebCompany(long id, String compName, String password, String email) {
+	public WebCompany(int id, String compName, String password, String email) {
 		super();
 		this.id = id;
 		this.compName = compName;
@@ -33,11 +33,11 @@ public class WebCompany extends WebClient implements Serializable {
 		this.email = comp.getEmail();
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -66,14 +66,17 @@ public class WebCompany extends WebClient implements Serializable {
 	}
 	
 	public static Company retutnCompany(WebCompany webCompany) {
-		return new Company(webCompany.getId(), webCompany.getCompName(), webCompany.getPassword(),
+		Company company = new Company(webCompany.getCompName(), webCompany.getPassword(),
 				webCompany.getEmail());
+		company.setId(webCompany.getId());
+		return company;
 		
 	}
 	
-	public static WebCompany retutnWebCompany(Company Company) {
-		return new WebCompany(Company.getId(), Company.getCompName(), Company.getPassword(),
-				Company.getEmail());
+	public static WebCompany retutnWebCompany(Company company) {
+		return new WebCompany(company.getId(), company.getCompName(), company.getPassword(),
+				company.getEmail());
 		
 	}
+	
 }
