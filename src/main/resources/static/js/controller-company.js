@@ -18,8 +18,6 @@ app.controller('compController', function ($scope, $http) {
 
 
     $scope.workingItem = {
-        'id': 0,
-        'type': "FOOD"
     };
 
     $scope.items = [];
@@ -36,12 +34,12 @@ app.controller('compController', function ($scope, $http) {
         $(workingItemElement).addClass('open-panel')
     }
 
-    $scope.closeWorkingItem = function () {
+    $scope.closeWorkingItem = () => {
         $(workingItemElement).removeClass('open-panel')
         $(workingItemElement).addClass('close-panel')
     }
 
-    $scope.postWorkingItem = function () {
+    $scope.postWorkingItem = () => {
         $scope.workingItem.startDate = Date.parse($scope.workingItem.dispalyStartDate);
         $scope.workingItem.endDate = Date.parse($scope.workingItem.dispalyEndDate);
 
@@ -56,7 +54,7 @@ app.controller('compController', function ($scope, $http) {
         $scope.closeWorkingItem();
     }
 
-    $scope.openEditItem = function (item) {
+    $scope.openEditItem = (item) => {
         $scope.workingItem = item;
         $scope.itemCreateMode = false;
         openWorkingItem();
@@ -107,7 +105,11 @@ app.controller('compController', function ($scope, $http) {
         'CAMPING',
         'TRAVELLING',
     ];
-    $scope.filter = '';
+    $scope.filter = {
+        price: 0,
+        type: 'RESTURANS',
+        date: new Date()
+    };
 
     //external hook for UI, will trigger items table update
     $scope.getTableData = function () {
@@ -122,23 +124,15 @@ app.controller('compController', function ($scope, $http) {
             case 'All':
                 url += "all";
                 break;
-
             case 'By Date':
-                url += "date/";
-                url += $scope.filter.substr(0, 4) + "/";
-                url += $scope.filter.substr(5, 2) + "/";
-                url += $scope.filter.substr(8, 2) + "/";
+                url += `date/${Date.parse($scope.filter.date)}`;
                 break;
             case 'By Price':
-                url += "price/";
-                url += $scope.filter;
+                url += `price/${$scope.filter.price}`;
                 break;
-
             case 'By Type':
-                url += "type/";
-                url += $scope.filter;
+                url += `type/${$scope.filter.type}`;
                 break;
-
             default:
                 url += "all";
                 return;

@@ -1,6 +1,7 @@
 package main.restControllers;
 
 import java.util.HashSet;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -36,11 +37,12 @@ public class AdminApi {
 	private boolean getFacade(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession httpSession = request.getSession();
 		
-		// TODO: STOP fake the login##################################
-		httpSession.setAttribute("auth", true);
+		if (httpSession.getAttribute("auth") != null && (boolean) httpSession.getAttribute("auth")) {
+			return (boolean) httpSession.getAttribute("auth");
+		} else {
+			return false;
+		}
 		
-		// Get the company from the session
-		return (boolean) httpSession.getAttribute("auth");
 	}
 	
 	// #################
@@ -92,16 +94,11 @@ public class AdminApi {
 		
 		webCustomer.setId(0);
 		Customer customer = WebCustomer.returnCustomer(webCustomer);
-		if (!adminService.isCustNameExists(webCustomer.getCustName())) {
-			try {
-				adminService.createCustomer(customer);
-				webCustomer.setId(customer.getId());
-				return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCustomer);
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-			}
-			
+		Optional<Customer> optCustomer = adminService.createCustomer(customer);
+		
+		if (optCustomer.isPresent()) {
+			webCustomer.setId(optCustomer.get().getId());
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCustomer);
 		} else {
 			String msg = "customer name exists";
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
@@ -125,16 +122,8 @@ public class AdminApi {
 		}
 		
 		Customer customer = WebCustomer.returnCustomer(webCustomer);
-		if (!adminService.isCustNameExists(webCustomer.getCustName())) {
-			try {
-				adminService.createCustomer(customer);
-				webCustomer.setId(customer.getId());
-				return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCustomer);
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-			}
-			
+		if (adminService.updateCustomer(customer)) {
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCustomer);
 		} else {
 			String msg = "customer name exists";
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);

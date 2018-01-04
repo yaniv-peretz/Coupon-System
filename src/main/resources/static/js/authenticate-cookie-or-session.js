@@ -1,13 +1,11 @@
 var client = {};
 
 {
-    let url = "api/login";
-
     let loginFromSession = () => {
         return new Promise((success, fail) => {
-
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
+            
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = () => {
                 if (this.readyState == 4) {
                     if (this.status == 200) {
                         //compare session auth to user loction (page)
@@ -15,7 +13,7 @@ var client = {};
                         sessionClient.type = sessionClient.type.toLowerCase(sessionClient.type);
                         let location = window.location.toString();
                         let locationMatchSessionAuthType = location.includes(sessionClient.type);
-
+                        
                         if (locationMatchSessionAuthType) {
                             //session auth math location
                             success(this.responseText);
@@ -29,7 +27,9 @@ var client = {};
                         fail();
                     }
                 }
-            }
+            };
+
+            let url = "api/login";
             xhttp.open("GET", url, true);
             xhttp.send();
         });
@@ -92,7 +92,7 @@ var client = {};
                     client = cookieLoggin;
                 })
                 .catch(() => {
-                    let redirectUrl = "workbench.html";
+                    let redirectUrl = "management-console.html";
                     window.location.replace(redirectUrl);
                 })
         });

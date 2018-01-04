@@ -1,5 +1,6 @@
 package main.entities.services;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import main.entities.repoInterfaces.CompanyRepo;
@@ -16,19 +17,27 @@ public class LoginService {
 	@Autowired
 	CustomerService customerService;
 	
-	public int login(String user, String password, ClientType type) {
+	public Optional<Integer> login(String user, String password, ClientType type) {
 		
 		switch (type) {
 		case ADMIN:
-			return (user.equals("admin") && password.equals("1234")) ? 1 : 0;
+			return (user.equals("admin") && password.equals("1234")) ? Optional.of(1) : Optional.empty();
 		case COMPANY:
 			Company compnay = companyRepo.findCompanyByCompNameAndPassword(user, password);
-			return compnay.getId();
+			if (compnay != null) {
+				return Optional.of(compnay.getId());
+			} else {
+				return Optional.empty();
+			}
 		case CUSTOMER:
 			Customer customer = customerService.findCustomerByNameAndPassword(user, password);
-			return customer.getId();
+			if (customer != null) {
+				return Optional.of(customer.getId());
+			} else {
+				return Optional.empty();
+			}
 		default:
-			return 0;
+			return Optional.empty();
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package main.restControllers;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,12 +24,12 @@ public class PublicApi {
 	CouponRepo couponRepo;
 	
 	@RequestMapping(value = "coupons", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<HashSet<WebCoupon>> getCustomer(
+	public @ResponseBody ResponseEntity<?> getCustomer(
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		// transform all coupons to webCoupons
 		HashSet<WebCoupon> webCoupons = new HashSet<>();
-		for (Coupon c : couponRepo.findAll()) {
+		for (Coupon c : couponRepo.findPurchableCouponByAmountAndEndDate(Calendar.getInstance().getTimeInMillis())) {
 			webCoupons.add(new WebCoupon(c));
 		}
 		

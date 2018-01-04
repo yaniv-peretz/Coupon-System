@@ -24,19 +24,19 @@ public class LoginApi {
 	CustomerRepo customerRepo;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Object> loginCheck(
+	public @ResponseBody ResponseEntity<?> loginCheck(
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
+		HttpSession session = request.getSession();
 		try {
-			if ((boolean) request.getSession().getAttribute("auth")) {
-				return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("");
-			} else {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			if (session.getAttribute("auth") != null && (boolean) session.getAttribute("auth")) {
+				return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(true);
 			}
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
 		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class LoginApi {
 	 * @return status: true on success. false and error status on failure.
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> login(
+	public @ResponseBody ResponseEntity<?> login(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody WebCustomer webCustomer) {
@@ -57,7 +57,7 @@ public class LoginApi {
 		Customer customer = customerRepo.findCustomerByNameAndPassword(user, password);
 		
 		if (customer == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
 		}
 		
 		// Login successful, set session data

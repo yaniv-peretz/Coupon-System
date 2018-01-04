@@ -1,8 +1,7 @@
 package main.restControllers;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import main.entities.repoInterfaces.CouponRepo;
 import main.entities.services.CompanyService;
 import main.entities.tables.Company;
 import main.entities.tables.Coupon;
@@ -29,8 +27,6 @@ public class CompanyApi {
 	
 	@Autowired
 	CompanyService companyService;
-	@Autowired
-	CouponRepo couponRepo;
 	
 	private Company getFacade(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession httpSession = request.getSession();
@@ -74,7 +70,7 @@ public class CompanyApi {
 	 * @return create a new coupon for the company
 	 */
 	@RequestMapping(value = "coupon", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> postCoupon(
+	public @ResponseBody ResponseEntity<?> postCoupon(
 			HttpServletRequest request, HttpServletResponse response,
 			@RequestBody WebCoupon webcoupon) {
 		
@@ -85,16 +81,20 @@ public class CompanyApi {
 		
 		// save the coupon
 		Coupon coupon = WebCoupon.returnCoupon(webcoupon);
-		coupon.setCompany(company);
-		coupon.setId(0);
-		couponRepo.save(coupon);
+		int newId = companyService.addNewCoupon(company, coupon);
 		
-		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-				.body(new WebCoupon(coupon));
+		if (0 < newId) {
+			coupon.setId(newId);
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+					.body(new WebCoupon(coupon));
+		} else {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("coupon already name exists");
+		}
+		
 	}
 	
 	@RequestMapping(value = "coupon", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<Object> putCoupon(
+	public @ResponseBody ResponseEntity<?> putCoupon(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody WebCoupon webcoupon) {
@@ -104,23 +104,21 @@ public class CompanyApi {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		// save the coupon
-		Coupon coupon = WebCoupon.returnCoupon(webcoupon);
-		coupon.setCompany(company);
-		coupon.setId(webcoupon.getId());
-		try {
-			couponRepo.save(coupon);
+		// update the coupon
+		if (companyService.getCouponById(company, webcoupon.getId()) != null) {
+			Coupon coupon = WebCoupon.returnCoupon(webcoupon);
+			coupon.setId(webcoupon.getId());
+			companyService.updateExistingCoupon(company, coupon);
 			return ResponseEntity.status(HttpStatus.OK).body("");
 			
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-			
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("company doesn't own the coupon!");
 		}
 		
 	}
 	
 	@RequestMapping(value = "coupon/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<Object> deleteCoupon(
+	public @ResponseBody ResponseEntity<?> deleteCoupon(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@PathVariable("id") int id) {
@@ -130,17 +128,12 @@ public class CompanyApi {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		if (couponRepo.findOne(id) == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("coupon not found");
-		}
-		// delete the coupon
-		// TODO must check if the coupon is owned by the deleting company!
-		try {
-			couponRepo.delete(id);
+		if (companyService.deleteCoupon(company, id)) {
 			return ResponseEntity.status(HttpStatus.OK).body("");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			
+		} else {
+			String msg = "coupon " + id + " not found for company" + company.getId();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 		}
 		
 	}
@@ -152,16 +145,16 @@ public class CompanyApi {
 	 	@formatter:on		*/
 	
 	@RequestMapping(value = "coupon/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<WebCoupon>> getAllCoupons(HttpServletRequest request,
+	public @ResponseBody ResponseEntity<?> getAllCoupons(HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		Company company = getFacade(request, response);
 		if (company == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
 		}
 		
-		List<Coupon> coupons = company.getCoupons();
-		List<WebCoupon> webCoupons = new ArrayList<>();
+		Set<Coupon> coupons = companyService.getCoupons(company);
+		Set<WebCoupon> webCoupons = new HashSet<>();
 		for (Coupon coupon : coupons) {
 			webCoupons.add(new WebCoupon(coupon));
 		}
@@ -169,42 +162,37 @@ public class CompanyApi {
 	}
 	
 	@RequestMapping(value = "coupon/price/{price}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<WebCoupon>> getAllCouponsbyPrice(
+	public @ResponseBody ResponseEntity<?> getAllCouponsbyPrice(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@PathVariable("price") double price) {
 		
 		Company company = getFacade(request, response);
 		if (company == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
 		}
 		
-		List<Coupon> coupons = companyService.getCouponsByPrice(company, price);
-		List<WebCoupon> webCoupons = new ArrayList<>();
+		Set<Coupon> coupons = companyService.getCouponsByPrice(company, price);
+		Set<WebCoupon> webCoupons = new HashSet<>();
 		for (Coupon coupon : coupons) {
 			webCoupons.add(new WebCoupon(coupon));
 		}
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCoupons);
 	}
 	
-	@RequestMapping(value = "coupon/date/{year}/{month}/{day}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<WebCoupon>> getAllCouponsbyDate(
+	@RequestMapping(value = "coupon/date/{date}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<?> getAllCouponsbyDate(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@PathVariable("year") int yyyy,
-			@PathVariable("month") int mm,
-			@PathVariable("day") int dd) {
+			@PathVariable("date") long date) {
 		
 		Company company = getFacade(request, response);
 		if (company == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		Calendar cal = Calendar.getInstance();
-		cal.set(yyyy, mm, dd);
-		
-		List<Coupon> coupons = companyService.getCouponsByDate(company, cal.getTimeInMillis());
-		List<WebCoupon> webCoupons = new ArrayList<>();
+		Set<Coupon> coupons = companyService.getCouponsByDate(company, date);
+		Set<WebCoupon> webCoupons = new HashSet<>();
 		for (Coupon coupon : coupons) {
 			webCoupons.add(new WebCoupon(coupon));
 		}
@@ -214,7 +202,7 @@ public class CompanyApi {
 	//
 	//
 	@RequestMapping(value = "coupon/type/{type}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<WebCoupon>> getAllCouponsbyType(
+	public @ResponseBody ResponseEntity<?> getAllCouponsbyType(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@PathVariable("type") CouponType type) {
@@ -224,8 +212,8 @@ public class CompanyApi {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		List<Coupon> coupons = companyService.getCouponsByType(company, type);
-		List<WebCoupon> webCoupons = new ArrayList<>();
+		Set<Coupon> coupons = companyService.getCouponsByType(company, type);
+		Set<WebCoupon> webCoupons = new HashSet<>();
 		for (Coupon coupon : coupons) {
 			webCoupons.add(new WebCoupon(coupon));
 		}

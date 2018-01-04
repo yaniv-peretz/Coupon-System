@@ -1,6 +1,7 @@
 package main.login;
 
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,15 +51,16 @@ public class LoginServlet extends HttpServlet {
 		String selector = request.getParameter("selector");
 		ClientType type = ClientType.valueOf(selector.toUpperCase());
 		
-		int id = loginService.login(user, password, type);
+		Optional<Integer> id = loginService.login(user, password, type);
 		
-		if (id < 1) {
-			response.sendRedirect(request.getContextPath() + "/workbench.html");
+		if (!id.isPresent()) {
+			response.sendRedirect(request.getContextPath() + "/management-console.html?err=user&passowrd");
+			return;
 		}
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("auth", true);
-		session.setAttribute("id", id);
+		session.setAttribute("id", id.get().intValue());
 		
 		switch (type) {
 		case ADMIN:
@@ -74,7 +76,7 @@ public class LoginServlet extends HttpServlet {
 			break;
 		
 		default:
-			response.sendRedirect(request.getContextPath() + "/workbench.html");
+			response.sendRedirect(request.getContextPath() + "/management-console.html");
 		}
 		return;
 	}

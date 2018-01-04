@@ -4,14 +4,14 @@
 <title>Customer WorkBench</title>
 
 <!-- AngularJs & bootstrap & JQuery -->
-<script src="lib/JQuery/jquery-3.2.1.min.js"></script>
-<script src="lib/JQuery/jquery.cookie.js"></script>
-<script src="lib/Popper/popper.min.js"></script>
+<script src="lib/jquery/jquery-3.2.1.min.js"></script>
+<script src="lib/jquery/jquery.cookie.js"></script>
+<script src="lib/popper/popper.min.js"></script>
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="lib/angular/angular.min.js"></script>
 
 <!-- Check authentication, or return to the workbench -->
-<script src="js/checkRedirect.js"></script>
+<script src="js/authenticate-cookie-or-session.js"></script>
 
 <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="style/responsive-font-sizes.css">
@@ -19,19 +19,16 @@
 <link rel="stylesheet" href="style/client.css">
 </head>
 
-<body ng-app="CustomerApp">
+<body ng-app="CustomerApp" ng-controller="customer-controller">
 
-    <div class="main-header" ng-controller="main">
+    <div class="main-header">
         <header class="header">logged in as {{client.type}} #{{client.id}}</header>
-        <a class="box main-title" href="workbench.html">
+        <a class="box main-title" href="management-console.html">
             <h1>Customer Screen</h1>
         </a>
     </div>
 
     <!-- end of Angular main Controller -->
-
-    <div ng-controller="workingItem">
-
         <div class="mode-selector space">
             <h4>Coupon Details</h4>
             <form>
@@ -97,23 +94,18 @@
                     </tr>
                 </table>
                 <img src={{workingItem.image}} alt="image not set up">
-                
-
 
                 <div id="WorkingItem-buttons">
-                    <button type="submit" class="btn-success" ng-click="postWorkingItem()">Buy</button>
+                    <button type="submit" class="btn-success" ng-click="purchaseCoupon()">Buy</button>
                     <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
                 </div>
             </div>
         </form>
 
-    </div>
-    <!-- end of Angular workingItem Controller -->
-
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12" ng-controller="itemsTable">
-
+            <div class="col-12">
+<!-- 
                 <div class="selectors">
                     <select ng-model="selectedOption" ng-options="item for item in options"></select>
 
@@ -122,7 +114,7 @@
                     <select ng-show="selectedOption.includes('By Type')" ng-model="filter" ng-options="type for type in typeOptions"></select>
 
                     <button ng-click="getTableData()">Get Coupons</button>
-                </div>
+                </div> -->
 
 
                 <table class="items-table">
@@ -152,19 +144,16 @@
                 </table>
 
             </div>
-            <!-- end of Angular itemsTable Controller -->
-
         </div>
     </div>
 
     <div class="footer">
         <span>
-            <a href="workbench.html">management Workbench</a>
+            <a href="management-console.html">Management Console</a>
         </span>
         <span>@Discound Coupons LTD, by Yaniv Peretz</span>
     </div>
-    <!-- end of Angular app -->
-    <script src="js/customerApp.js"></script>
+    <script src="js/controller-customer.js"></script>
 </body>
 
 </html>

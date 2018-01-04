@@ -1,8 +1,6 @@
 package main.entities.services;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,40 +39,43 @@ public class CustomerService {
 		return couponRepo.findOne(id);
 	}
 	
-	public List<Coupon> getAllCoupons(Customer customer) {
-		customer = customerRepo.findOne(customer.getId());
-		return customer.getCoupons();
+	public Set<Coupon> getAllCoupons(Customer customer) {
+		return customerRepo.getAllCustomerCoupons(customer.getId());
 	}
 	
-	public List<Coupon> getCouponsByPrice(Customer customer, double price) {
-		customer = customerRepo.findOne(customer.getId());
-		return customer.getCouponsByPrice(price);
+	public Set<Coupon> getCouponsByPrice(Customer customer, double price) {
+		return customerRepo.getAllCustomerCouponsbyPrice(customer.getId(), price);
 	}
 	
-	public List<Coupon> getCouponsByDate(Customer customer, Long endDate) {
-		customer = customerRepo.findOne(customer.getId());
-		return customer.getCouponsByDate(endDate);
+	public Set<Coupon> getCouponsByDate(Customer customer, Long endDate) {
+		return customerRepo.getAllCustomerCouponsbyDate(customer.getId(), endDate);
 	}
 	
-	public List<Coupon> getCouponsByType(Customer customer, CouponType type) {
-		customer = customerRepo.findOne(customer.getId());
-		return customer.getCouponsByType(type);
+	public Set<Coupon> getCouponsByType(Customer customer, CouponType type) {
+		return customerRepo.getAllCustomerCouponsByType(customer.getId(), type);
 	}
 	
-	public void purchaseCoupons(List<Integer> couponIds, int comp_id) {
-		Customer customer = customerRepo.findOne(comp_id);
-		Set<Coupon> uniqueCoupons = new HashSet<>(customer.getCoupons());
-		
-		for (int id : couponIds) {
-			Coupon coupon = couponRepo.findOne(id);
-			if (!uniqueCoupons.contains(coupon) && 0 < coupon.getAmount()) {
-				coupon.setAmount(coupon.getAmount() - 1);
-				uniqueCoupons.add(coupon);
+	public void purchaseCoupons(Set<Integer> couponIds, int cust_id) {
+		Customer customer = customerRepo.findCustomerById(cust_id);
+		if (customer != null) {
+			Set<Coupon> uniqueCoupons = new HashSet<>();
+			for (int coup_id : couponIds) {
+				if (customerRepo.getCustomerCouponById(cust_id, coup_id) == null) {
+					Coupon coupon = couponRepo.findOne(coup_id);
+					if (coupon != null && 0 < coupon.getAmount()) {
+						uniqueCoupons.add(coupon);
+						coupon.setAmount(coupon.getAmount() - 1);
+						couponRepo.save(coupon);
+					}
+				}
 			}
+			
+			uniqueCoupons.addAll(customerRepo.getAllCustomerCoupons(cust_id));
+			// TODO Save coupons without bringing all coupons back
+			customer.setCoupons(uniqueCoupons);
+			customerRepo.save(customer);
+			
 		}
-		
-		customer.setCoupons(new ArrayList<>(uniqueCoupons));
-		customerRepo.save(customer);
 	}
 	
 }

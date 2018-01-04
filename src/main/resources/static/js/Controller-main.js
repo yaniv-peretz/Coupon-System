@@ -28,28 +28,17 @@ app.controller('public-Controller', function ($scope, $http) {
             $scope.coupons = response.data;
 
             $scope.coupons.forEach(coupn => {
-                if(coupn.image == "" || coupn.image == null || coupn.image == undefined ){
+                if (coupn.image == "" || coupn.image == null || coupn.image == undefined) {
                     coupn.image = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
-                }    
-            });                
+                }
+            });
 
         }, (response) => {
             alert("could not get all coupons - something went wrong")
         });
     }
 
-    // $scope.openCart = () => {
-    //     var cart = document.querySelector('.cart-content');
-    //     if (cart.style.width === '0px' || cart.style.width === '') {
-    //         cart.style.width = '225px';
-
-    //     } else {
-    //         cart.style.width = '0px';
-
-    //     }
-    // }
-
-    $scope.addToCart = function (coupon) {
+    $scope.addToCart = (coupon) => {
         if (!$scope.cart.includes(coupon)) {
             $scope.cart.push(coupon);
 
@@ -60,7 +49,7 @@ app.controller('public-Controller', function ($scope, $http) {
         // login as customer
         var user = document.querySelector('#username').value;
         var password = document.querySelector('#password').value;
-        
+
         var login = {
             'custName': user,
             'password': password,
@@ -68,14 +57,14 @@ app.controller('public-Controller', function ($scope, $http) {
 
         var url = "api/login";
         $http.post(url, login)
-            .then(function mySuccess(response) {
+            .then(() => {
 
                 // get all customer coupons
                 $scope.loggedIn = true;
                 $scope.customer = user;
                 getCustomerCoupons();
 
-            }, function myError(response) {
+            }, () => {
                 alert('user name and password incorrect, check again')
             });
 
@@ -91,9 +80,17 @@ app.controller('public-Controller', function ($scope, $http) {
         var url = "customer/coupons";
         $http.post(url, couponsIds)
             .then((response) => {
-                $scope.customerCoupons = $scope.customerCoupons.concat($scope.cart);
+
+                if( 0 < $scope.customerCoupons.length){
+                    $scope.customerCoupons = $scope.customerCoupons.concat($scope.cart);
+                }else{
+                    $scope.customerCoupons = $scope.cart;
+                }
                 $scope.cart = [];
-                removeCouponCustomerAlreadyOwns();
+
+                if(0 < $scope.customerCoupons.length){
+                    removeCouponCustomerAlreadyOwns();
+                }
 
             }, (response) => {
                 alert('buying coupons failed, try again later')
@@ -106,7 +103,7 @@ app.controller('public-Controller', function ($scope, $http) {
         $http({
             'method': "GET",
             'url': url,
-        }).then(function mySuccess(response) {
+        }).then((response) => {
             if (response.data instanceof Object && response.data.constructor === Object) {
                 $scope.customerCoupons = [response.data];
 
@@ -115,10 +112,14 @@ app.controller('public-Controller', function ($scope, $http) {
 
             }
             //remove coupons duplications
-            removeCouponCustomerAlreadyOwns();
-            removeCartCouponCustomerAlreadyOwns();
 
-        }, function myError(response) {
+            if(0 < $scope.customerCoupons.length){
+                removeCouponCustomerAlreadyOwns();
+                removeCartCouponCustomerAlreadyOwns();
+
+            }
+
+        }, (response) => {
             alert("fechting all coupons failed!");
         });
 
@@ -126,7 +127,7 @@ app.controller('public-Controller', function ($scope, $http) {
 
     function removeCouponCustomerAlreadyOwns() {
         $scope.customerCoupons.forEach(removeElement => {
-            $scope.coupons = $scope.coupons.filter(function (allCoupons) {
+            $scope.coupons = $scope.coupons.filter((allCoupons) => {
                 return allCoupons.id !== removeElement.id;
             });
         });
@@ -134,7 +135,7 @@ app.controller('public-Controller', function ($scope, $http) {
 
     function removeCartCouponCustomerAlreadyOwns() {
         $scope.customerCoupons.forEach(removeElement => {
-            $scope.cart = $scope.cart.filter(function (cartCoupons) {
+            $scope.cart = $scope.cart.filter((cartCoupons) => {
                 return cartCoupons.id !== removeElement.id;
             });
         });

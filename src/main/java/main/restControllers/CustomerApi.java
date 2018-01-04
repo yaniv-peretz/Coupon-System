@@ -1,7 +1,7 @@
 package main.restControllers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -35,12 +35,16 @@ public class CustomerApi {
 		HttpSession httpSession = request.getSession();
 		
 		// Get the company from the session
-		int cust_id = (int) httpSession.getAttribute("id");
-		return customerService.findCustomerById(cust_id);
+		if (httpSession.getAttribute("id") != null) {
+			int cust_id = (int) httpSession.getAttribute("id");
+			return customerService.findCustomerById(cust_id);
+		} else {
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "coupon/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<WebCoupon> getCouponById(
+	public @ResponseBody ResponseEntity<?> getCouponById(
 			HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("id") int id) {
 		
@@ -59,7 +63,7 @@ public class CustomerApi {
 	}
 	
 	@RequestMapping(value = "coupon/{id}", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> purchaseCoupon(
+	public @ResponseBody ResponseEntity<?> purchaseCoupon(
 			HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("id") int id) {
 		
@@ -68,18 +72,19 @@ public class CustomerApi {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		List<Integer> couponIds = new ArrayList<>();
+		Set<Integer> couponIds = new HashSet<>();
 		couponIds.add(id);
+		
 		customerService.purchaseCoupons(couponIds, customer.getId());
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
 				.body("");
 	}
 	
 	@RequestMapping(value = "coupons", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Object> purchaseCoupons(
+	public @ResponseBody ResponseEntity<?> purchaseCoupons(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestBody List<Integer> couponIds) {
+			@RequestBody Set<Integer> couponIds) {
 		
 		Customer customer = getFacade(request, response);
 		if (customer == null) {
@@ -99,7 +104,7 @@ public class CustomerApi {
 	// @formatter:on
 	
 	@RequestMapping(value = "coupon/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<WebCoupon>> getCouponsByType(
+	public @ResponseBody ResponseEntity<?> getCouponsByType(
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		Customer customer = getFacade(request, response);
@@ -107,21 +112,22 @@ public class CustomerApi {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		List<Coupon> coupons = customerService.getAllCoupons(customer);
-		List<WebCoupon> webCoupons = new ArrayList<>();
-		for (Coupon coupon : coupons) {
-			webCoupons.add(new WebCoupon(coupon));
-		}
+		Set<Coupon> coupons = customerService.getAllCoupons(customer);
 		
-		if (0 < webCoupons.size()) {
+		if (0 < coupons.size()) {
+			Set<WebCoupon> webCoupons = new HashSet<>();
+			for (Coupon coupon : coupons) {
+				webCoupons.add(new WebCoupon(coupon));
+			}
+			
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCoupons);
 		} else {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new HashSet<WebCoupon>());
 		}
 	}
 	
 	@RequestMapping(value = "coupon/type/{type}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<WebCoupon>> getCouponsByType(
+	public @ResponseBody ResponseEntity<?> getCouponsByType(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@PathVariable("type") CouponType type) {
@@ -131,8 +137,8 @@ public class CustomerApi {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		List<Coupon> coupons = customerService.getCouponsByType(customer, type);
-		List<WebCoupon> webCoupons = new ArrayList<>();
+		Set<Coupon> coupons = customerService.getCouponsByType(customer, type);
+		Set<WebCoupon> webCoupons = new HashSet<>();
 		for (Coupon coupon : coupons) {
 			webCoupons.add(new WebCoupon(coupon));
 		}
@@ -145,7 +151,7 @@ public class CustomerApi {
 	}
 	
 	@RequestMapping(value = "coupon/price/{price}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<WebCoupon>> getAllCouponsbyPrice(
+	public @ResponseBody ResponseEntity<?> getAllCouponsbyPrice(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@PathVariable("price") double price) {
@@ -155,8 +161,8 @@ public class CustomerApi {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
-		List<Coupon> coupons = customerService.getCouponsByPrice(customer, price);
-		List<WebCoupon> webCoupons = new ArrayList<>();
+		Set<Coupon> coupons = customerService.getCouponsByPrice(customer, price);
+		Set<WebCoupon> webCoupons = new HashSet<>();
 		for (Coupon coupon : coupons) {
 			webCoupons.add(new WebCoupon(coupon));
 		}

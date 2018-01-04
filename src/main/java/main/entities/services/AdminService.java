@@ -1,5 +1,6 @@
 package main.entities.services;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import main.entities.repoInterfaces.CompanyRepo;
@@ -76,13 +77,21 @@ public class AdminService {
 		return false;
 	}
 	
-	public Customer createCustomer(Customer customer) {
+	public Optional<Customer> createCustomer(Customer customer) {
+		
 		customer.setId(0);
-		return updateCustomer(customer);
+		if (customerRepo.findCustomerByName(customer.getName()) == null) {
+			return Optional.of(customerRepo.save(customer));
+		} else
+			return Optional.empty();
 	}
 	
-	public Customer updateCustomer(Customer customer) {
-		return customerRepo.save(customer);
+	public boolean updateCustomer(Customer customer) {
+		if (customerRepo.findCustomerByIdAndName(customer.getId(), customer.getName()) != null) {
+			customerRepo.save(customer);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean deleteCustomer(int id) {

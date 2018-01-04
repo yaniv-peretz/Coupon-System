@@ -1,5 +1,5 @@
 package main.entities.tables.enums;
 
 public enum CouponType {
-	SPORT, FOOD, ELECTRICITY, OTHER
+	RESTURANS, ELECTRICITY, FOOD, HEALTH, SPORTS, CAMPING, TRAVELLING
 }

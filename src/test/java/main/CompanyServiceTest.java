@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import main.entities.repoInterfaces.CouponRepo;
+import main.entities.services.AdminService;
 import main.entities.services.CompanyService;
 import main.entities.tables.Company;
 import main.entities.tables.Coupon;
@@ -20,6 +21,8 @@ import main.entities.tables.enums.CouponType;
 public class CompanyServiceTest {
 	static int index = 0;
 	
+	@Autowired
+	AdminService adminService;
 	@Autowired
 	CompanyService companyService;
 	@Autowired
@@ -33,13 +36,13 @@ public class CompanyServiceTest {
 	@Test
 	public void saveEditCustomer() {
 		Company company = new Company("compName", "password");
-		companyService.save(company);
+		adminService.createCompany(company);
 		System.out.println(company);
 		
 		company.setCompName("changed");
 		company.setEmail("changed");
 		company.setPassword("changed");
-		companyService.save(company);
+		adminService.updateCompany(company);
 		
 		System.out.println(companyService.findById(company.getId()));
 		System.out.println(companyService.findByNameAndPassword(company.getCompName(), company.getPassword()));
@@ -49,23 +52,27 @@ public class CompanyServiceTest {
 	@Test
 	public void handleCompanyCoupons() {
 		Company company = new Company("compName2", "password2");
-		companyService.save(company);
+		adminService.createCompany(company);
 		
 		Coupon coupon = new Coupon("title", 100, new Date().getTime(), new Date().getTime(), CouponType.FOOD, "message",
 				5.5, "sd", company);
 		couponRepo.save(coupon);
 		
 		company = companyService.findById(company.getId());
-		for (Coupon c : company.getCoupons()) {
+		for (Coupon c : companyService.getCoupons(company)) {
 			System.out.println(c);
 		}
+		
+		couponRepo.removeCoupon(coupon.getId());
+		// ensute remove didn't fail
+		assertTrue(true);
 		
 	}
 	
 	@Test
 	public void handleCompanyCouponsBySelections() {
 		Company company = new Company("compName3", "password4");
-		companyService.save(company);
+		adminService.createCompany(company);
 		
 		double price1 = 10;
 		double price2 = 15;
@@ -84,13 +91,13 @@ public class CompanyServiceTest {
 		
 		// test by price
 		company = companyService.findById(company.getId());
-		for (Coupon c : company.getCouponsByPrice(price1)) {
+		for (Coupon c : companyService.getCouponsByPrice(company, price1)) {
 			System.out.println("by price: " + c);
 			assertTrue(c.getPrice() <= price1);
 		}
 		
 		// test by type
-		for (Coupon c : company.getCouponsByType(type)) {
+		for (Coupon c : companyService.getCouponsByType(company, type)) {
 			System.out.println("by type: " + c);
 			assertTrue(c.getType() == type);
 		}
@@ -99,7 +106,7 @@ public class CompanyServiceTest {
 		Calendar cal = Calendar.getInstance();
 		cal.set(2020, 12, 1);
 		Long endDate = cal.getTimeInMillis();
-		for (Coupon c : company.getCouponsByDate(endDate)) {
+		for (Coupon c : companyService.getCouponsByDate(company, endDate)) {
 			System.out.println("by type: " + c);
 			assertTrue(c.getEndDate() < endDate);
 		}
