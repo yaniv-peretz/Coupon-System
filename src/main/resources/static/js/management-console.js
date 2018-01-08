@@ -1,5 +1,5 @@
 
-(function init() {
+(() => {
   if (window.location.search.includes('err')) {
     let element = document.querySelector('.err');
     element.style.visibility = "visible";

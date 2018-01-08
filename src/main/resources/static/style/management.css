@@ -1,0 +1,50 @@
+/*  ###########
+    Navbar  
+    ############ */
+
+.management-client {
+    background-color: white;
+    padding: 8px;
+    border-radius: 9px;
+}
+
+/*  #################################
+    Main Carousel (Company / Customer)
+    ################################## */
+
+.search{
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.main-table {
+    text-align: center;
+    max-width: 900px;
+    margin: auto;
+    margin-top: 55px;
+}
+
+.action-buttons-line {
+    white-space: nowrap;
+}
+
+.action-button {
+    border-radius: 999px;
+    height: 24px;
+}
+
+.action-icon {
+    vertical-align: text-top;
+    width: 10px;
+    height: 10px;
+}
+
+.action-text {
+    font-size: 10px;
+    vertical-align: text-top;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    width: 3%;
+}

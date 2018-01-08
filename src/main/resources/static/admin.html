@@ -1,140 +1,284 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Admin WorkBench</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>Public</title>
 
-    <!-- AngularJs & bootstrap & JQuery -->
+    <!-- JQuery & AngularJs -->
     <script src="lib/jquery/jquery-3.2.1.min.js"></script>
-    <script src="lib/jquery/jquery.cookie.js"></script>
     <script src="lib/popper/popper.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
 
-    <!-- Check authentication, or return to the workbench -->
-    <!-- <script src="js/checkRedirect.js"></script> -->
-    <script src="js/authenticate-cookie-or-session.js"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/responsive-font-sizes.css">
-    <link rel="stylesheet" href="style/master.css">
-    <link rel="stylesheet" href="style/client.css">
+    <link rel="stylesheet" href="style/public.css">
+    <link rel="stylesheet" href="style/management.css">
 </head>
 
 <body ng-app="adminModule" ng-controller="adminCtrl">
+    <!-- ###########
+            Navbar  
+        ############-->
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="main-header">
-        <header class="header">logged in as {{client}}</header>
-        <a class="box main-title" href="management-console.html">
-            <h1>Admin Control Screen</h1>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" ng-click="openNewCompany()" data-toggle="modal" data-target="#CompanyModal">
+                    <a class="nav-link" href="#">
+                        <span class="icon-relative">
+                            <svg class="icon">
+                                <use xlink:href="resources/bytesize-icons-master/dist/icons/plus.svg#i-plus"></use>
+                            </svg>
+                        </span>
+                        Add Company
+                    </a>
+                </li>
+                <li class="nav-item" ng-click="openNewCustomer()" data-toggle="modal" data-target="#customerModel">
+                    <a class="nav-link" href="#">
+                        <svg class="icon">
+                            <use xlink:href="resources/bytesize-icons-master/dist/icons/plus.svg#i-plus"></use>
+                        </svg>
+                        Add Customer
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="modal" data-target="#AddCustomer">
+                    <a class="nav-link" href="management-console.html">
+                        <svg class="icon">
+                            <use xlink:href="resources/bytesize-icons-master/dist/icons/reply.svg#i-reply"></use>
+                        </svg>
+                        Management Console
+                    </a>
+                </li>
+            </ul>
+            <div class="management-client">
+                Hello Admin
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- #################################
+            Main Carousel (Company / Customer)
+        ##################################-->
+        <!-- Company Item -->
+    <div id="carouselExampleControls" class="carousel slide main-table" data-ride="carousel" data-interval="false">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="table-responsive">
+                    <h2>Companies</h2>
+                    <div class="input-group input-group-lg">
+                        <input placeholder="Enter coupon Company Id, Name, Email or Password" type="text" class="search form-control" aria-label="Large"
+                            aria-describedby="inputGroup-sizing-sm" ng-change="filterCompanies()" ng-model="Companiesfilter">
+                    </div>
+                    <table class="table table-sm table-striped table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" ng-click="changeCompaniesOrderBy('id')">#</th>
+                                <th scope="col" ng-click="changeCompaniesOrderBy('compName')">Name</th>
+                                <th scope="col" ng-click="changeCompaniesOrderBy('email')">Email</th>
+                                <th scope="col" ng-click="changeCompaniesOrderBy('password')">Password</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="company in companies | orderBy : orderCompanies">
+                                <th ng-hide='company.hide' scope="row">{{company.id}}</th>
+                                <td ng-hide='company.hide'>{{company.compName}}</td>
+                                <td ng-hide='company.hide'>{{company.email}}</td>
+                                <td ng-hide='company.hide'>{{company.password}}</td>
+                                <td ng-hide='company.hide' class="action-buttons-line">
+                                    <button class="btn-primary btn-xs action-button" ng-click="openEditCompany(company)" data-toggle="modal" data-target="#CompanyModal">
+                                        <svg class="icon action-icon">
+                                            <use xlink:href="resources/bytesize-icons-master/dist/icons/edit.svg#i-edit"></use>
+                                        </svg>
+                                        <span class="action-text">
+                                            update
+                                        </span>
+                                    </button>
+                                    <button class="btn-danger btn-xs action-button" ng-click="ConfirmCompanyDeletion(company.id)">
+                                        <svg class="icon action-icon">
+                                            <use xlink:href="resources/bytesize-icons-master/dist/icons/close.svg#i-close"></use>
+                                        </svg>
+                                        <span class="action-text">
+                                            delete
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Cusotomer Item -->
+            <div class="carousel-item">
+                <div class="table-responsive">
+                    <h2>Customers</h2>
+                    <div class="input-group input-group-lg">
+                        <input placeholder="Enter coupon Customer Id, Name, Email or Password" type="text" class="search form-control" aria-label="Large"
+                            aria-describedby="inputGroup-sizing-sm" ng-change="filterCustomers()" ng-model="Customersfilter">
+                    </div>
+                    <table class="table table-sm table-striped table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" ng-click="changeCustomersOrderBy('id')">#</th>
+                                <th scope="col" ng-click="changeCustomersOrderBy('custName')">Name</th>
+                                <th scope="col" ng-click="changeCustomersOrderBy('password')">Password</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="customer in customers | orderBy : orderCustomers">
+                                <th ng-hide='customer.hide' scope="row">{{customer.id}}</th>
+                                <td ng-hide='customer.hide'>{{customer.custName}}</td>
+                                <td ng-hide='customer.hide'>{{customer.password}}</td>
+                                <td ng-hide='customer.hide' class="action-buttons-line">
+                                    <button class="btn-primary btn-xs action-button" ng-click="openEditCustomer(customer)" data-toggle="modal" data-target="#customerModel">
+                                        <svg class="icon action-icon">
+                                            <use xlink:href="resources/bytesize-icons-master/dist/icons/edit.svg#i-edit"></use>
+                                        </svg>
+                                        <span class="action-text">
+                                            update
+                                        </span>
+                                    </button>
+                                    <button class="btn-danger btn-xs action-button" ng-click="ConfirmCustomerDeletion(customer.id)">
+                                        <svg class="icon action-icon">
+                                            <use xlink:href="resources/bytesize-icons-master/dist/icons/close.svg#i-close"></use>
+                                        </svg>
+                                        <span class="action-text">
+                                            delete
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <!-- <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:darkgrey"></span> -->
+            <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:darkgrey"></span>
+            <span class="sr-only">knmklnkln</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:darkgrey"></span>
+            <span class="sr-only">Next</span>
         </a>
     </div>
-    
-    <div class="mode-selector">
-        <div ng-click="changeScope()">
-            <span>
-                <b>Select View:</b>
-            </span>
-            <label for="Companies">Companies
-                <input id="Companies" ng-model="mode" type="radio" value="comps" ng-click="clearItems()" />
-            </label>
-            <label for="Customers">Customers
-                <input id="Customers" ng-model="mode" type="radio" value="custs" ng-click="clearItems()" />
-            </label>
-        </div>
-        <div>
-            <button class="btn-warning" ng-click="openCreateNewItem()">Create New</button>
-        </div>
-    </div>
+    <!-- #######################
+            Modals
+        #######################-->
+    <!-- Company Modal -->
+    <div class="modal fade" id="CompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-    <form>
-        <div id="workingItem">
-            <h4 ng-show="mode.includes('comps')">Company Details</h4>
-            <h4 ng-hide="mode.includes('comps')">Customer Details</h4>
-
-            <table>
-                <tbody>
-                    <tr>
-                        <td>ID:</td>
-                        <td>
-                            <input ng-disabled="true" type="number" ng-model=workingItem.id>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Name:</td>
-                        <td>
-                            <input required ng-disabled="!itemCreateMode" ng-show="mode.includes('comps')" ng-model="workingItem.compName">
-                            <input required ng-disabled="!itemCreateMode" ng-hide="mode.includes('comps')" ng-model="workingItem.custName">
-                        </td>
-                    </tr>
-                    <tr ng-show="mode.includes('comps')">
-                        <td>email:</td>
-                        <td>
-                            <input required ng-model="workingItem.email">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>password:</td>
-                        <td>
-                            <input required ng-model="workingItem.password">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div id="WorkingItem-buttons">
-                <button class="btn-success" ng-show=itemCreateMode ng-click="sendNewItem()">Send</button>
-                <button class="btn-success" ng-hide=itemCreateMode ng-click="sendUpdateItem()">Update</button>
-                <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
-            </div>
-        </div>
-    </form>
-    <!-- end of working item -->
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <table class="items-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th ng-show="mode.includes('comps')">Email</th>
-                            <th>Password</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr ng-repeat="x in items | orderBy : 'id'">
-                            <td>{{x.id}}</td>
-                            <td ng-show="mode.includes('comps')">{{x.compName}}</td>
-                            <td ng-hide="mode.includes('comps')">{{x.custName}}</td>
-                            <td ng-show="mode.includes('comps')">{{x.email}}</td>
-                            <td>{{x.password}}</td>
-                            <td>
-                                <button class="btn-primary button-spacing" ng-click="openUpdateItem(x)">update</button>
-                                <button class="btn-danger" ng-click="openDeleteConfirmation(x.id, $index)">delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="modal-header">
+                    <h5 ng-show="isNewCompany" class="modal-title" id="exampleModalLabel">Add New Company</h5>
+                    <h5 ng-hide="isNewCompany" class="modal-title" id="exampleModalLabel">Edit Company</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td>Id:</td>
+                                <td>
+                                    <input disabled ng-model="modalCompany.id">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Name:</td>
+                                <td>
+                                    <input ng-disabled="!isNewCompany" ng-model="modalCompany.compName">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td>
+                                    <input ng-model="modalCompany.email">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Password:</td>
+                                <td>
+                                    <input ng-model="modalCompany.password">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button ng-show="isNewCompany" type="button" class="btn btn-primary" ng-click="createCompany()" data-dismiss="modal">Save New Company</button>
+                    <button ng-hide="isNewCompany" type="button" class="btn btn-primary" ng-click="editCompany()" data-dismiss="modal">Edit Company</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-    <!--End of container  -->
 
-    <div class="footer">
-        <span>
-            <a href="management-console.html">Management Console</a>
-        </span>
-        <span>@Discound Coupons LTD, by Yaniv Peretz</span>
+    <!-- Customer Modal -->
+    <div class="modal fade" id="customerModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 ng-show="isNewCustomer" class="modal-title" id="exampleModalLabel" data-dismiss="modal">Add New Customer</h5>
+                    <h5 ng-hide="isNewCustomer" class="modal-title" id="exampleModalLabel" data-dismiss="modal">Edit Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td>Id:</td>
+                                <td>
+                                    <input disabled ng-model="modalCustomer.id">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Name:</td>
+                                <td>
+                                    <input ng-disabled="!isNewCustomer" ng-model="modalCustomer.custName">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Password:</td>
+                                <td>
+                                    <input ng-model="modalCustomer.password">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button ng-show="isNewCustomer" type="button" class="btn btn-primary" ng-click="createCustomer()" data-dismiss="modal">Save New Customer</button>
+                    <button ng-hide="isNewCustomer" type="button" class="btn btn-primary" ng-click="editCustomer()" data-dismiss="modal">Edit Customer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/controller-admin.js"></script>
 </body>
-<!-- end of Angular app -->
 
 </html>

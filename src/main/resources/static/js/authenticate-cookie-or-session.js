@@ -52,7 +52,7 @@ var client = {};
                     };
 
                     let xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function () {
+                    xhttp.onreadystatechange = () => {
                         if (this.readyState == 4) {
                             if (this.status == 200) {
                                 success(tempClient);

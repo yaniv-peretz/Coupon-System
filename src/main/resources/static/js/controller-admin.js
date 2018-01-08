@@ -8,164 +8,193 @@ app.controller('adminCtrl', function ($scope, $http) {
     $scope.items = [];
     workingItemElement = document.querySelector("#workingItem");
 
-    //initialze
-    getItems();
 
-    $scope.changeScope = function () {
-        if ($(workingItemElement).hasClass('open-panel')) {
-            $scope.closeWorkingItem();
-        }
-        getItems();
+    // initilaze
+    getCompanies();
+    getCustomers();
+
+    $scope.companies = [];
+    $scope.customers = [];
+    $scope.modalCompany = {};
+    $scope.modalCustomer = {};
+    $scope.orderCustomers = 'id';
+    $scope.orderCompanies = 'id';
+
+    $scope.isNewCompany = true;
+    $scope.isNewCustomer = true;
+
+    $scope.openNewCompany = () => {
+        $scope.isNewCompany = true;
+        $scope.modalCompany = {};
     }
 
-    $scope.getItemById = function () {
-
-        var url = "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/" + $scope.selectedId;
-
-        } else {
-            url += "customer/" + $scope.selectedId;
-
-        }
-
-        $http({
-            'method': "GET",
-            'url': url,
-        }).then(function mySuccess(response) {
-            $scope.workingItem = response.data;
-        }, function myError(response) {
-            $scope.workingItem = response.statusText;
-        });
+    $scope.openEditCompany = (company) => {
+        $scope.isNewCompany = false;
+        $scope.modalCompany = company;
     }
 
-    $scope.openCreateNewItem = function () {
-        $scope.workingItem = {};
-        $scope.workingItem.id = 1;
-        $scope.itemCreateMode = true;
-        openWorkingItem();
+    $scope.openNewCustomer = () => {
+        $scope.isNewCustomer = true;
+        $scope.modalCustomer = {};
     }
 
-    $scope.closeWorkingItem = function () {
-        $(workingItemElement).removeClass('open-panel')
-        $(workingItemElement).addClass('close-panel')
+    $scope.openEditCustomer = (customer) => {
+        $scope.isNewCustomer = false;
+        $scope.modalCustomer = customer;
     }
 
-    $scope.openUpdateItem = function (item) {
-        $scope.workingItem = item;
-        $scope.itemCreateMode = false;
-        openWorkingItem();
-    }
-
-    $scope.openDeleteConfirmation = function (itemId, index) {
-        var r = confirm("Delete item id:" + itemId + "?");
-        if (r == true) {
-            deleteItem(itemId, index);
-        }
-    }
-
-    $scope.sendNewItem = function () {
-        postItem();
-        $scope.closeWorkingItem();
-        $scope.items.push($scope.workingItem);
-    }
-
-    $scope.sendUpdateItem = function () {
-        putItem();
-        $scope.closeWorkingItem();
-    }
-
-    $scope.getItems = function () {
-        getItems();
-    }
-
-    function getItems() {
-        var url = "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/all";
-
-        } else {
-            url += "customer/all";
-
-        }
-
+    function getCompanies() {
+        const url = "admin/company/all";
         $http({
             'method': "GET",
             'url': url,
         }).then((response) => {
             if (response.data instanceof Object && response.data.constructor === Object) {
-                $scope.items = [response.data];
-
+                $scope.companies = [response.data];
             } else {
-                $scope.items = response.data;
-
+                $scope.companies = response.data;
             }
 
         }, (response) => {
-            alert('getting items failed');
-            console.log(response);
+            alert('getting companies failed');
+            console.error(response);
         });
     }
 
-    function openWorkingItem() {
-        $(workingItemElement).removeClass('close-panel')
-        $(workingItemElement).addClass('open-panel')
+    function getCustomers() {
+        const url = "admin/customer/all";
+        $http({
+            'method': "GET",
+            'url': url,
+        }).then((response) => {
+            if (response.data instanceof Object && response.data.constructor === Object) {
+                $scope.customers = [response.data];
+            } else {
+                $scope.customers = response.data;
+            }
+
+        }, (response) => {
+            alert('getting customers failed');
+            console.error(response);
+        });
     }
 
-    function postItem() {
-        let item = $scope.mode.includes('comps') ? "company" : "customer";
-        var url = `admin/${item}/`;
-
-        $scope.workingItem.id = 0;
-        $http.post(url, $scope.workingItem)
+    $scope.createCompany = () => {
+        const url = "admin/company/";
+        $scope.modalCompany.id = 0;
+        $http.post(url, $scope.modalCompany)
             .then((response) => {
-                var json = response.data;
-                $scope.items.forEach(element => {
-                    if (element.id == 0) {
-                        element.id = json.id;
+                $scope.modalCompany.id = response.data.id;
+                $scope.companies.push($scope.modalCompany);
+            }, (response) => {
+                alert('Company not saved')
+                console.error(response);
+            });
+    }
+
+    $scope.createCustomer = () => {
+        const url = "admin/customer/";
+        $scope.modalCustomer.id = 0;
+        $http.post(url, $scope.modalCustomer)
+            .then((response) => {
+                $scope.modalCustomer.id = response.data.id;
+                $scope.customers.push($scope.modalCustomer);
+            }, (response) => {
+                alert('Company not saved')
+                console.error(response);
+            });
+    }
+
+    $scope.editCompany = () => {
+        const url = "admin/company/";
+        $http.put(url, $scope.modalCompany)
+            .then(() => {
+                $scope.companies.map((company) => {
+                    if (company.id === $scope.modalCompany.id) {
+                        company = $scope.modalCompany;
                     }
                 });
-            }, () => {
-                console.log("not saved");
+
+            }, (response) => {
+                alert('Company not saved')
+                console.error(response);
             });
-        $scope.closeWorkingItem();
     }
 
-    function deleteItem(itemId, index) {
-
-        let itemType = $scope.mode.includes('comps') ? "company" : "customer";
-        var _url = `admin/${itemType}/${itemId}`;
-
-        $http({
-            'url': _url,
-            'method': "DELETE"
-        }).then((response) => {
-        }, (response) => {
-            console.log("not deleted");
-        });
-
-
-        console.log(`itemId:${itemId} index:${index}`);
-        $scope.items.splice(index, 1);
-        //refresh the table
-        $scope.items = $scope.items;
+    $scope.editCustomer = () => {
+        const url = "admin/customer/";
+        $http.put(url, $scope.modalCustomer)
+            .then(() => {
+                $scope.customers.map((customer) => {
+                    if (customer.id === $scope.modalCustomer.id) {
+                        customer = $scope.modalCustomer;
+                    }
+                });
+            }, (response) => {
+                alert('Company not saved')
+                console.error(response);
+            });
     }
 
-    function putItem() {
-
-        var url = "admin/";
-        if ($scope.mode.includes('comps')) {
-            url += "company/";
-
-        } else {
-            url += "customer/";
-
+    $scope.ConfirmCompanyDeletion = (itemId) => {
+        const isConfirmed = confirm(`Delete company id: ${itemId}`);
+        if (isConfirmed === true) {
+            const url = `admin/company/${itemId}`;
+            $http.delete(url)
+                .then((response) => {
+                    $scope.companies = $scope.companies.filter(company => company.id != itemId)
+                }, (response) => {
+                    alert(`company id: ${itemId} - not deleted`)
+                    console.error(response);
+                });
         }
-
-        $http.put(url, $scope.workingItem);
-        $scope.closeWorkingItem();
     }
 
+    $scope.ConfirmCustomerDeletion = (itemId) => {
+        const isConfirmed = confirm(`Delete customer id: ${itemId}`);
+        if (isConfirmed === true) {
+            const url = `admin/customer/${itemId}`;
+            $http.delete(url)
+                .then((response) => {
+                    $scope.customers = $scope.customers.filter(customer => customer.id != itemId)
+                }, (response) => {
+                    alert(`customer id: ${itemId} - not deleted`)
+                    console.error(response);
+                });
+        }
+    }
 
+    $scope.changeCompaniesOrderBy = (orderBy) => {
+        $scope.orderCompanies = orderBy;
+    }
 
-});// end of angular module
+    $scope.changeCustomersOrderBy = (orderBy) => {
+        $scope.orderCustomers = orderBy;
+    }
+
+    $scope.Companiesfilter = "";
+    $scope.filterCompanies = () => {
+        const filter = $scope.Companiesfilter;
+        let filteredCompanies = $scope.companies;
+        filteredCompanies.map(comp => {
+            comp.hide = true;
+            const { id, compName, email, password } = comp;
+            if (id.toString().includes(filter) || compName.toString().includes(filter) || email.toString().includes(filter) || password.toString().includes(filter)) {
+                comp.hide = false;
+            }
+        });
+    }
+
+    $scope.Customersfilter = "";
+    $scope.filterCustomers = () => {
+        const filter = $scope.Customersfilter;
+        let filteredCustomers = $scope.customers;
+        filteredCustomers.map(cust => {
+            cust.hide = true;
+            const { id, custName, password } = cust;
+            if (id.toString().includes(filter) || custName.toString().includes(filter) || password.toString().includes(filter)) {
+                cust.hide = false;
+            }
+        });
+    }
+});

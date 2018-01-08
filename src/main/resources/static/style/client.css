@@ -1,3 +1,15 @@
+/*  ###############
+        Navbar      
+    ############### */
+
+.icon{
+    height: 14px;
+}
+
+
+
+
+    /* ############################### */
 .header{
     text-align: right;
     background-color: var(--element-background-color);

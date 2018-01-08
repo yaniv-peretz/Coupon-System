@@ -1,6 +1,6 @@
 package main.entities.tables;
 
-import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public class Company {
 	private String email;
 	
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Coupon> coupons;
+	private Set<Coupon> coupons;
 	
 	public Company() {
 		super();
@@ -72,11 +72,11 @@ public class Company {
 		this.email = email;
 	}
 	
-	// public List<Coupon> getCoupons() {
-	// return coupons;
+	// public Set<Coupon> getCoupons() {
+	// return companyRepo.findCompanyCoupons(this);
 	// }
 	
-	public void setCoupons(List<Coupon> coupons) {
+	public void setCoupons(Set<Coupon> coupons) {
 		this.coupons = coupons;
 	}
 	

@@ -19,13 +19,12 @@ app.controller('public-Controller', function ($scope, $http) {
     getAllCoupons();
 
     function getAllCoupons() {
-        var url = "public/coupons";
+        const url = "public/coupons";
 
-        $http({
-            'method': "GET",
-            'url': url,
-        }).then((response) => {
+        $http.get(url,).then((response) => {
             $scope.coupons = response.data;
+            console.log(response.data);
+            
 
             $scope.coupons.forEach(coupn => {
                 if (coupn.image == "" || coupn.image == null || coupn.image == undefined) {
@@ -140,7 +139,5 @@ app.controller('public-Controller', function ($scope, $http) {
             });
         });
     }
-
-
 
 });// end of angular module
