@@ -4,6 +4,7 @@ A Client-Server Coupon System web app.
 
 ## View
 Link: http://ec2-52-59-194-236.eu-central-1.compute.amazonaws.com:8080/CouponSystemServer/
+login in as Admin (Management console usr:admin, psw:1234)
 
 ## Dependencies
 Mysql Server running: (port 3306, user: root, password: root)
