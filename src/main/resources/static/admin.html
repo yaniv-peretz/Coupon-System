@@ -78,7 +78,7 @@
                 <div class="table-responsive">
                     <h2>Companies</h2>
                     <div class="input-group input-group-lg">
-                        <input placeholder="Enter coupon Company Id, Name, Email or Password" type="text" class="search form-control" aria-label="Large"
+                        <input placeholder="Enter coupon Company Id, Name, Email or Password" type="text" id="search" class="form-control" aria-label="Large"
                             aria-describedby="inputGroup-sizing-sm" ng-change="filterCompanies()" ng-model="Companiesfilter">
                     </div>
                     <table class="table table-sm table-striped table-bordered table-hover">
@@ -200,25 +200,25 @@
                             <tr>
                                 <td>Id:</td>
                                 <td>
-                                    <input disabled ng-model="modalCompany.id">
+                                    <input class="form-control" disabled ng-model="modalCompany.id">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Name:</td>
                                 <td>
-                                    <input ng-disabled="!isNewCompany" ng-model="modalCompany.compName">
+                                    <input class="form-control" ng-disabled="!isNewCompany" ng-model="modalCompany.compName">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Email:</td>
                                 <td>
-                                    <input ng-model="modalCompany.email">
+                                    <input class="form-control" ng-model="modalCompany.email">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Password:</td>
                                 <td>
-                                    <input ng-model="modalCompany.password">
+                                    <input class="form-control" ng-model="modalCompany.password">
                                 </td>
                             </tr>
                         </tbody>
@@ -251,19 +251,19 @@
                             <tr>
                                 <td>Id:</td>
                                 <td>
-                                    <input disabled ng-model="modalCustomer.id">
+                                    <input class="form-control" disabled ng-model="modalCustomer.id">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Name:</td>
                                 <td>
-                                    <input ng-disabled="!isNewCustomer" ng-model="modalCustomer.custName">
+                                    <input class="form-control" ng-disabled="!isNewCustomer" ng-model="modalCustomer.custName">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Password:</td>
                                 <td>
-                                    <input ng-model="modalCustomer.password">
+                                    <input class="form-control" ng-model="modalCustomer.password">
                                 </td>
                             </tr>
                         </tbody>

@@ -174,4 +174,28 @@ public class CustomerApi {
 		}
 	}
 	
+	@RequestMapping(value = "coupon/date/{date}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<?> getAllCouponsbyDate(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@PathVariable("date") Long endDate) {
+		
+		Customer customer = getFacade(request, response);
+		if (customer == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+		
+		Set<Coupon> coupons = customerService.getCouponsByDate(customer, endDate);
+		Set<WebCoupon> webCoupons = new HashSet<>();
+		for (Coupon coupon : coupons) {
+			webCoupons.add(new WebCoupon(coupon));
+		}
+		
+		if (0 < webCoupons.size()) {
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCoupons);
+		} else {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+		}
+	}
+	
 }

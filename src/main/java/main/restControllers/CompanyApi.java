@@ -45,7 +45,7 @@ public class CompanyApi {
 	 * @return Coupon object or null if not found for the specific company.
 	 */
 	@RequestMapping(value = "coupon/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<WebCoupon> getCouponById(
+	public @ResponseBody ResponseEntity<?> getCouponById(
 			HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("id") int id) {
 		
@@ -59,7 +59,7 @@ public class CompanyApi {
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
 					.body(new WebCoupon(coupon));
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("no content");
 	}
 	
 	/**

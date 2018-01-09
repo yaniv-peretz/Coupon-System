@@ -1,14 +1,5 @@
 var app = angular.module("adminModule", []);
 app.controller('adminCtrl', function ($scope, $http) {
-    $scope.client = 'admin';
-    $scope.mode = 'comps';
-    $scope.workingItem = {};
-    $scope.selectedId = 1;
-    $scope.itemCreateMode = false;
-    $scope.items = [];
-    workingItemElement = document.querySelector("#workingItem");
-
-
     // initilaze
     getCompanies();
     getCustomers();
@@ -26,6 +17,7 @@ app.controller('adminCtrl', function ($scope, $http) {
     $scope.openNewCompany = () => {
         $scope.isNewCompany = true;
         $scope.modalCompany = {};
+        $scope.modalCompany.id = 0;
     }
 
     $scope.openEditCompany = (company) => {
@@ -36,6 +28,7 @@ app.controller('adminCtrl', function ($scope, $http) {
     $scope.openNewCustomer = () => {
         $scope.isNewCustomer = true;
         $scope.modalCustomer = {};
+        $scope.modalCustomer.id = 0;
     }
 
     $scope.openEditCustomer = (customer) => {

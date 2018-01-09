@@ -1,157 +1,208 @@
 <!DOCTYPE html>
-<html>
-<meta charset="utf-8">
-<title>Customer WorkBench</title>
+<html lang="en">
 
-<!-- AngularJs & bootstrap & JQuery -->
-<script src="lib/jquery/jquery-3.2.1.min.js"></script>
-<script src="lib/jquery/jquery.cookie.js"></script>
-<script src="lib/popper/popper.min.js"></script>
-<script src="lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="lib/angular/angular.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>Public</title>
 
-<!-- Check authentication, or return to the workbench -->
-<script src="js/authenticate-cookie-or-session.js"></script>
+    <!-- JQuery & AngularJs -->
+    <script src="lib/jquery/jquery-3.2.1.min.js"></script>
+    <script src="lib/popper/popper.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
 
-<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="style/responsive-font-sizes.css">
-<link rel="stylesheet" href="style/master.css">
-<link rel="stylesheet" href="style/client.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/responsive-font-sizes.css">
+    <link rel="stylesheet" href="style/public.css">
+    <link rel="stylesheet" href="style/management.css">
 </head>
 
 <body ng-app="CustomerApp" ng-controller="customer-controller">
+    <!-- ###########
+            Navbar  
+        ############-->
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="main-header">
-        <header class="header">logged in as {{client.type}} #{{client.id}}</header>
-        <a class="box main-title" href="management-console.html">
-            <h1>Customer Screen</h1>
-        </a>
-    </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" ng-click="openNewCoupon()" data-toggle="modal" data-target="#CouponModal">
+                    <a class="nav-link" href="#">
+                        <span class="icon-relative">
+                            <svg class="icon">
+                                <use xlink:href="resources/bytesize-icons-master/dist/icons/plus.svg#i-plus"></use>
+                            </svg>
+                        </span>
+                        Purchase Coupon
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="modal" data-target="#AddCustomer">
+                    <a class="nav-link" href="management-console.html">
+                        <svg class="icon">
+                            <use xlink:href="resources/bytesize-icons-master/dist/icons/reply.svg#i-reply"></use>
+                        </svg>
+                        Management Console
+                    </a>
+                </li>
+            </ul>
+            <div class="management-client">
+                Hello Customer
+            </div>
 
-    <!-- end of Angular main Controller -->
-        <div class="mode-selector space">
-            <h4>Coupon Details</h4>
-            <form>
-                <input required type="number" min="1" ng-model="selectedId" size=6>
-                <button type="submit" class="btn-warning" ng-click="openCouponDetails()">Get Coupon Details</button>
-            </form>
         </div>
+    </nav>
 
+    <!-- #######################
+            Main Table Coupons  
+        ########################-->
+    <div class="table-responsive main-table">
+        <h2>Coupons</h2>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">By:</span>
+            </div>
+            <select class="form-control" ng-model="selectOption" ng-options="option for option in options"></select>
+            <input ng-show="selectOption === options[1]" type="date" class="form-control" ng-model="selector.date">
+            <input ng-show="selectOption === options[2]" type="number" class="form-control" ng-model="selector.price">
+            <select ng-show="selectOption === options[3]" class="form-control" ng-model="selector.type" ng-options="option for option in typeOptions"></select>
+            <button ng-click="getCoupons()">Get</button>
+        </div>
+        <div class="input-group input-group-lg">
+            <input placeholder="Enter coupon Id, Name, Email or ..." type="text" id="search" class="form-control" aria-label="Large"
+                aria-describedby="inputGroup-sizing-sm" ng-change="filterCoupons()" ng-model="couponsfilter">
+        </div>
+        <table class="table table-sm table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" ng-click="changeCouponsOrderBy('id')">#</th>
+                    <th scope="col" ng-click="changeCouponsOrderBy('title')">Title</th>
+                    <th scope="col" ng-click="changeCouponsOrderBy('type')">Type</th>
+                    <th scope="col" ng-click="changeCouponsOrderBy('dispalyStartDate')">Start Date</th>
+                    <th scope="col" ng-click="changeCouponsOrderBy('dispalyEndDate')">End Date</th>
+                    <th scope="col" ng-click="changeCouponsOrderBy('amount')">Amount</th>
+                    <th scope="col" ng-click="changeCouponsOrderBy('price')">Price</th>
+                    <th scope="col" ng-click="changeCouponsOrderBy('message')">Message</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
 
-        <form>
-            <div id="workingItem">
-                <h4>Coupon Details</h4>
+            </tr>
+            <tbody>
+                <tr ng-repeat="coupon in coupons | orderBy : orderCoupons">
+                    <th ng-hide='coupon.hide' scope="row">{{coupon.id}}</th>
+                    <td ng-hide='coupon.hide'>{{coupon.title}}</td>
+                    <td ng-hide='coupon.hide'>{{coupon.type}}</td>
+                    <td ng-hide='coupon.hide'>{{coupon.dispalyStartDate.toLocaleDateString()}}</td>
+                    <td ng-hide='coupon.hide'>{{coupon.dispalyEndDate.toLocaleDateString()}}</td>
+                    <td ng-hide='coupon.hide'>{{coupon.amount}}</td>
+                    <td ng-hide='coupon.hide'>{{coupon.price}}</td>
+                    <td ng-hide='coupon.hide'>{{coupon.message}}</td>
+                    <td ng-hide='coupon.hide' class="action-buttons-line">
+                        <button class="btn-primary btn-xs action-button" ng-click="openViewCoupon(coupon)" data-toggle="modal" data-target="#CouponModal">
+                            <svg class="icon action-icon">
+                                <use xlink:href="resources/bytesize-icons-master/dist/icons/edit.svg#i-edit"></use>
+                            </svg>
+                            <span class="action-text">
+                                View
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- #######################
+            Modals
+        #######################-->
+    <!-- Coupon Modal -->
+    <div class="modal fade" id="CouponModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 ng-show="isNewCustomer" class="modal-title" id="exampleModalLabel" data-dismiss="modal">Add New Customer</h5>
+                    <h5 ng-hide="isNewCustomer" class="modal-title" id="exampleModalLabel" data-dismiss="modal">Edit Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td>Id:</td>
+                                <td>
+                                    <input class="form-control" ng-model="modalCoupon.id" ng-change="getCoupon();">
+                                </td>
+                            </tr>
 
-                <table>
-                    <tr>
-                        <td>ID:</td>
-                        <td>
-                            <input required ng-disabled="true" type="number" ng-model=workingItem.id>
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>title:</td>
+                                <td>
+                                    <input disabled class="form-control" ng-model="modalCoupon.title">
+                                </td>
+                            </tr>
 
+                            <tr>
+                                <td>type:</td>
+                                <td>
+                                    <select disabled class="form-control" ng-model="modalCoupon.type" ng-options="option for option in typeOptions"></select>
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <td>type:</td>
-                        <td>
-                            <select ng-disabled="true" ng-model="workingItem.type" ng-options="option for option in typeOptions"></select>
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>startDate:</td>
+                                <td>
+                                    <input disabled class="form-control" type="date" ng-model="modalCoupon.dispalyStartDate">
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <td>title:</td>
-                        <td>
-                            <input ng-disabled="true" ng-model=workingItem.title>
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>endDate:</td>
+                                <td>
+                                    <input disabled class="form-control" type="date" ng-model="modalCoupon.dispalyEndDate">
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <td>startDate:</td>
-                        <td>
-                            <input type="date" ng-disabled="true" ng-model="workingItem.displayStartDate">
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>amount:</td>
+                                <td>
+                                    <input disabled class="form-control" type="number" ng-model="modalCoupon.amount">
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <td>endDate:</td>
-                        <td>
-                            <input type="date" ng-disabled="true" ng-model="workingItem.displayEndDate">
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>message:</td>
+                                <td>
+                                    <input disabled class="form-control" ng-model="modalCoupon.message">
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <td>amount:</td>
-                        <td>
-                            <input ng-disabled="true" ng-model=workingItem.amount>
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>price:</td>
+                                <td>
+                                    <input disabled class="form-control" type="number" ng-model="modalCoupon.price">
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <td>price:</td>
-                        <td>
-                            <input ng-disabled="true" ng-model=workingItem.price>
-                        </td>
-                    </tr>
-                </table>
-                <img src={{workingItem.image}} alt="image not set up">
-
-                <div id="WorkingItem-buttons">
-                    <button type="submit" class="btn-success" ng-click="purchaseCoupon()">Buy</button>
-                    <button class="btn-default" ng-click="closeWorkingItem()">Cancel</button>
+                        </tbody>
+                    </table>
+                    <img class="coupon-image" src={{modalCoupon.image}} alt="image not set up">
+                </div>
+                <div class="modal-footer">
+                    <button ng-disabled="!modalCoupon.isValid" type="button" class="btn btn-primary" ng-click="purchaseCoupon()" data-dismiss="modal">Purchase Coupon</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
-        </form>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-<!-- 
-                <div class="selectors">
-                    <select ng-model="selectedOption" ng-options="item for item in options"></select>
-
-                    <input ng-show="selectedOption.includes('By Date')" ng-model="filter" />
-                    <input ng-show="selectedOption.includes('By Price')" size=1 ng-model="filter" />
-                    <select ng-show="selectedOption.includes('By Type')" ng-model="filter" ng-options="type for type in typeOptions"></select>
-
-                    <button ng-click="getTableData()">Get Coupons</button>
-                </div> -->
-
-
-                <table class="items-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Type</th>
-                            <th>Title</th>
-                            <th>Start Date</th>
-                            <th>Start End</th>
-                            <th>Price</th>
-                            <th>Message</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr ng-repeat="x in items | orderBy:'id'">
-                            <td>{{x.id}}</td>
-                            <td>{{x.type}}</td>
-                            <td>{{x.title}}</td>
-                            <td>{{x.dispalyStartDate.toLocaleDateString()}}</td>
-                            <td>{{x.dispalyEndDate.toLocaleDateString()}}</td>
-                            <td>{{x.price}}</td>
-                            <td>{{x.message}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
         </div>
-    </div>
-
-    <div class="footer">
-        <span>
-            <a href="management-console.html">Management Console</a>
-        </span>
-        <span>@Discound Coupons LTD, by Yaniv Peretz</span>
     </div>
     <script src="js/controller-customer.js"></script>
 </body>

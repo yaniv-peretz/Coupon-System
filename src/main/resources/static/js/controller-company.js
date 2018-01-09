@@ -1,141 +1,49 @@
 var app = angular.module("CompanyApp", []);
-app.controller('compController', function ($scope, $http) {
-    $scope.itemCreateMode = false;
-    $scope.client = {
-        'id': 'set id in compApp.js'
-    }
+app.controller('company-controller', function ($scope, $http) {
+    // initilaze
+    getCoupons();
 
-    workingItemElement = document.querySelector("#workingItem");
-    $scope.typeOptions = [
-        'RESTURANS',
-        'ELECTRICITY',
-        'FOOD',
-        'HEALTH',
-        'SPORTS',
-        'CAMPING',
-        'TRAVELLING',
-    ];
-
-
-    $scope.workingItem = {
-    };
-
-    $scope.items = [];
-
-    $scope.openCreateNewItem = function () {
-        $scope.workingItem = {};
-        $scope.itemCreateMode = true;
-        openWorkingItem();
-
-    }
-
-    function openWorkingItem() {
-        $(workingItemElement).removeClass('close-panel')
-        $(workingItemElement).addClass('open-panel')
-    }
-
-    $scope.closeWorkingItem = () => {
-        $(workingItemElement).removeClass('open-panel')
-        $(workingItemElement).addClass('close-panel')
-    }
-
-    $scope.postWorkingItem = () => {
-        $scope.workingItem.startDate = Date.parse($scope.workingItem.dispalyStartDate);
-        $scope.workingItem.endDate = Date.parse($scope.workingItem.dispalyEndDate);
-
-        let url = "company/coupon/";
-        $http.post(url, $scope.workingItem)
-            .then((response) => {
-                $scope.workingItem.id = response.data.id;
-                $scope.items.push($scope.workingItem);
-            }, () => {
-                alert("adding coupon failed ");
-            });
-        $scope.closeWorkingItem();
-    }
-
-    $scope.openEditItem = (item) => {
-        $scope.workingItem = item;
-        $scope.itemCreateMode = false;
-        openWorkingItem();
-    }
-
-    $scope.putWorkingItem = () => {
-        $scope.workingItem.startDate = Date.parse($scope.workingItem.dispalyStartDate);
-        $scope.workingItem.endDate = Date.parse($scope.workingItem.dispalyEndDate);
-
-        let url = "company/coupon/";
-        $http.put(url, $scope.workingItem)
-            .then(() => {
-                $scope.closeWorkingItem();
-            }, () => {
-                alert("updating the coupon failed")
-            });
-    }
-
-    $scope.openDeleteConfirmation = function (id, index) {
-        let answer = confirm(`Delete Coupon id: ${id} ?`);
-        if (answer == true) {
-            deleteItem(id, index);
-        }
-    }
-
-    deleteItem = function (id, index) {
-
-        let url = `company/coupon/${id}/`;
-        $http.delete(url)
-            .then(() => {
-                $scope.items.splice(index, 1);
-            }, () => {
-                alert("deleting coupon failed");
-            });
-    }
-
-    /*  ###################
-    *       Find coupons
-        ################### */
+    $scope.coupons = [];
+    $scope.modalCoupon = {};
+    $scope.orderCoupons = 'id';
+    $scope.isNewCoupon = true;
+    $scope.selectOption = "All";
     $scope.options = ["All", "By Date", "By Price", "By Type"];
-    $scope.selectedOption = "All";
-    $scope.typeOptions = [
-        'RESTURANS',
-        'ELECTRICITY',
-        'FOOD',
-        'HEALTH',
-        'SPORTS',
-        'CAMPING',
-        'TRAVELLING',
-    ];
-    $scope.filter = {
-        price: 0,
-        type: 'RESTURANS',
-        date: new Date()
-    };
+    $scope.typeOptions = ['RESTURANS', 'ELECTRICITY', 'FOOD', 'HEALTH', 'SPORTS', 'CAMPING', 'TRAVELLING',];
 
-    //external hook for UI, will trigger items table update
-    $scope.getTableData = function () {
-        getTableData();
+    $scope.openNewCoupon = () => {
+        $scope.isNewCoupon = true;
+        $scope.modalCoupon = {};
+        $scope.modalCoupon.id = 0;
     }
 
-    function getTableData() {
+    $scope.openEditCoupon = (Coupon) => {
+        $scope.isNewCoupon = false;
+        $scope.modalCoupon = Coupon;
+    }
 
-        var url = "company/coupon/"
-        switch ($scope.selectedOption) {
-
-            case 'All':
-                url += "all";
+    $scope.getCoupons = () => {
+        getCoupons();
+    }
+    function getCoupons() {
+        let url;
+        switch ($scope.selectOption) {
+            case "All":
+                url = "company/coupon/all";
                 break;
-            case 'By Date':
-                url += `date/${Date.parse($scope.filter.date)}`;
+            case "By Date":
+                dateAsLong = Date.parse($scope.selector.date)
+                url = `company/coupon/date/${dateAsLong}`;
                 break;
-            case 'By Price':
-                url += `price/${$scope.filter.price}`;
+            case "By Price":
+                url = `company/coupon/price/${$scope.selector.price}`;
                 break;
-            case 'By Type':
-                url += `type/${$scope.filter.type}`;
+            case "By Type":
+                url = `company/coupon/type/${$scope.selector.type}`;
                 break;
             default:
-                url += "all";
-                return;
+                url = "company/coupon/all";
+                break;
         }
 
         $http({
@@ -144,30 +52,85 @@ app.controller('compController', function ($scope, $http) {
         }).then((response) => {
 
             if (response.data instanceof Object && response.data.constructor === Object) {
-                $scope.items = [response.data];
-
+                $scope.coupons = [response.data];
             } else {
-                $scope.items = response.data;
-
+                $scope.coupons = response.data;
             }
 
-            $scope.items.forEach(item => {
-                item.dispalyStartDate = new Date(item.startDate);
-                item.dispalyEndDate = new Date(item.endDate);
-
-                //set defualt image when no image is selected
-                if (item.image == null) {
-                    item.image = "./resources/No_Image_Available.jpg";
-                }
+            $scope.coupons.map((coupon) => {
+                coupon.dispalyStartDate = new Date(coupon.startDate);
+                coupon.dispalyEndDate = new Date(coupon.endDate);
             });
 
-        }, function myError(response) {
-            console.error(response.statusText);
+        }, (response) => {
+            alert('getting Coupons failed');
+            console.error(response);
         });
     }
 
-    //initiate data
-    getTableData();
+    $scope.createCoupon = () => {
+        const url = "company/coupon/";
+        $scope.modalCoupon.id = 0;
+        $scope.modalCoupon.startDate = Date.parse($scope.modalCoupon.dispalyStartDate);
+        $scope.modalCoupon.endDate = Date.parse($scope.modalCoupon.dispalyEndDate);
 
+        $http.post(url, $scope.modalCoupon)
+            .then((response) => {
+                $scope.modalCoupon.id = response.data.id;
+                $scope.coupons.push($scope.modalCoupon);
+            }, (response) => {
+                alert('Coupon not saved')
+                console.error($scope.modalCoupon);
+                console.error(response);
+            });
+    }
 
-});// end of itemsTable controller
+    $scope.editCoupon = () => {
+        const url = "company/coupon/";
+        $http.put(url, $scope.modalCoupon)
+            .then(() => {
+                $scope.coupons.map((Coupon) => {
+                    if (Coupon.id === $scope.modalCoupon.id) {
+                        Coupon = $scope.modalCoupon;
+                    }
+                });
+
+            }, (response) => {
+                alert('Coupon not saved')
+                console.error(response);
+            });
+    }
+
+    $scope.ConfirmCouponDeletion = (couponId) => {
+        const isConfirmed = confirm(`Delete Coupon id: ${couponId}`);
+        if (isConfirmed === true) {
+            const url = `company/coupon/${couponId}`;
+            $http.delete(url)
+                .then((response) => {
+                    $scope.coupons = $scope.coupons.filter(Coupon => Coupon.id != couponId)
+                }, (response) => {
+                    alert(`Coupon id: ${couponId} - not deleted`)
+                    console.error(response);
+                });
+        }
+    }
+
+    $scope.changeCouponsOrderBy = (orderBy) => {
+        $scope.orderCoupons = orderBy;
+    }
+
+    $scope.couponsfilter = "";
+    $scope.filterCoupons = () => {
+        const filter = $scope.couponsfilter;
+        let filteredCoupons = $scope.coupons;
+        filteredCoupons.map(comp => {
+            comp.hide = true;
+            const { id, title, type, dispalyStartDate, dispalyEndDate, amount, message, price } = comp;
+            if (id.toString().includes(filter) || title.toString().includes(filter) || type.toString().toLowerCase().includes(filter) || dispalyStartDate.toLocaleDateString().includes(filter)
+                || dispalyEndDate.toLocaleDateString().includes(filter) || amount.toString().includes(filter) || message.toString().includes(filter) || price.toString().includes(filter)) {
+                comp.hide = false;
+            }
+        });
+    }
+
+});
