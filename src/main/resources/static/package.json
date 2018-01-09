@@ -2,7 +2,7 @@
   "name": "coupon-system-client",
   "version": "1.0.0",
   "description": "Coupon Systme project",
-  "main": "index.js",
+  "main": "index.html",
   "directories": {
     "lib": "lib"
   },
@@ -27,6 +27,12 @@
     "eslint-plugin-standard": "^3.0.1"
   },
   "dependencies": {
-    "eslint": "^4.15.0"
+    "angular": "^1.6.8",
+    "angularjs": "^0.0.1",
+    "bootstrap": "4.0.0-alpha.6",
+    "bootstrap-v4-dev": "^4.0.0-alpha.6",
+    "eslint": "^4.15.0",
+    "jquery": "^3.2.1",
+    "tether": "^1.4.3"
   }
 }
