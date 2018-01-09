@@ -1,0 +1,32 @@
+{
+  "name": "coupon-system-client",
+  "version": "1.0.0",
+  "description": "Coupon Systme project",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yanipo5/Coupon-System.git"
+  },
+  "author": "Yaniv Peretz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yanipo5/Coupon-System/issues"
+  },
+  "homepage": "https://github.com/Yanipo5/Coupon-System#readme",
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "dependencies": {
+    "eslint": "^4.15.0"
+  }
+}
