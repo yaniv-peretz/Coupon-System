@@ -26,3 +26,7 @@ nbdist/
 ### Current Logs ###
 /log
 /log/log.txt
+
+### any node modules ###
+src/main/resources/static/node_modules
+*/node_modules
