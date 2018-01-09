@@ -51,12 +51,12 @@
                         My Coupons</a>
                 </li>
             </ul>
-            <form ng-if="!loggedIn" name="login-form" class="form-inline my-2 my-lg-0">
+            <form ng-if="!isLoggedIn" name="login-form" class="form-inline my-2 my-lg-0">
                 <input id="username" class="form-control" placeholder="user-name" aria-label="user" required>
                 <input id="password" class="form-control" type="password" placeholder="passowrd" aria-label="passowrd" required>
                 <button class="btn btn-success" type="submit" ng-click="login()">Login</button>
             </form>
-            <div ng-if="loggedIn" class="nav-bar-user">
+            <div ng-if="isLoggedIn" class="nav-bar-user">
                 hello {{customer}}
             </div>
 
@@ -67,12 +67,12 @@
             Main Page Coupons
         #######################-->
     <ul class="container-coupons">
-        <li ng-repeat="x in coupons" class="coupon">
-            <img src={{x.image}} alt="no image">
-            <h5 class="coupon-title">{{x.title}}</h5>
-            <p class="coupon-price">price: {{x.price}}$</p>
-            <p class="coupon-desc">{{x.message}}</p>
-            <button ng-click="addToCart(x)" class="coupon-buy btn btn-primary">buy Me!</button>
+        <li ng-repeat="coupon in coupons" class="coupon" id="coupon{{coupon.id}}">
+            <img src={{coupon.image}} alt="no image">
+            <h1 class="coupon-title">{{coupon.title}}</h1>
+            <p class="coupon-price">price: {{coupon.price}}$</p>
+            <p class="coupon-desc">{{coupon.message}}</p>
+            <button ng-click="addToCart(coupon)" class="coupon-buy btn btn-primary">Add To Cart!</button>
         </li>
     </ul>
 
@@ -105,7 +105,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!loggedIn || cart.length == 0" ng-click="buyAllCoupons()">Buy Coupons</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!isLoggedIn || cart.length === 0" ng-click="buyAllCoupons()">Buy Coupons</button>
                 </div>
             </div>
         </div>

@@ -77,8 +77,8 @@ body {
 
 .coupon {
     position: relative;
-    width: 170px;
-    height: 250px;
+    width: 300px;
+    height: 350px;
     margin: 10px;
     border: 3px dashed;
     background-color: lightgray;

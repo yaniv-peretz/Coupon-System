@@ -1,6 +1,7 @@
 var app = angular.module("publicModule", []);
 app.controller('public-Controller', function ($scope, $http) {
 
+    $scope.isLoggedIn = false;
     $scope.customer = 'customer';
     $scope.coupons = [
         {
@@ -9,11 +10,8 @@ app.controller('public-Controller', function ($scope, $http) {
             'price': 5
         }
     ];
-
-    $scope.loggedIn = false;
     $scope.cart = [];
     $scope.customerCoupons = [];
-
 
     //initialize
     getAllCoupons();
@@ -21,26 +19,25 @@ app.controller('public-Controller', function ($scope, $http) {
     function getAllCoupons() {
         const url = "public/coupons";
 
-        $http.get(url,).then((response) => {
+        $http.get(url, ).then((response) => {
             $scope.coupons = response.data;
-            console.log(response.data);
-            
-
-            $scope.coupons.forEach(coupn => {
-                if (coupn.image == "" || coupn.image == null || coupn.image == undefined) {
-                    coupn.image = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
-                }
-            });
-
+            if (response.data && 0 < response.data.length) {
+                $scope.coupons.map(coupon => {
+                    if (coupon.image === "" || coupon.image === null || coupon.image === undefined) {
+                        coupon.image = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
+                    };
+                });
+            }
         }, (response) => {
+            console.error(response);
             alert("could not get all coupons - something went wrong")
         });
     }
 
     $scope.addToCart = (coupon) => {
+        $(`#coupon${coupon.id}`).fadeOut(800, "linear");
         if (!$scope.cart.includes(coupon)) {
             $scope.cart.push(coupon);
-
         }
     }
 
@@ -59,7 +56,7 @@ app.controller('public-Controller', function ($scope, $http) {
             .then(() => {
 
                 // get all customer coupons
-                $scope.loggedIn = true;
+                $scope.isLoggedIn = true;
                 $scope.customer = user;
                 getCustomerCoupons();
 
@@ -80,14 +77,14 @@ app.controller('public-Controller', function ($scope, $http) {
         $http.post(url, couponsIds)
             .then((response) => {
 
-                if( 0 < $scope.customerCoupons.length){
+                if (0 < $scope.customerCoupons.length) {
                     $scope.customerCoupons = $scope.customerCoupons.concat($scope.cart);
-                }else{
+                } else {
                     $scope.customerCoupons = $scope.cart;
                 }
                 $scope.cart = [];
 
-                if(0 < $scope.customerCoupons.length){
+                if (0 < $scope.customerCoupons.length) {
                     removeCouponCustomerAlreadyOwns();
                 }
 
@@ -98,10 +95,10 @@ app.controller('public-Controller', function ($scope, $http) {
     }
 
     function getCustomerCoupons() {
-        var url = "customer/coupon/all";
+        const url = "customer/coupon/all";
         $http({
-            'method': "GET",
-            'url': url,
+            method: "GET",
+            url: url,
         }).then((response) => {
             if (response.data instanceof Object && response.data.constructor === Object) {
                 $scope.customerCoupons = [response.data];
@@ -112,7 +109,7 @@ app.controller('public-Controller', function ($scope, $http) {
             }
             //remove coupons duplications
 
-            if(0 < $scope.customerCoupons.length){
+            if (0 < $scope.customerCoupons.length) {
                 removeCouponCustomerAlreadyOwns();
                 removeCartCouponCustomerAlreadyOwns();
 
