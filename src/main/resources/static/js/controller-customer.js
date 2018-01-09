@@ -105,35 +105,14 @@ app.controller('customer-controller', function ($scope, $http) {
         });
     }
 
-    $scope.createCoupon = () => {
-        const url = "customer/coupon/";
-        $scope.modalCoupon.id = 0;
-        $scope.modalCoupon.startDate = Date.parse($scope.modalCoupon.dispalyStartDate);
-        $scope.modalCoupon.endDate = Date.parse($scope.modalCoupon.dispalyEndDate);
-
-        $http.post(url, $scope.modalCoupon)
-            .then((response) => {
-                $scope.modalCoupon.id = response.data.id;
+    $scope.purchaseCoupon = () => {
+        const url = `customer/coupon/${$scope.modalCoupon.id}`;
+        $http.post(url, $scope.modalCoupon.id)
+            .then(() => {
                 $scope.coupons.push($scope.modalCoupon);
             }, (response) => {
                 alert('Coupon not saved')
                 console.error($scope.modalCoupon);
-                console.error(response);
-            });
-    }
-
-    $scope.editCoupon = () => {
-        const url = "customer/coupon/";
-        $http.put(url, $scope.modalCoupon)
-            .then(() => {
-                $scope.coupons.map((Coupon) => {
-                    if (Coupon.id === $scope.modalCoupon.id) {
-                        Coupon = $scope.modalCoupon;
-                    }
-                });
-
-            }, (response) => {
-                alert('Coupon not saved')
                 console.error(response);
             });
     }
