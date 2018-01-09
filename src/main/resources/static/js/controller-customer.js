@@ -29,11 +29,10 @@ app.controller('customer-controller', function ($scope, $http) {
     }
 
     $scope.getCoupon = () => {
-        if(isNaN($scope.modalCoupon.id) || parseInt($scope.modalCoupon.id) < 1){
+        if (isNaN($scope.modalCoupon.id) || parseInt($scope.modalCoupon.id) < 1 || $scope.modalCoupon.id === "") {
             $scope.modalCoupon.isValid = false;
             return;
         }
-
         let url = `customer/coupon/${$scope.modalCoupon.id}`;
         $http({
             'method': "GET",
@@ -41,22 +40,25 @@ app.controller('customer-controller', function ($scope, $http) {
         }).then((response) => {
             if (response.data) {
                 $scope.modalCoupon = response.data;
+                $scope.modalCoupon.isValid = true;
                 $scope.modalCoupon.dispalyStartDate = new Date($scope.modalCoupon.startDate);
                 $scope.modalCoupon.dispalyEndDate = new Date($scope.modalCoupon.endDate);
+
+                if (0 < $scope.coupons.length) {
+                    $scope.coupons.forEach(coupon => {
+                        if (coupon.id === $scope.modalCoupon.id) {
+                            $scope.modalCoupon.isValid = false;
+                        }
+                    });
+                }
             } else {
                 const id = $scope.modalCoupon.id;
                 $scope.modalCoupon = {}
                 $scope.modalCoupon.id = id;
+                $scope.modalCoupon.isValid = false;
             }
 
-            $scope.modalCoupon.isValid = true;
-            $scope.coupons.forEach(coupon => {
-                if(coupon.id === $scope.modalCoupon.id){
-                    $scope.modalCoupon.isValid = false;
-                }
-            });
-
-        }, (response) => {
+        }, () => {
             const id = $scope.modalCoupon.id;
             $scope.modalCoupon = {}
             $scope.modalCoupon.id = id;
@@ -94,10 +96,13 @@ app.controller('customer-controller', function ($scope, $http) {
                 $scope.coupons = response.data;
             }
 
-            $scope.coupons.map((coupon) => {
-                coupon.dispalyStartDate = new Date(coupon.startDate);
-                coupon.dispalyEndDate = new Date(coupon.endDate);
-            });
+            if (0 < $scope.coupons.length) {
+                $scope.coupons.map((coupon) => {
+                    coupon.dispalyStartDate = new Date(coupon.startDate);
+                    coupon.dispalyEndDate = new Date(coupon.endDate);
+                });
+            }
+
 
         }, (response) => {
             alert('getting Coupons failed');
@@ -109,7 +114,11 @@ app.controller('customer-controller', function ($scope, $http) {
         const url = `customer/coupon/${$scope.modalCoupon.id}`;
         $http.post(url, $scope.modalCoupon.id)
             .then(() => {
-                $scope.coupons.push($scope.modalCoupon);
+                if (0 < $scope.coupons.length) {
+                    $scope.coupons.push($scope.modalCoupon);
+                } else {
+                    $scope.coupons = [$scope.modalCoupon]
+                }
             }, (response) => {
                 alert('Coupon not saved')
                 console.error($scope.modalCoupon);

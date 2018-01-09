@@ -57,10 +57,12 @@ app.controller('company-controller', function ($scope, $http) {
                 $scope.coupons = response.data;
             }
 
-            $scope.coupons.map((coupon) => {
-                coupon.dispalyStartDate = new Date(coupon.startDate);
-                coupon.dispalyEndDate = new Date(coupon.endDate);
-            });
+            if (0 < $scope.coupons.length) {
+                $scope.coupons.map((coupon) => {
+                    coupon.dispalyStartDate = new Date(coupon.startDate);
+                    coupon.dispalyEndDate = new Date(coupon.endDate);
+                });
+            }
 
         }, (response) => {
             alert('getting Coupons failed');
@@ -89,11 +91,13 @@ app.controller('company-controller', function ($scope, $http) {
         const url = "company/coupon/";
         $http.put(url, $scope.modalCoupon)
             .then(() => {
-                $scope.coupons.map((Coupon) => {
-                    if (Coupon.id === $scope.modalCoupon.id) {
-                        Coupon = $scope.modalCoupon;
-                    }
-                });
+                if (0 < $scope.coupons.length) {
+                    $scope.coupons.map((Coupon) => {
+                        if (Coupon.id === $scope.modalCoupon.id) {
+                            Coupon = $scope.modalCoupon;
+                        }
+                    });
+                }
 
             }, (response) => {
                 alert('Coupon not saved')
@@ -107,7 +111,9 @@ app.controller('company-controller', function ($scope, $http) {
             const url = `company/coupon/${couponId}`;
             $http.delete(url)
                 .then((response) => {
-                    $scope.coupons = $scope.coupons.filter(Coupon => Coupon.id != couponId)
+                    if (0 < $scope.coupons.length) {
+                        $scope.coupons = $scope.coupons.filter(Coupon => Coupon.id != couponId)
+                    }
                 }, (response) => {
                     alert(`Coupon id: ${couponId} - not deleted`)
                     console.error(response);
@@ -123,14 +129,16 @@ app.controller('company-controller', function ($scope, $http) {
     $scope.filterCoupons = () => {
         const filter = $scope.couponsfilter;
         let filteredCoupons = $scope.coupons;
-        filteredCoupons.map(comp => {
-            comp.hide = true;
-            const { id, title, type, dispalyStartDate, dispalyEndDate, amount, message, price } = comp;
-            if (id.toString().includes(filter) || title.toString().includes(filter) || type.toString().toLowerCase().includes(filter) || dispalyStartDate.toLocaleDateString().includes(filter)
-                || dispalyEndDate.toLocaleDateString().includes(filter) || amount.toString().includes(filter) || message.toString().includes(filter) || price.toString().includes(filter)) {
-                comp.hide = false;
-            }
-        });
+        if (0 < filteredCoupons.length) {
+            filteredCoupons.map(comp => {
+                comp.hide = true;
+                const { id, title, type, dispalyStartDate, dispalyEndDate, amount, message, price } = comp;
+                if (id.toString().includes(filter) || title.toString().includes(filter) || type.toString().toLowerCase().includes(filter) || dispalyStartDate.toLocaleDateString().includes(filter)
+                    || dispalyEndDate.toLocaleDateString().includes(filter) || amount.toString().includes(filter) || message.toString().includes(filter) || price.toString().includes(filter)) {
+                    comp.hide = false;
+                }
+            });
+        }
     }
 
 });

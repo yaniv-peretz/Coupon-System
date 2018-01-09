@@ -71,7 +71,7 @@ public class AdminApi {
 			WebCustomer webCustomer = WebCustomer.returnWebCustomer(customer);
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCustomer);
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 			
 		}
 	}
@@ -208,7 +208,7 @@ public class AdminApi {
 			WebCompany webCompany = WebCompany.retutnWebCompany(company);
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCompany);
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(null);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).contentType(MediaType.APPLICATION_JSON).body(null);
 			
 		}
 	}

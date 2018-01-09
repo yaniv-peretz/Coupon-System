@@ -58,7 +58,7 @@ public class CustomerApi {
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
 					.body(new WebCoupon(coupon));
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
 		
 	}
 	
