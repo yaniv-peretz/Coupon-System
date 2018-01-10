@@ -99,7 +99,7 @@ app.controller('company-controller', function ($scope, $http) {
                         }
                     });
                 }
-
+                swal('Coupon Edited Successfuly', `Coupon ${$scope.modalCoupon.id} - ${$scope.modalCoupon.title} edited!`, "success")
             }, (response) => {
                 swal('Coupon Not Created', `Coupon not saved!`, "error")
                 console.error(response);

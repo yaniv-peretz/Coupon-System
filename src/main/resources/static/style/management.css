@@ -67,6 +67,7 @@
 
 .loginInput {
     min-width: 200px;
+    max-width: 300px;
 }
 
 #login-box {
@@ -83,8 +84,11 @@
     margin: auto;
 }
 
-.input-boxes {
+.login-container {
+    max-width: 100%;
+    width: 900px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 }
