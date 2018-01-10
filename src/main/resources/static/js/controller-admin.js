@@ -49,7 +49,7 @@ app.controller('adminCtrl', function ($scope, $http) {
             }
 
         }, (response) => {
-            alert('getting companies failed');
+            swal('This is Embarrassing', `getting companies failed, please try again later`, "error")
             console.error(response);
         });
     }
@@ -67,7 +67,7 @@ app.controller('adminCtrl', function ($scope, $http) {
             }
 
         }, (response) => {
-            alert('getting customers failed');
+            swal('This is Embarrassing', `getting customers failed, please try again later`, "error")
             console.error(response);
         });
     }
@@ -79,8 +79,9 @@ app.controller('adminCtrl', function ($scope, $http) {
             .then((response) => {
                 $scope.modalCompany.id = response.data.id;
                 $scope.companies.push($scope.modalCompany);
+                swal('Company Added', `Company ${$scope.modalCompany.compName} added!`, "success")
             }, (response) => {
-                alert('Company not saved')
+                swal('Company Not Added', `Adding company ${$scope.modalCompany.compName} failed!`, "error")
                 console.error(response);
             });
     }
@@ -92,8 +93,9 @@ app.controller('adminCtrl', function ($scope, $http) {
             .then((response) => {
                 $scope.modalCustomer.id = response.data.id;
                 $scope.customers.push($scope.modalCustomer);
+                swal('Customer Added', `Customer ${$scope.modalCompany.custName} added!`, "success")
             }, (response) => {
-                alert('Company not saved')
+                swal('Customer Not Added', `Adding customer ${$scope.modalCompany.custName} failed!`, "error")
                 console.error(response);
             });
     }
@@ -107,9 +109,9 @@ app.controller('adminCtrl', function ($scope, $http) {
                         company = $scope.modalCompany;
                     }
                 });
-
+                swal('Company Edited', `Company ${$scope.modalCompany.custName} edited!`, "success")
             }, (response) => {
-                alert('Company not saved')
+                swal('Company Edited Failed', `Company ${$scope.modalCompany.custName} editing failed!`, "error")
                 console.error(response);
             });
     }
@@ -122,39 +124,59 @@ app.controller('adminCtrl', function ($scope, $http) {
                     if (customer.id === $scope.modalCustomer.id) {
                         customer = $scope.modalCustomer;
                     }
+                    swal('Customer Edited', `Customer ${$scope.modalCustomer.custName} edited!`, "success")
                 });
             }, (response) => {
-                alert('Company not saved')
+                swal('Customer Edited Failed', `Customer ${$scope.modalCustomer.custName} editing failed!`, "error")
                 console.error(response);
             });
     }
 
     $scope.ConfirmCompanyDeletion = (itemId) => {
-        const isConfirmed = confirm(`Delete company id: ${itemId}`);
-        if (isConfirmed === true) {
-            const url = `admin/company/${itemId}`;
-            $http.delete(url)
-                .then((response) => {
-                    $scope.companies = $scope.companies.filter(company => company.id != itemId)
-                }, (response) => {
-                    alert(`company id: ${itemId} - not deleted`)
-                    console.error(response);
-                });
-        }
+        swal({
+            title: "Are you sure?",
+            text: `Delete company ${itemId}? you will not be able to recover the company!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                const url = `admin/company/${itemId}`;
+                $http.delete(url)
+                    .then((response) => {
+                        $scope.companies = $scope.companies.filter(company => company.id != itemId)
+                    }, (response) => {
+                        swal("Deleting Company Failed!", `Deleting company ${itemId} faild!`, "error");
+                        console.error(response);
+                    });
+            }
+        })
     }
 
     $scope.ConfirmCustomerDeletion = (itemId) => {
-        const isConfirmed = confirm(`Delete customer id: ${itemId}`);
-        if (isConfirmed === true) {
-            const url = `admin/customer/${itemId}`;
-            $http.delete(url)
-                .then((response) => {
-                    $scope.customers = $scope.customers.filter(customer => customer.id != itemId)
-                }, (response) => {
-                    alert(`customer id: ${itemId} - not deleted`)
-                    console.error(response);
-                });
-        }
+        swal({
+            title: "Are you sure?",
+            text: `Delete Customer ${itemId}? you will not be able to recover the customer!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete === true) {
+                console.log(willDelete + " here");
+                console.log(willDelete + " here");
+                console.log(willDelete + " here");
+                console.log(willDelete + " here");
+                
+                const url = `admin/customer/${itemId}`;
+                $http.delete(url)
+                    .then((response) => {
+                        $scope.customers = $scope.customers.filter(customer => customer.id != itemId)
+                    }, (response) => {
+                        swal("Deleting Customer Failed!", `Deleting customer ${itemId} faild!`, "error");
+                        console.error(response);
+                    });
+            }
+        });
     }
 
     $scope.changeCompaniesOrderBy = (orderBy) => {

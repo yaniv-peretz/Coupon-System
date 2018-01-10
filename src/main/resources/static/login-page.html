@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>Public</title>
+
+    <!-- Scripts -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="node_modules/bootstrap-v4-dev/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="node_modules/type-write/dist/typewrite.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="node_modules/animate.css/animate.min.css">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/responsive-font-sizes.css">
+    <link rel="stylesheet" href="style/public.css">
+    <link rel="stylesheet" href="style/management.css">
+</head>
+
+<body>
+    <!-- ###########
+            Navbar  
+        ############-->
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" data-toggle="modal" data-target="#AddCustomer">
+                    <a class="nav-link" href="index.html">
+                        <svg class="icon">
+                            <use xlink:href="resources/bytesize-icons-master/dist/icons/reply.svg#i-reply"></use>
+                        </svg>
+                        Coupons Portal
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ################
+            Login Box   
+        #################-->
+    <div class="main-table">
+        <h2 id="login-greeting"></h2>
+
+        <div id="login-box" class="animated">
+            <form action="login" method="post">
+                <div class="input-group loginBox">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Select User Type:</span>
+                    </div>
+                    <select class="form-control loginInput" name="selector">
+                        <option value="admin">Admin</option>
+                        <option value="company">Company</option>
+                        <option value="customer">Customer</option>
+                    </select>
+                    <input class="form-control loginInput" required name="name" placeholder="You'r User Name" type="text" class="form-control">
+                    <input class="form-control loginInput" required name="password" placeholder="Password" type="password" class="form-control">
+                    <div class="input-group-append">
+                        <input type="submit" onclick="setCookie()" class="form-control button-login" value="Login">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <p id="authIncorrect">User Name and Password combination incorrect</p>
+    </div>
+
+</body>
+
+</html>
+
+<style>
+    .loginInput {
+        min-width: 200px;
+    }
+
+    #login-box {
+        opacity: 0;
+    }
+
+    #authIncorrect {
+        opacity: 0;
+        color: red;
+    }
+</style>
+
+<script>
+    {
+        if (document.location.toString().includes('err')) {
+            $('#login-greeting').html("Welcome to Coupon System <br> please login!");
+
+            let errorMsg = document.querySelector('#authIncorrect');
+            errorMsg.style.opacity = 1;
+            $(errorMsg).addClass('animated jello');
+
+            let loginBox = document.querySelector('#login-box');
+            loginBox.style.opacity = 1;
+        } else {
+            //Welcome slow typing
+            $(document).ready(() => {
+                $('#login-greeting').typewrite({
+                    actions: [
+                        { speed: 20 },
+                        { type: 'Hello, Welcome to Coupon System ' },
+                        { delay: 500 },
+                        { type: '<br>' },
+                        { type: 'please login!' },
+                    ]
+                });
+            });
+
+            // Enter Login Box
+            setTimeout(() => {
+                let element = document.querySelector('#login-box');
+                element.style.opacity = 1;
+                $(element).addClass('flipInX');
+            }, 1000);
+        }
+    }
+</script>

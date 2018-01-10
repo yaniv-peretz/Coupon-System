@@ -92,9 +92,6 @@ body {
     transition: all 1s ease-out;
     opacity: 1;
     border: 3px solid blue;
-    /* -webkit-transition: border 10.2s ease-out;
-    -moz-transition: border 10.2s ease-out;
-    transition: border 10.2s ease-out; */
 }
 
 .coupon-title {

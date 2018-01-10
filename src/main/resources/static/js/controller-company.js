@@ -65,7 +65,7 @@ app.controller('company-controller', function ($scope, $http) {
             }
 
         }, (response) => {
-            alert('getting Coupons failed');
+            swal('This is Embarrassing', `getting coupons failed, please try again later`, "error")
             console.error(response);
         });
     }
@@ -80,8 +80,9 @@ app.controller('company-controller', function ($scope, $http) {
             .then((response) => {
                 $scope.modalCoupon.id = response.data.id;
                 $scope.coupons.push($scope.modalCoupon);
+                swal(`Coupon ${$scope.modalCoupon.id} added!`)
             }, (response) => {
-                alert('Coupon not saved')
+                swal('Coupon Not Created', `Coupon not saved!`, "error")
                 console.error($scope.modalCoupon);
                 console.error(response);
             });
@@ -100,25 +101,33 @@ app.controller('company-controller', function ($scope, $http) {
                 }
 
             }, (response) => {
-                alert('Coupon not saved')
+                swal('Coupon Not Created', `Coupon not saved!`, "error")
                 console.error(response);
             });
     }
 
     $scope.ConfirmCouponDeletion = (couponId) => {
-        const isConfirmed = confirm(`Delete Coupon id: ${couponId}`);
-        if (isConfirmed === true) {
-            const url = `company/coupon/${couponId}`;
-            $http.delete(url)
-                .then((response) => {
-                    if (0 < $scope.coupons.length) {
-                        $scope.coupons = $scope.coupons.filter(Coupon => Coupon.id != couponId)
-                    }
-                }, (response) => {
-                    alert(`Coupon id: ${couponId} - not deleted`)
-                    console.error(response);
-                });
-        }
+        swal({
+            title: "Are you sure?",
+            text: `Delete company ${itemId}? you will not be able to recover the company!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            const isConfirmed = confirm(`Delete Coupon id: ${couponId}`);
+            if (isConfirmed === true) {
+                const url = `company/coupon/${couponId}`;
+                $http.delete(url)
+                    .then((response) => {
+                        if (0 < $scope.coupons.length) {
+                            $scope.coupons = $scope.coupons.filter(Coupon => Coupon.id != couponId)
+                        }
+                    }, (response) => {
+                        swal('Coupon Not Deleted', `Coupon id: ${couponId} - not deleted!`, "error")
+                        console.error(response);
+                    });
+            }
+        });
     }
 
     $scope.changeCouponsOrderBy = (orderBy) => {

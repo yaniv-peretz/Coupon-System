@@ -29,10 +29,15 @@
   "dependencies": {
     "angular": "^1.6.8",
     "angularjs": "^0.0.1",
+    "animate.css": "^3.5.2",
     "bootstrap": "4.0.0-alpha.6",
+    "bootstrap-sweetalert": "^1.0.1",
     "bootstrap-v4-dev": "^4.0.0-alpha.6",
     "eslint": "^4.15.0",
     "jquery": "^3.2.1",
-    "tether": "^1.4.3"
+    "postcss-magic-animations": "^0.3.0",
+    "sweetalert": "^2.1.0",
+    "tether": "^1.4.3",
+    "type-write": "^1.0.1"
   }
 }

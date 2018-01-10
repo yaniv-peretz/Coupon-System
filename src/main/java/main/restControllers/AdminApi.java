@@ -311,7 +311,7 @@ public class AdminApi {
 	 * @return get all companies
 	 */
 	@RequestMapping(value = "company/all", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Object> doGetCompanies(
+	public @ResponseBody ResponseEntity<?> getCompanies(
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
@@ -326,7 +326,7 @@ public class AdminApi {
 		if (0 < webCompanies.size()) {
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(webCompanies);
 		} else {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).contentType(MediaType.APPLICATION_JSON).body(null);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).contentType(MediaType.APPLICATION_JSON).body("");
 		}
 	}
 	

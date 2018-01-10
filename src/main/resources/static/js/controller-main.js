@@ -35,7 +35,14 @@ app.controller('public-Controller', function ($scope, $http) {
     }
 
     $scope.addToCart = (coupon) => {
-        $(`#coupon${coupon.id}`).fadeOut(800, "linear");
+        let element = document.querySelector(`#coupon${coupon.id}`);
+        $(element).removeClass('animated infinite bounce')
+        $(element).addClass('animated zoomOutUp')
+        $(element)
+            .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+            () => {
+                $(element).remove()
+            });
         if (!$scope.cart.includes(coupon)) {
             $scope.cart.push(coupon);
         }
@@ -87,7 +94,8 @@ app.controller('public-Controller', function ($scope, $http) {
                 if (0 < $scope.customerCoupons.length) {
                     removeCouponCustomerAlreadyOwns();
                 }
-
+                
+                swal('Coupons Bought', `You can now see you'r coupons in the \'My Coupons'\ tab!`, "success")
             }, (response) => {
                 alert('buying coupons failed, try again later')
             });
@@ -135,6 +143,16 @@ app.controller('public-Controller', function ($scope, $http) {
                 return cartCoupons.id !== removeElement.id;
             });
         });
+    }
+
+    $scope.bounceStart = (id) => {
+        let element = document.querySelector(`#coupon${id}`);
+        $(element).addClass('animated infinite bounce')
+    }
+
+    $scope.bounceEnd = (id) => {
+        let element = document.querySelector(`#coupon${id}`);
+        $(element).removeClass('infinite bounce')
     }
 
 });// end of angular module

@@ -105,7 +105,7 @@ app.controller('customer-controller', function ($scope, $http) {
 
 
         }, (response) => {
-            alert('getting Coupons failed');
+            swal('This is Embarrassing', `getting coupons failed, please try again later`, "error")
             console.error(response);
         });
     }
@@ -119,8 +119,9 @@ app.controller('customer-controller', function ($scope, $http) {
                 } else {
                     $scope.coupons = [$scope.modalCoupon]
                 }
+                swal(`Coupon ${$scope.modalCoupon.title} added!`)
             }, (response) => {
-                alert('Coupon not saved')
+                swal('Coupon Not Added', `Adding coupon ${$scope.modalCoupon.title} failed!`, "error")
                 console.error($scope.modalCoupon);
                 console.error(response);
             });
@@ -134,7 +135,7 @@ app.controller('customer-controller', function ($scope, $http) {
                 .then((response) => {
                     $scope.coupons = $scope.coupons.filter(Coupon => Coupon.id != couponId)
                 }, (response) => {
-                    alert(`Coupon id: ${couponId} - not deleted`)
+                    swal('Coupon Not Deleted', `Deleting coupon ${couponId} failed!`, "error")
                     console.error(response);
                 });
         }

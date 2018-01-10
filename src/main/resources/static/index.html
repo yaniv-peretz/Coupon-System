@@ -12,8 +12,10 @@
     <script src="node_modules/tether/dist/js/tether.min.js"></script>
     <script src="node_modules/bootstrap-v4-dev/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="node_modules/animate.css/animate.css">
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/responsive-font-sizes.css">
     <link rel="stylesheet" href="style/public.css">
@@ -65,9 +67,9 @@
 
     <!-- #######################
             Main Page Coupons
-        #######################-->
+            #######################-->
     <ul class="container-coupons">
-        <li ng-repeat="coupon in coupons" class="coupon" id="coupon{{coupon.id}}">
+        <li ng-repeat="coupon in coupons" class="coupon" id="coupon{{coupon.id}}" ng-mouseenter="bounceStart(coupon.id)" ng-mouseleave="bounceEnd(coupon.id)">
             <img src={{coupon.image}} alt="no image">
             <h1 class="coupon-title">{{coupon.title}}</h1>
             <p class="coupon-price">price: {{coupon.price}}$</p>
@@ -81,7 +83,7 @@
         #######################-->
     <div class="footer-box card border-primary mb-3" style="max-width: 18rem;">
         <div class="card-body text-primary">
-            <a href="management-console.html">Management Console</a>
+            <a href="login-page.html">Management Console</a>
         </div>
     </div>
 

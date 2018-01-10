@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 		Optional<Integer> id = loginService.login(user, password, type);
 		
 		if (!id.isPresent()) {
-			response.sendRedirect(request.getContextPath() + "/management-console.html?err=user&passowrd");
+			response.sendRedirect(request.getContextPath() + "/login-page.html?err");
 			return;
 		}
 		
@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
 			break;
 		
 		default:
-			response.sendRedirect(request.getContextPath() + "/management-console.html");
+			response.sendRedirect(request.getContextPath() + "/login-page.html");
 		}
 		return;
 	}
