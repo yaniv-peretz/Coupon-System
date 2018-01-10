@@ -48,83 +48,69 @@
     </nav>
 
     <!-- ################
-            Login Box   
+        Login Box   
         #################-->
     <div class="main-table">
         <h2 id="login-greeting"></h2>
 
-        <div id="login-box" class="animated">
-            <form action="login" method="post">
-                <div class="input-group loginBox">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Select User Type:</span>
-                    </div>
-                    <select class="form-control loginInput" name="selector">
-                        <option value="admin">Admin</option>
-                        <option value="company">Company</option>
-                        <option value="customer">Customer</option>
-                    </select>
-                    <input class="form-control loginInput" required name="name" placeholder="You'r User Name" type="text" class="form-control">
-                    <input class="form-control loginInput" required name="password" placeholder="Password" type="password" class="form-control">
-                    <div class="input-group-append">
-                        <input type="submit" onclick="setCookie()" class="form-control button-login" value="Login">
+        <form action="login" method="post">
+            <div id="login-box" class="animated">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend center">
+                        <button class="btn btn-outline-secondary" type="button" onclick="setSelector('admin')">Admin</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="setSelector('company')">Company</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="setSelector('customer')">Customer</button>
+                        <input required id="selector" name="selector" hidden value="admin">
                     </div>
                 </div>
-            </form>
-        </div>
-        <p id="authIncorrect">User Name and Password combination incorrect</p>
+                <div class="input-group">
+                    <input required class="form-control loginInput" name="name" placeholder="You'r User Name" type="text">
+                    <input required class="form-control loginInput" name="password" placeholder="Password" type="password">
+                    <input class="form-control button-login loginInput" type="submit" onclick="setCookie()" value="Login">
+                </div>
+
+                <p id="authIncorrect">User Name and Password combination incorrect</p>
+            </div>
+        </form>
     </div>
 
 </body>
 
 </html>
 
-<style>
-    .loginInput {
-        min-width: 200px;
-    }
-
-    #login-box {
-        opacity: 0;
-    }
-
-    #authIncorrect {
-        opacity: 0;
-        color: red;
-    }
-</style>
-
 <script>
-    {
-        if (document.location.toString().includes('err')) {
-            $('#login-greeting').html("Welcome to Coupon System <br> please login!");
+    if (document.location.toString().includes('err')) {
+        $('#login-greeting').html("Welcome to Coupon System <br> please login!");
 
-            let errorMsg = document.querySelector('#authIncorrect');
-            errorMsg.style.opacity = 1;
-            $(errorMsg).addClass('animated jello');
+        let errorMsg = document.querySelector('#authIncorrect');
+        errorMsg.style.opacity = 1;
+        $(errorMsg).addClass('animated jello');
 
-            let loginBox = document.querySelector('#login-box');
-            loginBox.style.opacity = 1;
-        } else {
-            //Welcome slow typing
-            $(document).ready(() => {
-                $('#login-greeting').typewrite({
-                    actions: [
-                        { speed: 20 },
-                        { type: 'Hello, Welcome to Coupon System ' },
-                        { delay: 500 },
-                        { type: '<br>' },
-                        { type: 'please login!' },
-                    ]
-                });
+        let loginBox = document.querySelector('#login-box');
+        loginBox.style.opacity = 1;
+    } else {
+        //Welcome slow typing
+        $(document).ready(() => {
+            $('#login-greeting').typewrite({
+                actions: [
+                    { speed: 20 },
+                    { type: 'Hello, Welcome to Coupon System ' },
+                    { delay: 500 },
+                    { type: '<br>' },
+                    { type: 'please login!' },
+                ]
             });
+        });
 
-            // Enter Login Box
-            setTimeout(() => {
-                let element = document.querySelector('#login-box');
-                element.style.opacity = 1;
-                $(element).addClass('flipInX');
-            }, 1000);
-        }
+        // Enter Login Box
+        setTimeout(() => {
+            let element = document.querySelector('#login-box');
+            element.style.opacity = 1;
+            $(element).addClass('flipInX');
+        }, 1000);
+    }
+
+    function setSelector(val) {
+        selector = document.querySelector('#selector').value = val;
     }
 </script>

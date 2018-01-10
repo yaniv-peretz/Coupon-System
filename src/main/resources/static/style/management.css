@@ -60,3 +60,31 @@
 .coupon-image{
     width: 100%;
 }
+
+/*  ############
+    Login Box   
+    ############ */
+
+.loginInput {
+    min-width: 200px;
+}
+
+#login-box {
+    opacity: 0;
+}
+
+#authIncorrect {
+    opacity: 0;
+    color: red;
+}
+
+.center {
+    text-align: center;
+    margin: auto;
+}
+
+.input-boxes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
