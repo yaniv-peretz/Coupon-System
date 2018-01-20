@@ -1,3 +1,7 @@
+$(() => {
+    $('[data-toggle="tooltip"]').tooltip()
+});
+
 var app = angular.module("publicModule", []);
 app.controller('public-Controller', function ($scope, $http) {
 
@@ -94,7 +98,7 @@ app.controller('public-Controller', function ($scope, $http) {
                 if (0 < $scope.customerCoupons.length) {
                     removeCouponCustomerAlreadyOwns();
                 }
-                
+
                 swal('Coupons Bought', `You can now see you'r coupons in the \'My Coupons'\ tab!`, "success")
             }, (response) => {
                 alert('buying coupons failed, try again later')

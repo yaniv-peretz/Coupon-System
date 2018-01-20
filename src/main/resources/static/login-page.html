@@ -53,16 +53,23 @@
     <div class="main-table">
         <h2 id="login-greeting"></h2>
 
-        <form action="login" method="post">
+        <form action="login" method="post" 
+        data-toggle="tooltip" data-placement="bottom" title="Admin user name user:admin psw:1234">
             <div id="login-box" class="animated">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend center">
-                        <button class="btn btn-outline-secondary" type="button" onclick="setSelector('admin')">Admin</button>
-                        <button class="btn btn-outline-secondary" type="button" onclick="setSelector('company')">Company</button>
-                        <button class="btn btn-outline-secondary" type="button" onclick="setSelector('customer')">Customer</button>
-                        <input required id="selector" name="selector" hidden value="admin">
-                    </div>
+
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary active" onclick="setSelector('admin')">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked>Admin
+                    </label>
+                    <label class="btn btn-outline-secondary" onclick="setSelector('company')">
+                        <input type="radio" name="options" id="option2" autocomplete="off">Company
+                    </label>
+                    <label class="btn btn-outline-secondary" onclick="setSelector('customer')">
+                        <input type="radio" name="options" id="option3" autocomplete="off">Customer
+                    </label>
+                    <input required id="selector" name="selector" hidden value="admin">
                 </div>
+
                 <div class="login-container">
                     <input required class="form-control loginInput" name="name" placeholder="You'r User Name" type="text">
                     <input required class="form-control loginInput" name="password" placeholder="Password" type="password">
@@ -112,4 +119,8 @@
     function setSelector(val) {
         selector = document.querySelector('#selector').value = val;
     }
+
+    $(() => {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
 </script>

@@ -10,6 +10,7 @@
     <!-- Scripts -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="node_modules/bootstrap-v4-dev/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/angular/angular.min.js"></script>
     <script src="node_modules/sweetalert/dist/sweetalert.min.js"></script>
@@ -53,10 +54,11 @@
                         My Coupons</a>
                 </li>
             </ul>
-            <form ng-if="!isLoggedIn" name="login-form" class="form-inline my-2 my-lg-0">
+            <form id="login-form" ng-if="!isLoggedIn" name="login-form" class="form-inline my-2 my-lg-0" 
+                data-toggle="tooltip" data-placement="bottom" title="try user: test# like test1-20 password test1-20">
                 <input id="username" class="form-control" placeholder="user-name" aria-label="user" required>
                 <input id="password" class="form-control" type="password" placeholder="passowrd" aria-label="passowrd" required>
-                <button class="btn btn-success" type="submit" ng-click="login()">Login</button>
+                <button class="btn btn-success" id="login-btn" type="submit" ng-click="login()">Login</button>
             </form>
             <div ng-if="isLoggedIn" class="nav-bar-user">
                 hello {{customer}}
@@ -66,8 +68,8 @@
     </nav>
 
     <!-- #######################
-            Main Page Coupons
-            #######################-->
+        Main Page Coupons
+        #######################-->
     <ul class="container-coupons">
         <li ng-repeat="coupon in coupons" class="coupon" id="coupon{{coupon.id}}" ng-mouseenter="bounceStart(coupon.id)" ng-mouseleave="bounceEnd(coupon.id)">
             <img src={{coupon.image}} alt="no image">
@@ -80,7 +82,7 @@
 
     <!-- #######################
             Footer
-        #######################-->
+            #######################-->
     <div class="footer-box card border-primary mb-3" style="max-width: 18rem;">
         <div class="card-body text-primary">
             <a href="login-page.html">Management Console</a>
@@ -88,7 +90,7 @@
     </div>
 
     <!-- #######################
-            Modals
+                Modals
         #######################-->
     <!-- My Cart Modal -->
     <div class="modal fade" id="myCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
