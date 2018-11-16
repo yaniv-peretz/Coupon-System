@@ -3,7 +3,6 @@ A Client-Server Coupon System web app.
 **Tech Stack:** Java (Spring, Hibernate), Javascript (AngularJS, JQuery) CSS (bootstrap).
 
 ## View
-Link: http://ec2-52-59-194-236.eu-central-1.compute.amazonaws.com:8080/CouponSystemServer/
 login in as Admin (Management console usr:admin, psw:1234)
 
 ## Dependencies
